@@ -6,6 +6,9 @@ Guitar Genius
 
 ## 2. Names of Contributors
 *  
+*  
+*  Markus Lum-De Guzman, lets have some fun! o7
+
 	
 ## 3. Technologies and Resources Used
 * HTML, CSS, JavaScript
