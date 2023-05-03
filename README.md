@@ -5,7 +5,7 @@ Guitar Genius
 
 
 ## 2. Names of Contributors
-*  
+*  Ruben Gill 
 	
 ## 3. Technologies and Resources Used
 * HTML, CSS, JavaScript
