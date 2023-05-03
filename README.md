@@ -2,10 +2,13 @@
 Guitar Genius 
 
 ## 1. Project Description
-
+Our team, BBY5, is developing GuitarGenius, an application aimed at guitarists who are trying to improve their guitar skills by offering a catered and customized learning experience.
 
 ## 2. Names of Contributors
-*  
+*  Ruben Gill 
+*  Joseph Louwerse - Hello
+*  Markus Lum-De Guzman, lets have some fun! o7
+*  Jeffery M Joseph 
 	
 ## 3. Technologies and Resources Used
 * HTML, CSS, JavaScript
