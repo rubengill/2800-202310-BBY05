@@ -8,7 +8,7 @@ Our team, BBY5, is developing GuitarGenius, an application aimed at guitarists w
 *  Ruben Gill 
 *  Joseph Louwerse - Hello
 *  Markus Lum-De Guzman, lets have some fun! o7
-
+*  Jeffery M Joseph 
 	
 ## 3. Technologies and Resources Used
 * HTML, CSS, JavaScript
