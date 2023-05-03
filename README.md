@@ -5,9 +5,6 @@ Guitar Genius
 
 
 ## 2. Names of Contributors
-*  
-*  
-*  
 *  Jeffery M Joseph 
 	
 ## 3. Technologies and Resources Used
