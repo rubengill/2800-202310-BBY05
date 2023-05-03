@@ -6,6 +6,7 @@ Guitar Genius
 
 ## 2. Names of Contributors
 *  
+* Joseph Louwerse - Hello
 	
 ## 3. Technologies and Resources Used
 * HTML, CSS, JavaScript
