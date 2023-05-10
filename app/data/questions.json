@@ -1,0 +1,58 @@
+[
+    {
+        "question": "Do you own a guitar?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "Yes, but it's covered in dust", "points": 30},
+            {"answer": "Yes", "points": 100}
+        ]
+    },
+    {
+        "question": "How many hours a week do you practice the guitar?",
+        "choices": [
+            {"answer": "0 Hours a week", "points": 0},
+            {"answer": "2 Hours a week", "points": 50},
+            {"answer": "5+ Hours a week", "points": 100}
+        ]
+    },
+    {
+        "question": "Can you read sheet music?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "If I looked at it long enough", "points": 40},
+            {"answer": "Yes", "points": 100}
+        ]
+    },
+    {
+        "question": "Can you read guitar tabs?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "I probably could", "points": 30},
+            {"answer": "Yes", "points": 70}
+        ]
+    },
+    {
+        "question": "How many hours a week do you practice the guitar?",
+        "choices": [
+            {"answer": "0 Hours a week", "points": 0},
+            {"answer": "2 Hours a week", "points": 50},
+            {"answer": "5+ Hours a week", "points": 100}
+        ]
+    },
+    {
+        "question": "How many hours a week do you practice the guitar?",
+        "choices": [
+            {"answer": "0 Hours a week", "points": 0},
+            {"answer": "2 Hours a week", "points": 50},
+            {"answer": "5+ Hours a week", "points": 100}
+        ]
+    },
+    {
+        "question": "How many hours a week do you practice the guitar?",
+        "choices": [
+            {"answer": "0 Hours a week", "points": 0},
+            {"answer": "2 Hours a week", "points": 50},
+            {"answer": "5+ Hours a week", "points": 100}
+        ]
+    }
+]
