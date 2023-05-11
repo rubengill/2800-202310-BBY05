@@ -1,7 +1,3 @@
-// Initialize Firebase Firestore
-firebase.initializeApp(config);
-var db = firebase.firestore();
-
 var ImageFile;      //global variable to store the File Object reference
 
 function chooseFileListener(){
@@ -23,39 +19,58 @@ function chooseFileListener(){
 chooseFileListener();
 
 function saveUserInfo() {
-    let fullName = document.getElementById("full-name").value;
-    let userEmail = document.getElementById("email").value;
-    let userMobile = document.getElementById("mobile").value;
-    let favoriteGenre = document.getElementById("genre").value;
-  
-    console.log(fullName, userEmail, userMobile, favoriteGenre);
-  
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        var currentUser = db.collection("users").doc(user.uid);
-        var userID = user.uid;
-  
-        // Update the user information in Firestore
-        currentUser.update({
+  let fullName = document.getElementById("full-name").value;
+  let userEmail = document.getElementById("email").value;
+  let userMobile = document.getElementById("mobile").value;
+  let favoriteGenre = document.getElementById("genre").value;
+
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      var currentUser = db.collection("users").doc(user.uid);
+      var userID = user.uid;
+
+      // Update the user information in Firestore
+      currentUser
+        .update({
           fullName: fullName,
           email: userEmail,
           mobile: userMobile,
           favoriteGenre: favoriteGenre
         })
-          .then(() => {
-            console.log('User information updated in Firestore for user:', userID);
-            // Reset the form after saving
-            document.getElementById('full-name').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('mobile').value = '';
-            document.getElementById('genre').value = '';
-          })
-          .catch(error => {
-            console.error('Error updating user information:', error);
-          });
-      } else {
-        console.log('No user currently signed in.');
-      }
-    });
-  }
-  
+        .then(() => {
+          console.log("User information updated in Firestore for user:", userID);
+        })
+        .catch(error => {
+          console.error("Error updating user information:", error);
+        });
+    } else {
+      console.log("No user currently signed in.");
+    }
+  });
+}
+
+function readUserInfo() {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      var currentUser = db.collection("users").doc(user.uid);
+      currentUser
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            var userInfo = doc.data();
+            document.getElementById("full-name").value = userInfo.fullName;
+            document.getElementById("email").value = userInfo.email;
+            document.getElementById("mobile").value = userInfo.mobile;
+            document.getElementById("genre").value = userInfo.favoriteGenre;
+          } else {
+            console.log("No user information found.");
+          }
+        })
+        .catch(error => {
+          console.error("Error retrieving user information:", error);
+        });
+    } else {
+      console.log("No user currently signed in.");
+    }
+  });
+}

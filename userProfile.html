@@ -37,6 +37,13 @@
     <script src="./scripts/firebaseAPI_BBY5.js"></script>
     <script src="./scripts/userProfile.js"></script>
 
+    <script>
+      // Populates user info when page is loaded.
+      window.addEventListener("load", function() {
+        readUserInfo();
+      });
+    </script>
+
   </head>
 <body>
   <div class="container py-5">
