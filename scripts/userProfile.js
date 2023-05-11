@@ -1,3 +1,12 @@
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    // Do something for the user here. 
+  } else {
+    // No user is signed in.
+  }
+});
+
 var ImageFile;      //global variable to store the File Object reference
 
 function chooseFileListener(){
@@ -16,6 +25,8 @@ function chooseFileListener(){
         image.src = blob;    //assign the "src" property of the "img" tag
     })
 }
+chooseFileListener();
+
 chooseFileListener();
 
 function saveUserInfo() {
@@ -58,12 +69,17 @@ function readUserInfo() {
         .then(doc => {
           if (doc.exists) {
             var userInfo = doc.data();
-            document.getElementById("full-name").value = userInfo.fullName;
-            document.getElementById("email").value = userInfo.email;
-            document.getElementById("mobile").value = userInfo.mobile;
-            document.getElementById("genre").value = userInfo.favoriteGenre;
+            document.getElementById("full-name").value = userInfo.fullName || '';
+            document.getElementById("email").value = userInfo.email || '';
+            document.getElementById("mobile").value = userInfo.mobile || '';
+            document.getElementById("genre").value = userInfo.favoriteGenre || '';
           } else {
             console.log("No user information found.");
+            // Set input fields to empty
+            document.getElementById("full-name").value = '';
+            document.getElementById("email").value = '';
+            document.getElementById("mobile").value = '';
+            document.getElementById("genre").value = '';
           }
         })
         .catch(error => {
@@ -71,6 +87,99 @@ function readUserInfo() {
         });
     } else {
       console.log("No user currently signed in.");
+      // Set input fields to empty
+      document.getElementById("full-name").value = '';
+      document.getElementById("email").value = '';
+      document.getElementById("mobile").value = '';
+      document.getElementById("genre").value = '';
     }
   });
 }
+
+function saveUserPic() {
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      var storageRef = firebase.storage().ref("images/" + user.email + ".jpg");
+      var fileInput = document.getElementById("fileInput");
+      var ImageFile = fileInput.files[0];
+
+      // Asynchronous call to put File Object onto Cloud Storage
+      storageRef
+        .put(ImageFile)
+        .then(function (snapshot) {
+          console.log("Uploaded to Cloud Storage.");
+
+          // Asynchronous call to get the download URL of the uploaded image
+          storageRef
+            .getDownloadURL()
+            .then(function (url) {
+              // Get the download URL of the uploaded image
+
+              // Asynchronous call to save the download URL into Firestore
+              firebase
+                .firestore()
+                .collection("users")
+                .where("email", "==", user.email)
+                .get()
+                .then(function (querySnapshot) {
+                  querySnapshot.forEach(function (doc) {
+                    doc.ref
+                      .update({
+                        profilePic: url, // Save the download URL into the "users" collection
+                      })
+                      .then(function () {
+                        console.log("Added Profile Pic URL to Firestore.");
+                        document.getElementById("personalInfoFields").disabled = true;
+                      })
+                      .catch(function (error) {
+                        console.error("Error updating profile picture URL in Firestore:", error);
+                      });
+                  });
+                })
+                .catch(function (error) {
+                  console.error("Error querying user document in Firestore:", error);
+                });
+            })
+            .catch(function (error) {
+              console.error("Error getting download URL from Firebase Storage:", error);
+            });
+        })
+        .catch(function (error) {
+          console.error("Error uploading image to Firebase Storage:", error);
+        });
+    } else {
+      console.log("No user currently signed in.");
+    }
+  });
+}
+
+function populatePicture() {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      const currentUser = db.collection("users").doc(user.email);
+
+      currentUser
+        .get()
+        .then(userDoc => {
+          const userProfile = userDoc.data();
+          const picUrl = userProfile && userProfile.profilePic;
+          
+          if (picUrl) {
+            // Set the image source
+            const imgElement = document.getElementById("mypic-goes-here");
+            imgElement.src = picUrl;
+          } else {
+            console.log("Profile picture URL is missing or empty");
+          }
+          
+        })
+        .catch(error => {
+          console.error("Error retrieving profile picture URL:", error);
+        });
+    } else {
+      console.log("No user is currently logged in");
+    }
+  });
+}
+
+populatePicture();
