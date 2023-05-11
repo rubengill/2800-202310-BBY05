@@ -68,17 +68,17 @@ function readUserInfo() {
         .get()
         .then(doc => {
           if (doc.exists) {
-            var userInfo = doc.data();
-            document.getElementById("full-name").value = userInfo.fullName || '';
+            var userInfo = doc.data()
+            document.getElementById("full-name").value = userInfo.name || '';
+            document.getElementById("id").value = userInfo.id || '';
             document.getElementById("email").value = userInfo.email || '';
-            document.getElementById("mobile").value = userInfo.mobile || '';
             document.getElementById("genre").value = userInfo.favoriteGenre || '';
           } else {
             console.log("No user information found.");
             // Set input fields to empty
             document.getElementById("full-name").value = '';
+            document.getElementById("id").value = '';
             document.getElementById("email").value = '';
-            document.getElementById("mobile").value = '';
             document.getElementById("genre").value = '';
           }
         })
