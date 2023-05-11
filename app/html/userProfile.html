@@ -79,7 +79,7 @@
             </div>
             <div class="mb-3">
               <label for="id" class="form-label">ID</label>
-              <input type="text" id="mobile" class="form-control" placeholder="Edit your ID">
+              <input type="text" id="id" class="form-control" placeholder="Edit your ID">
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -91,6 +91,27 @@
             </div>
             <div>
               <button type="button" onclick="saveUserInfo()" class="btn btn-primary">Save Changes</button>
+            </div>
+          </fieldset>
+        </form>
+
+        <form>
+          <fieldset class="mb-3" id="changePasswordFields">
+            <legend>Change Password</legend>
+            <div class="mb-3">
+              <label for="current-password" class="form-label">Current Password</label>
+              <input type="password" id="current-password" class="form-control" placeholder="Enter your current password">
+            </div>
+            <div class="mb-3">
+              <label for="new-password" class="form-label">New Password</label>
+              <input type="password" id="new-password" class="form-control" placeholder="Enter your new password">
+            </div>
+            <div class="mb-3">
+              <label for="confirm-password" class="form-label">Confirm New Password</label>
+              <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your new password">
+            </div>
+            <div>
+              <button type="button" onclick="changePassword()" class="btn btn-primary">Change Password</button>
             </div>
           </fieldset>
         </form>
