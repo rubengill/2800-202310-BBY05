@@ -1,0 +1,82 @@
+[
+    {
+        "question": "Have you ever played the guitar before?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "Yes, but it's covered in dust", "points": 30},
+            {"answer": "I play it all the time", "points": 175}
+        ]
+    },
+    {
+        "question": "How many hours a week do you practice the guitar?",
+        "choices": [
+            {"answer": "0 Hours a week", "points": 0},
+            {"answer": "2 Hours a week", "points": 50},
+            {"answer": "5+ Hours a week", "points": 100}
+        ]
+    },
+    {
+        "question": "Can you read sheet music?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "If I looked at it long enough", "points": 40},
+            {"answer": "Yes", "points": 100}
+        ]
+    },
+    {
+        "question": "Can you read guitar tabs?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "I probably could", "points": 30},
+            {"answer": "Yes", "points": 70}
+        ]
+    },
+    {
+        "question": "Can you tune a guitar by ear?",
+        "choices": [
+            {"answer": "Not a chance", "points": 0},
+            {"answer": "I probably could, but not accurately", "points": 60},
+            {"answer": "No electric tuner, no problem", "points": 125}
+        ]
+    },
+    {
+        "question": "How many different scales do you know?",
+        "choices": [
+            {"answer": "Less than 2", "points": 20},
+            {"answer": "Less than 4", "points": 4},
+            {"answer": "7 or more", "points": 110}
+        ]
+    },
+    {
+        "question": "Do you know all the parts of a guitar?",
+        "choices": [
+            {"answer": "Not at all", "points": 0},
+            {"answer": "I know most of the guitar parts", "points": 70},
+            {"answer": "I know them all", "points": 150}
+        ]
+    },
+    {
+        "question": "Can you bar chords?",
+        "choices": [
+            {"answer": "No", "points": 0},
+            {"answer": "Kind of, not the best", "points": 70},
+            {"answer": "Very easily", "points": 180}
+        ]
+    },
+    {
+        "question": "How good is your guitar picking?",
+        "choices": [
+            {"answer": "I can't even pick!", "points": 0},
+            {"answer": "It is servicable", "points": 70},
+            {"answer": "Call me Kirk Hammett", "points": 190}
+        ]
+    },
+    {
+        "question": "Do you like to practice songs from different genres?",
+        "choices": [
+            {"answer": "I can't even play!", "points": 0},
+            {"answer": "I like to stick to one genre", "points": 50},
+            {"answer": "I like to play a variety of genres", "points": 150}
+        ]
+    }
+]

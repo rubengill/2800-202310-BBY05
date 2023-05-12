@@ -1,0 +1,68 @@
+/* Navbar */
+#navbar {
+    background-color: #f8f9fa;
+    padding: 10px;
+  }
+  
+  #featureNavbar {
+    font-size: 20px;
+  }
+  
+  /* Logout Button */
+  #signOut {
+    width: 30px;
+    height: 30px;
+    top: 0;
+    right: 0;
+  }
+  
+  /* Breadcrumb */
+  .breadcrumb {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 0.25rem;
+  }
+  
+  /* User Profile Card */
+  .card {
+    margin-bottom: 10px;
+  }
+  
+  /* User Profile Picture */
+  #profile-container {
+    text-align: center;
+  }
+  
+  #name-goes-here {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  #mypic-goes-here {
+    width: 300px;
+    height: 300px;
+  }
+  
+  #mypic-input {
+    display: none;
+  }
+  
+  /* User Profile Form */
+  #personalInfoFields {
+    margin-bottom: 20px;
+  }
+  
+  /* Submit and Edit Buttons */
+  .d-flex.justify-content-end {
+    margin-top: 50px;
+  }
+  
+  button.btn-secondary {
+    color: white;
+  }
+  
+  button.btn-info {
+    color: white;
+    background-color: rgb(248, 109, 109);
+  }
+  
