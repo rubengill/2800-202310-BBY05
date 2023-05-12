@@ -23,8 +23,8 @@ const addQuestionsToFirestore = async (questions) => {
     }
   };
   
- // Fetch questions.json
-fetch('./questions.json')
+ //Fetch questions.json
+fetch('/data/questions.json')
 .then((response) => {
   // Set condition if the response is successful 
   if (!response.ok) {
