@@ -2,7 +2,6 @@
 *.logs
 node_modules/
 .vscode/
-firebaseAPI_BBY5.js
 package.json
 package-lock.json
 serviceAccountKey.json
