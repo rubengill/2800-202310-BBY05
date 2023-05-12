@@ -53,22 +53,25 @@ function displayQuestion(index) {
 
 
   //Add an event listener to the "Next Question" button
-document.getElementById('next-question').addEventListener('click', () => {
-  //increments the current question index by 1
-  currentQuestionIndex++;
-  //hides the "Next Question" button, and displays the next question
-  document.getElementById('next-question').style.display = 'none';
-  displayQuestion(currentQuestionIndex);
-});
-
-//Calculates the total score
-function calculateTotalScore() {
-  let totalScore = 0;
-  //iterate through the userAnswers array and add up the points for each answer
-  userAnswers.forEach((answer) => {
-    totalScore += answer.points;
-  });
-
-  // Display the total score 
-  console.log('Total score:', totalScore);
-}
+  function calculateTotalScore() {
+    let totalScore = 0;
+  
+    // Iterate through the userAnswers array and add up the points for each answer
+    userAnswers.forEach((answer) => {
+      totalScore += answer.points;
+    });
+  
+    // Display the total score 
+    console.log('Total score:', totalScore);
+  
+    // Get the current user's UID
+    const uid = firebase.auth().currentUser.uid;
+  
+    // Update the user's score in Firestore
+    db.collection('users').doc(uid).update({
+      score: totalScore
+    })
+    .then(() => console.log("Score successfully updated!"))
+    .catch((error) => console.error("Error updating score: ", error));
+  }
+  
