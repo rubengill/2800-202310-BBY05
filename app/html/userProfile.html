@@ -2,12 +2,13 @@
 <html lang="en">
 
 <head>
-  <title>My Profile</title>
-  <meta name="Guitar Genius Template" content="Guitar Genius" />
+  <title>Guitar Genius</title>
+  <meta name="Guitar Genius" content="My 2800 App" />
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- <link rel="stylesheet" href="/styles/style.css" /> -->
-  <link rel="stylesheet" href="/css/userProfile.css" />
+  <link rel="stylesheet" href="/public/css/userProfile.css" />
 
   <!-- Bootstrap Library CSS CDN go here -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
@@ -31,7 +32,6 @@
 
   <!--Firebase key script-->
   <script src="/scripts/firebaseAPI_BBY5.js"></script>
-  <script src="/scripts/userProfile.js"></script>
   <script src="/scripts/session.js"></script>
   <script src="/scripts/authentication.js"></script>
   <script src="/scripts/skeleton.js"></script>
@@ -63,7 +63,7 @@
                 <div class="form-group">
                   <div id="profile-container">
                     <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
-                    <img id="mypic-goes-here" src="./images/profileplaceholder.png" class="profile-picture"
+                    <img id="mypic-goes-here" src="/img/profileplaceholder.png" class="profile-picture"
                       alt="Profile Picture">
                     <hr>
                     <div class="form-group py-3">
@@ -129,5 +129,7 @@
 
   <nav id="footerPlaceholder"></nav>
 </body>
+
+<script src="/scripts/userProfile.js"></script>
 
 </html>

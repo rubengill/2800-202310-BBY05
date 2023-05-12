@@ -2,16 +2,15 @@
 <html lang="en">
 
 <head>
-    <title>temPETure</title>
-    <meta name="temPETure" content="My 1800 App" />
+    <title>Guitar Genius</title>
+    <meta name="Guitar Genius" content="My 2800 App" />
 
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap Library CSS CDN go here -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -31,6 +30,8 @@
 
     <!-- Scripts -->
     <script src="/scripts/firebaseAPI_BBY5.js"></script>
+    <script src="/scripts/skeleton.js"></script>
+    <script src="/scripts/authentication.js"></script>
     
 
     <!-- Link to styles of your own -->
@@ -38,16 +39,15 @@
 </head>
 
 <body>
+    <nav id="navbarPlaceholder"></nav>
+
     <div id="question-container">
         <h2 id="question-text"></h2>
         <div id="choices-container"></div>
     </div>
     <button id="next-question" style="display: none;">Next Question</button>
 
-
-
-
-
+    <nav id="footerPlaceholder"></nav>
 </body>
 
 </html>

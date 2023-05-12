@@ -24,11 +24,11 @@ app.get('/settings.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/settings.html'));
 });
 
-app.get('/app/html/userProfile.html', function (req, res) {
+app.get('/userProfile.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userProfile.html'));
 });
 
-app.get('/app/html/questions.html', function (req, res) {
+app.get('/questions.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/questions.html'));
 });
 
