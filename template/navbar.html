@@ -1,60 +1,25 @@
 <!DOCTYPE html>
-<script src="/scripts/settings.js"></script>
-<nav class="navbar" role="navigation" aria-label="main navigation" style="background-image: linear-gradient(rgba(19, 100, 43, 0.785), rgb(255, 255, 255));">
+<script src="/scripts/userProfile.js"></script>
+<nav class="navbar" role="navigation" aria-label="main navigation"
+    style="background-image: linear-gradient(rgba(19, 100, 43, 0.785), rgb(255, 255, 255));">
     <div class="container-fluid">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://github.com/rubengill/2800-202310-BBY05">
-                <img src="https://cdn.dribbble.com/users/3211292/screenshots/9994424/media/bba98e100c96152efa53755071cc842a.jpg" style="zoom: 250%; border-radius: 50%;">
-            </a>
-
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
+            <a class="navbar-item" href="/app/html/main.html">
+                <img src="https://cdn.dribbble.com/users/3211292/screenshots/9994424/media/bba98e100c96152efa53755071cc842a.jpg"
+                    style="zoom: 260%; border-radius: 50%;">
             </a>
         </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/app/html/main.html">
-                    Home
-                </a>
-
-                <a class="navbar-item" href="/app/html/userProfile.html">
-                    Profile
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <button type="button" class="btn btn-success">
+                        <a href="/app/html/userProfile.html" style="color:whitesmoke;">
+                            Profile
                         </a>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <button type="button" onclick="logout()" class="btn btn-success">Logout</button>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </nav>
