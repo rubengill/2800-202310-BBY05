@@ -35,40 +35,45 @@
     <!-- <script src="/scripts/authentication.js"></script> -->
     <script src="/scripts/retrieveName.js"></script>
     <script src="/scripts/skeleton.js"></script>
-
+    
 
     <!-- Link to styles of your own -->
-    <!-- <link rel="stylesheet" href="./styles/style.css"> -->
+    <link rel="stylesheet" href="/public/css/main.css">
 </head>
 
 <body>
     <nav id="navbarPlaceholder"></nav>
 
     <div id="maincon">
-        Are you ready to rock
-        <span id="user-name"> &lt;insert user's name here &gt; </span>?
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card-body text-center">
+                <h5 class="my-3"><span id="name-goes-here">
+                    Are you ready to rock
+                    <span id="user-name"> &lt;insert user's name here &gt; </span>?
+                </span></h5>
+            </div>
+            <!-- <div class="card-body text-center"> -->
+                <div class="mb-3" id="songcon">
+                    Song of the day
+                    <span id="songname"></span>
+                    <span id="author"></span>
+                </div>
 
-        <div id="songcon">
-            Song of the day
-            <span id="songname"></span>
-            <span id="author"></span>
+                <div class="mb-3" id="buttons">
+                    <button id="tab" class="btn btn-success mt-3"> Tab </button>
+                    <button id="fav" class="btn btn-success mt-3"> Favourite</button>
+                    <button id="share" class="btn btn-success mt-3"> Share </button>
+                </div>
+            <!-- </div> -->
+            <div class="mb-3" id="lessons">
+                <span id="lessoncounter">
+                    You still have &lt;insert num songs here&gt;
+                    lessons to complete.
+                </span>
+                <br>
+                <button id="begLes" class="btn btn-success mt-3" style="width: 150px; height: 80px;">Begin Lesson</button>
+            </div>
         </div>
-
-        <div id="buttons">
-            <button id="tab"> Tab </button>
-            <button id="fav"> Favourite</button>
-            <button id="share"> Share </button>
-        </div>
-
-        <div id="lessons">
-            <span id="lessoncounter">
-                You still have &lt;insert num songs here&gt;
-                lessons to complete.
-            </span>
-            <br>
-            <button id="begLes">Begin Lesson</button>
-        </div>
-
     </div>
 
     <nav id="footerPlaceholder"></nav>
