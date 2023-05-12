@@ -8,4 +8,3 @@ function logout() {
         console.log('Error signing out:', error);
       });
   }
-  
