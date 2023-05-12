@@ -1,14 +1,14 @@
 const express = require("express");
-const admin = require("firebase-admin");
 const session = require("express-session");
 const path = require('path');
 
 const app = express();
 
-// Serve static assets
+//Creating remote paths, for our static files
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
+app.use('/template', express.static(path.join(__dirname, 'template')));
 
 // Serve login.html
 app.get('/', function (req, res) {
