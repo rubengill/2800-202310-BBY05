@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/app/html/main.html', function (req, res) {
+app.get('/main.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/main.html'));
 });
 
@@ -35,8 +35,6 @@ app.get('/app/html/questions.html', function (req, res) {
 app.get('/login.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
-
-
 
 
 app.listen(3000, function () {
