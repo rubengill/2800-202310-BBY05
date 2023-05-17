@@ -1,6 +1,6 @@
 const express = require("express");
 const session = require("express-session");
-const { getTab } = require('./scrape');
+const { getTab } = require('./guitarTab');
 const path = require('path');
 
 const app = express();
