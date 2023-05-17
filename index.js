@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const { getTab } = require('./scrape');
 const path = require('path');
 
 const app = express();
@@ -39,6 +40,10 @@ app.get('/login', function (req, res) {
 app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
+
+app.get('/tab', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/tab.html'));
+})
 
 
 app.listen(3000, function () {
