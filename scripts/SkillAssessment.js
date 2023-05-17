@@ -72,5 +72,22 @@ function calculateTotalScore() {
     score: totalScore
   })
     .then(() => console.log("Score successfully updated!"))
+    //Log any errors to the console if user score cannot be added
     .catch((error) => console.error("Error updating score: ", error));
+}
+
+//Function that calculates skill level depending on the users' score
+function calculateSkillLevel(score) {
+  let skillLevel;
+  //If less than 600, skill level = novice
+  if (score < 600) {
+    skillLevel = 'Novice';
+    //If less than 1200, skill level = intermediate
+  } else if (score < 1200) {
+    skillLevel = 'Intermediate';
+    //If greater than 1200 skill level = advanced
+  } else {
+    skillLevel = 'Advanced';
+  }
+  return skillLevel;
 }
