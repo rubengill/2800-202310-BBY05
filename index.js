@@ -13,7 +13,7 @@ app.use('/data', express.static(path.join(__dirname, 'app/data')));
 
 // Serve login.html
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/login.html'));
+    res.sendFile(path.join(__dirname, 'app/html/index.html'));
 });
 
 app.get('/main.html', function (req, res) {

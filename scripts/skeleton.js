@@ -8,11 +8,11 @@ function loadSkeleton() {
         if (user) {
             // User is signed in.
             // Do something for the user here.
-            console.log($('#navbarPlaceholder').load('/template/navbar.html'));
+            console.log($('#navbarPlaceholder').load('/template/navAfter.html'));
             console.log($('#footerPlaceholder').load('/template/footer.html'));
         } else {
             // No user is signed in.
-            console.log($('#navbarPlaceholder').load('/template/navbar.html'));
+            console.log($('#navbarPlaceholder').load('/template/navBefore.html'));
             console.log($('#footerPlaceholder').load('/template/footer.html'));
         }
     });
