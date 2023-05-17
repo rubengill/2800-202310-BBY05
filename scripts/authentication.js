@@ -4,37 +4,47 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
 var uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
-      //------------------------------------------------------------------------------------------
-      // The code below is modified from default snippet provided by the FB documentation.
-      //
-      // If the user is a "brand new" user, then create a new "user" in your own database.
-      // Assign this user with the name and email provided.
-      // Before this works, you must enable "Firestore" from the firebase console.
-      // The Firestore rules must allow the user to write.
-      //------------------------------------------------------------------------------------------
-      user = authResult.user; // get the user object from the Firebase authentication database
+      user = authResult.user;
       if (authResult.additionalUserInfo.isNewUser) {
-        //if new user
+        // For new users, set their initial information
         db.collection("users")
           .doc(user.uid)
           .set({
-            //write to firestore. We are using the UID for the ID in users collection
-            name: user.displayName, //"users" collection
-            email: user.email, //with authenticated user's ID (user.uid)
+            name: user.displayName,
+            email: user.email,
             score: 0,                     
           })
           .then(function () {
             console.log("New user added to firestore");
-            window.location.assign("/main"); //re-direct to main.html after signup
+
+            // Redirect new users to the questionnaire
+            window.location.assign("/questions"); 
           })
           .catch(function (error) {
             console.log("Error adding new user: " + error);
           });
       } else {
-        return true;
+        // For existing users, check if they have a skill level
+        db.collection('users').doc(user.uid).get()
+          .then((doc) => {
+            if (doc.exists) {
+              const userData = doc.data();
+              if (userData.skillLevel) {
+                // If the user has a skillLevel, they have already completed the questionnaire
+                console.log("User has already completed the questionnaire.");
+                // Redirect to main page
+                window.location.assign("/main"); 
+              } else {
+                // If the user does not have a skillLevel, redirect them to the questionnaire
+                window.location.assign("/questions");
+              }
+            } else {
+              console.error("No such document!");
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting document:", error);
+          });
       }
       return false;
     },
