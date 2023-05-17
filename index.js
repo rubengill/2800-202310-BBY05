@@ -15,6 +15,9 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
+app.get('/userskill.html', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
+});
 
 app.listen(3000, function () {
     console.log('App is listening on port 3000!');
