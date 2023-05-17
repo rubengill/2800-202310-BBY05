@@ -1,3 +1,5 @@
+
+
 // An empty array to store the questions
 let questions = [];
 // An empty array to store the user's answers to the questions
