@@ -51,7 +51,6 @@ function displayQuestion(index) {
   }
 }
 
-//Calcualtes total score and user skill level
 function calculateTotalScore() {
   let totalScore = 0;
 
@@ -82,6 +81,13 @@ function calculateTotalScore() {
             // Calculate the skill level based on the score
             const skillLevel = calculateSkillLevel(score);
             console.log("Skill level:", skillLevel);
+
+            // Update the user's skill level in Firestore
+            db.collection('users').doc(uid).update({
+              skillLevel: skillLevel
+            })
+              .then(() => console.log("Skill level successfully updated!"))
+              .catch((error) => console.error("Error updating skill level: ", error));
           } else {
             console.error("No such document!");
           }
@@ -93,6 +99,7 @@ function calculateTotalScore() {
     //Log any errors to the console if user score cannot be added
     .catch((error) => console.error("Error updating score: ", error));
 }
+
 
 //Function that calculates skill level depending on the users' score
 function calculateSkillLevel(score) {
