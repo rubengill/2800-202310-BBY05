@@ -1,6 +1,6 @@
 const express = require("express");
 const session = require("express-session");
-const { getTab } = require('./guitarTab'); //import getTab function from guitarTab.js
+// const { getTab } = require('./guitarTab'); //import getTab function from guitarTab.js
 const path = require('path');
 
 const app = express();
@@ -41,16 +41,16 @@ app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
-app.get('/tab', async (req, res) => {
-    const { songName, bandName } = req.query;
+// app.get('/tab', async (req, res) => {
+//     const { songName, bandName } = req.query;
   
-    try {
-      const tab = await getTab(songName, bandName);
-      res.json(tab);
-    } catch (error) {
-      res.status(500).json({ error: 'An error occurred while fetching the tab.' });
-    }
-  });
+//     try {
+//       const tab = await getTab(songName, bandName);
+//       res.json(tab);
+//     } catch (error) {
+//       res.status(500).json({ error: 'An error occurred while fetching the tab.' });
+//     }
+//   });
 
 
 app.listen(3000, function () {
