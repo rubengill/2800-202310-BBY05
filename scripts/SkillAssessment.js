@@ -5,6 +5,21 @@ let userAnswers = [];
 // A number to keep track of the current question index
 let currentQuestionIndex = 0;
 
+// Retrieve the 'next-question' button DOM element
+const nextQuestionButton = document.getElementById('next-question');
+
+// Add an event listener to the 'next-question' button
+nextQuestionButton.addEventListener('click', () => {
+  // Increment the currentQuestionIndex
+  currentQuestionIndex++;
+
+  // Hide the "Next Question" button
+  nextQuestionButton.style.display = 'none';
+
+  // Display the next question
+  displayQuestion(currentQuestionIndex);
+});
+
 // Retrieve the questions from the "questions" collection in Firestore
 db.collection('questions').get().then((querySnapshot) => {
   // Iterate through each question in the collection and add data to the "questions" array
@@ -40,16 +55,16 @@ function displayQuestion(index) {
         userAnswers.push({ answer: i, points: choice.points });
 
         // Show the "Next Question" button
-        document.getElementById('next-question').style.display = 'block';
+        nextQuestionButton.style.display = 'block';
       });
-        // Append the button to the choices container
-        choicesContainer.appendChild(button);
-      });
-    } else {
-      // If the index is out of bounds, calculate the total score and display the results
-      calculateTotalScore();
-    }
+      // Append the button to the choices container
+      choicesContainer.appendChild(button);
+    });
+  } else {
+    // If the index is out of bounds, calculate the total score and display the results
+    calculateTotalScore();
   }
+}
 
 function calculateTotalScore() {
   let totalScore = 0;
@@ -86,7 +101,12 @@ function calculateTotalScore() {
             db.collection('users').doc(uid).update({
               skillLevel: skillLevel
             })
-              .then(() => console.log("Skill level successfully updated!"))
+              .then(() => {
+                console.log("Skill level successfully updated!");
+
+                // Call showUserSkill function when skill level is successfully updated
+                showUserSkill();
+              })
               .catch((error) => console.error("Error updating skill level: ", error));
           } else {
             console.error("No such document!");

@@ -16,27 +16,27 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/main.html', function (req, res) {
+app.get('/main', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/main.html'));
 });
 
-app.get('/settings.html', function (req, res) {
+app.get('/settings', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/settings.html'));
 });
 
-app.get('/userProfile.html', function (req, res) {
+app.get('/userProfile', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userProfile.html'));
 });
 
-app.get('/questions.html', function (req, res) {
+app.get('/questions', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/questions.html'));
 });
 
-app.get('/login.html', function (req, res) {
+app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/userskill.html', function (req, res) {
+app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
