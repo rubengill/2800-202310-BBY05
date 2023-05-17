@@ -7,15 +7,15 @@ let currentQuestionIndex = 0;
 
 // Retrieve the questions from the "questions" collection in Firestore
 db.collection('questions').get().then((querySnapshot) => {
-    // Iterate through each question in the collection and add data to the "questions" array
-    querySnapshot.forEach((doc) => {
-      questions.push(doc.data());
-    });
-    // Display first question after adding each question to the array
-    displayQuestion(currentQuestionIndex);
+  // Iterate through each question in the collection and add data to the "questions" array
+  querySnapshot.forEach((doc) => {
+    questions.push(doc.data());
   });
+  // Display first question after adding each question to the array
+  displayQuestion(currentQuestionIndex);
+});
 
-  // Displays the questions from the question collection
+// Displays the questions from the question collection
 function displayQuestion(index) {
   // Ensures that index is less than the array length 
   if (index < questions.length) {
@@ -52,26 +52,25 @@ function displayQuestion(index) {
 }
 
 
-  //Add an event listener to the "Next Question" button
-  function calculateTotalScore() {
-    let totalScore = 0;
-  
-    // Iterate through the userAnswers array and add up the points for each answer
-    userAnswers.forEach((answer) => {
-      totalScore += answer.points;
-    });
-  
-    // Display the total score 
-    console.log('Total score:', totalScore);
-  
-    // Get the current user's UID
-    const uid = firebase.auth().currentUser.uid;
-  
-    // Update the user's score in Firestore
-    db.collection('users').doc(uid).update({
-      score: totalScore
-    })
+//Add an event listener to the "Next Question" button
+function calculateTotalScore() {
+  let totalScore = 0;
+
+  // Iterate through the userAnswers array and add up the points for each answer
+  userAnswers.forEach((answer) => {
+    totalScore += answer.points;
+  });
+
+  // Display the total score 
+  console.log('Total score:', totalScore);
+
+  // Get the current user's UID
+  const uid = firebase.auth().currentUser.uid;
+
+  // Update the user's score in Firestore
+  db.collection('users').doc(uid).update({
+    score: totalScore
+  })
     .then(() => console.log("Score successfully updated!"))
     .catch((error) => console.error("Error updating score: ", error));
-  }
-  
+}
