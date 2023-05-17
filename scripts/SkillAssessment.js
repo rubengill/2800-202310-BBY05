@@ -117,7 +117,9 @@ function calculateSkillLevel(score) {
   return skillLevel;
 }
 
-function fetchAndDisplaySkillLevel() {
+//If the user has a user skill level, direct them to userskill.html, where they will
+//be presented with their skill level 
+function showUserSkill() {
   // Get the current user's UID
   const uid = firebase.auth().currentUser.uid;
 
@@ -125,11 +127,8 @@ function fetchAndDisplaySkillLevel() {
   db.collection('users').doc(uid).get()
     .then((doc) => {
       if (doc.exists) {
-        // Retrieve the skill level from the document
-        const skillLevel = doc.data().skillLevel;
-        
-        // Set the text content of the "skill" div to the skill level
-        document.getElementById('skill').textContent = skillLevel;
+        // Redirect to the userskill page
+        window.location.href = '/userskill';
       } else {
         console.error("No such document!");
       }
@@ -138,5 +137,6 @@ function fetchAndDisplaySkillLevel() {
       console.error("Error getting document:", error);
     });
 }
+
 
 
