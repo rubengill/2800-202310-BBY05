@@ -11,3 +11,15 @@
 * {
     text-align: left;
 }
+
+p {
+    margin-bottom: 2px;
+}
+
+.topSection {
+    margin-bottom: 6px;
+}
+
+.topSection h3, .topSection button {
+    display: inline;
+}
