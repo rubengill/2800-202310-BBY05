@@ -21,8 +21,8 @@ function handleEvent(event) {
   function createEmailCard(userData) {
     var userCard = document.createElement('div');
     userCard.innerHTML = `
-      <div class="card rtl text-center" style="max-width: 18rem;">
-        ${userData.profilePic ? `<img class="card-img-top mx-auto" src="${userData.profilePic}" alt="Profile Picture" style="max-width: 250px; max-height: 250px;">` : ''}
+      <div class="card rtl mx-auto text-center mb-3" style="max-width: 25rem;">
+        ${userData.profilePic ? `<img class="card-img-top mx-auto mt-3" src="${userData.profilePic}" alt="Profile Picture" style="max-width: 250px; max-height: 250px;">` : ''}
         <div class="card-body">
           <h5 class="card-title">${userData.name}</h5>
           <h6 class="card-subtitle mb-2 text-muted">${userData.email}</h6>
