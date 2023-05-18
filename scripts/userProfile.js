@@ -154,31 +154,39 @@ function saveUserPic() {
                           console.log("Added Profile Pic URL to Firestore.");
                           populatePicture();
                           fileInput.value = "";
+                          displayConfirmationMessage("Profile picture updated successfully.");
                         })
                         .catch(function (error) {
                           console.error("Error updating profile picture URL in Firestore:", error);
+                          displayConfirmationMessage("An error occurred while updating the profile picture.", true);
                         });
                     });
                   })
                   .catch(function (error) {
                     console.error("Error querying user document in Firestore:", error);
+                    displayConfirmationMessage("An error occurred while updating the profile picture.", true);
                   });
               })
               .catch(function (error) {
                 console.error("Error getting download URL from Firebase Storage:", error);
+                displayConfirmationMessage("An error occurred while updating the profile picture.", true);
               });
           })
           .catch(function (error) {
             console.error("Error uploading image to Firebase Storage:", error);
+            displayConfirmationMessage("An error occurred while updating the profile picture.", true);
           });
       } else {
         console.log("No file selected.");
+        displayConfirmationMessage("No file selected.", true);
       }
     } else {
       console.log("No user currently signed in.");
+      displayConfirmationMessage("No user currently signed in.", true);
     }
   });
 }
+
 
 
 
@@ -230,10 +238,12 @@ function changePassword() {
   user.updatePassword(newPassword)
     .then(() => {
       console.log("Password changed successfully");
+      displayConfirmationMessage("Password changed successfully.");
       // Redirect the user or show a success message
     })
     .catch(error => {
       console.error("Error changing password:", error);
+      displayConfirmationMessage("An error occurred while changing the password.", true);
       // Handle the error appropriately
     });
 }
