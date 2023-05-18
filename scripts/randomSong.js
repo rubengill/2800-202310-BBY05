@@ -9,10 +9,9 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
         // Log each song's fields
         for (let song of songs) {
-            console.log(song["Song Name"]); // Access the "Song Name" field
-            console.log(song["Artist"]); // Access the "Artist" field
-            console.log(song["Difficulty"]); // Access the "Difficulty" field
-            console.log(song["Random"]); // Access the "Random" field
+            console.log('Song Name: ' + song["Song Name"]); // Access the "Song Name" field
+            console.log('Artist: ' + song["Artist"]); // Access the "Artist" field
+            console.log('Difficulty: ' + song["Difficulty"]); // Access the "Difficulty" field
         }
     } else {
         // No user is signed in.
@@ -39,27 +38,36 @@ async function getRandomSongs(uid) {
             }
         });
 
-    // Pull random songs, retrieving only the "Song Name" and "Artist" fields
+    // Pull random songs, which includes all of the documents fields
     const NUM_SONGS = 5;
+    //Create an array to store the desired song information, in this case the Song Name, Artist
+    //and the Difficulty
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
+        //Generatre a random number, and only pull songs that are greater than the random number
+        //And that have the same Difficulty as skill level
         const random = Math.random();
         try {
-            const songQuery = db.collection('database')
+            const songDoc = await db.collection('database')
                 .where('Difficulty', '==', skillLevel)
                 .where('Random', '>=', random)
                 .orderBy('Random')
-                .limit(1);
-
-            // Select only the "Song Name" and "Artist" fields
-            const songDoc = await songQuery.select('Song Name', 'Artist').get();
+                .limit(1)
+                .get();
 
             console.log('songDoc:', songDoc); // Log the song document
 
             if (!songDoc.empty) {
                 const songData = songDoc.docs[0].data();
                 console.log('songData:', songData); // Log the song data
-                songs.push(songData);
+
+                // Add Song Name, Artist and Difficulty to songs array
+                songs.push({
+                    "Song Name": songData["Song Name"],
+                    "Artist": songData["Artist"],
+                    "Difficulty":songData["Difficulty"]
+
+                });
             }
         } catch (error) {
             console.error('Error fetching song:', error); // Log any errors
@@ -68,6 +76,7 @@ async function getRandomSongs(uid) {
 
     return songs;
 }
+
 
 
 

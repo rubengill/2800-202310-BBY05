@@ -126,13 +126,13 @@ function calculateSkillLevel(score) {
   let skillLevel;
   //If less than 600, skill level = novice
   if (score < 600) {
-    skillLevel = 'Novice';
+    skillLevel = 'novice';
     //If less than 1200, skill level = intermediate
   } else if (score < 1200) {
-    skillLevel = 'Intermediate';
+    skillLevel = 'intermediate';
     //If greater than 1200 skill level = advanced
   } else {
-    skillLevel = 'Advanced';
+    skillLevel = 'advanced';
   }
   return skillLevel;
 }
