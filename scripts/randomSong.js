@@ -1,11 +1,27 @@
-function getRandomSongs() {
-    // Get current user's uid
-    const uid = firebase.auth().currentUser.uid;
+firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+        // Get UID if user is signed in 
+        const uid = user.uid;
+        console.log(uid)
+        // Call getRandomSongs on current user
+        const songs = await getRandomSongs(uid);
+        console.log(songs);
+    } else {
+        // No user is signed in.
+        console.log('No user is signed in.');
+    }
+});
+
+
+async function getRandomSongs(uid) {
+    console.log('getRandomSongs uid:', uid);
 
     // Fetch the user's data from Firestore
     let skillLevel;
-    db.collection('users').doc(uid).get()
+    await db.collection('users').doc(uid).get()
         .then((doc) => {
+            console.log('doc data for uid ' + uid + ':', doc.data());
+
             if (doc.exists) {
                 // Retrieve the skill level from the document
                 skillLevel = doc.data().skillLevel;
@@ -19,7 +35,7 @@ function getRandomSongs() {
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
         const random = Math.random();
-        const songDoc = db.collection('database')
+        const songDoc = await db.collection('database')
             .where('Difficulty', '==', skillLevel)
             .where('Random', '>=', random)
             .orderBy('Random')
@@ -33,7 +49,6 @@ function getRandomSongs() {
 
     return songs;
 }
-
 
 //Test to see if it correctly pulls songs by logging it to the console 
 getRandomSongs().then(songs => {
