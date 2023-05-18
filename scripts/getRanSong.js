@@ -14,42 +14,33 @@
 //const databaseRef = db.collection("database");
 const songs = [];
 function updateSong() {
-    //databaseRef.get().then((querySnapshot) => {
     const numSongsPulled = 30;
-    //no 642nd song
-
+    const songPromises = [];
+  
     for (let i = 0; i < LAST_TASK; i++) {
-        var randomDocNum = "document_" + Math.floor(Math.random() * 849);
-
-        var docRef = db.collection("database").doc(randomDocNum);
-
-        docRef
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    console.log("Document data:", doc.data());
-                    const song = doc.data();
-                    songs.push(song);
-
-                    // // Select a random song
-                    // const randomIndex = Math.floor(
-                    //     Math.random() * songs.length
-                    // );
-                    // const randomSong = songs[randomIndex];
-
-                    // // Display the song on your website
-                    // displaySong(randomSong);
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document: " + randomDocNum + "!");
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
+      var randomDocNum = "document_" + Math.floor(Math.random() * 849);
+  
+      var docRef = db.collection("database").doc(randomDocNum);
+  
+      const songPromise = docRef.get().then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          const song = doc.data();
+          songs.push(song);
+        } else {
+          console.log("No such document: " + randomDocNum + "!");
+        }
+      }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  
+      songPromises.push(songPromise);
     }
-    //});
-}
+  
+    Promise.all(songPromises).then(() => {
+      displaySong();
+    });
+  }
 updateSong();
 
 function displaySong() {
