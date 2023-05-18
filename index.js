@@ -40,6 +40,14 @@ app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
+app.get('/addFriend', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/addFriend.html'));
+});
+
+app.get('/social', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/social.html'));
+});
+
 
 app.listen(3000, function () {
     console.log('App is listening on port 3000!');
