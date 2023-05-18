@@ -88,15 +88,33 @@ function saveUserInfo() {
         .then(() => {
           console.log("User information updated in Firestore for user:", userID);
           readUserInfo();
+          displayConfirmationMessage("User information updated successfully.");
         })
         .catch(error => {
           console.error("Error updating user information:", error);
+          displayConfirmationMessage("An error occurred while updating user information.", true);
         });
     } else {
       console.log("No user currently signed in.");
     }
   });
 }
+
+function displayConfirmationMessage(message, isError = false) {
+  var messageElement = document.getElementById("message");
+  messageElement.textContent = message;
+
+  if (isError) {
+    messageElement.classList.remove("alert-success");
+    messageElement.classList.add("alert-danger");
+  } else {
+    messageElement.classList.remove("alert-danger");
+    messageElement.classList.add("alert-success");
+  }
+
+  messageElement.style.display = "block";
+}
+
 
 
 function saveUserPic() {
