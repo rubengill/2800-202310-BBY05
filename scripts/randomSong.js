@@ -1,22 +1,26 @@
-async function getRandomSongs() {
+function getRandomSongs() {
     // Get current user's uid
     const uid = firebase.auth().currentUser.uid;
 
-    // Get user's skill level
-    const userDoc = await firebase.firestore().collection('users').doc(uid).get();
-    if (!userDoc.exists) {
-        console.log('No such user!');
-        return;
-    }
-    const userSkillLevel = userDoc.data().skillLevel;
+    // Fetch the user's data from Firestore
+    let skillLevel;
+    db.collection('users').doc(uid).get()
+        .then((doc) => {
+            if (doc.exists) {
+                // Retrieve the skill level from the document
+                skillLevel = doc.data().skillLevel;
+            } else {
+                console.error("No such document!");
+            }
+        });
 
     // Pull random songs, which includes all of the documents fields
     const NUM_SONGS = 5;
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
         const random = Math.random();
-        const songDoc = await firebase.firestore().collection('database')
-            .where('Difficulty', '==', userSkillLevel)
+        const songDoc = db.collection('database')
+            .where('Difficulty', '==', skillLevel)
             .where('Random', '>=', random)
             .orderBy('Random')
             .limit(1)
@@ -29,3 +33,14 @@ async function getRandomSongs() {
 
     return songs;
 }
+
+
+//Test to see if it correctly pulls songs by logging it to the console 
+getRandomSongs().then(songs => {
+    for (let song of songs) {
+        console.log(song["Song Name"]); // Access the "Song Name" field
+        console.log(song["Artist"]); // Access the "Artist" field
+        console.log(song["Difficulty"]); // Access the "Difficulty" field
+        console.log(song["Random"]); // Access the "Random" field
+    }
+});
