@@ -18,14 +18,13 @@ firebase.auth().onAuthStateChanged(function(user) {
               // Proceed with the rest of the login process
 
               // Check if the user has a streak data in Firestore
-              const streakRef = firebase.firestore().collection("users").doc(user.uid).collection("streak");
+              const streakRef = firebase.firestore().collection("users").doc(user.uid);
               streakRef
-                .doc("streak")
                 .get()
                 .then(doc => {
                   if (doc.exists) {
                     const streakData = doc.data();
-                    const currentCount = streakData.count;
+                    const currentCount = streakData.streakCount || 0;
 
                     if (isConsecutiveLogin(previousLoginTimestamp, currentTimestamp)) {
                       // Streak continues, update the streak count
@@ -89,8 +88,7 @@ function isConsecutiveLogin(previousLoginTimestamp, currentTimestamp) {
 function startStreak(streakRef) {
   // Create a new streak document in Firestore with an initial count of 1
   streakRef
-    .doc("streak")
-    .set({ count: 1 })
+    .set({ streakCount: 1 })
     .then(() => {
       console.log("Streak started.");
     })
@@ -104,8 +102,7 @@ function updateStreak(streakRef, currentCount) {
 
   // Update the streak count in Firestore
   streakRef
-    .doc("streak")
-    .update({ count: newCount })
+    .update({ streakCount: newCount })
     .then(() => {
       console.log("Streak updated:", newCount);
     })
