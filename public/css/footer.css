@@ -2,27 +2,28 @@
 footer
 **/
 .svg {
-  margin-right: 2em;
-  margin-left: 2em;
+  margin-right: 3em;
+  margin-left: 3em;
   zoom: 80%;
+  max-width: 60px;
 }
 
 .box {
-    display: flex;
-    width: 100%;
-    height: 100px;
-    position: fixed;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(14, 101, 40, 0.476);
+  display: flex;
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(14, 101, 40, 0.476);
 }
 
 
 /**
 Neon button css
 **/
-:root {
+/* :root {
     --clr-neon: rgb(12, 112, 42);
   }
   
@@ -97,5 +98,25 @@ Neon button css
   .neon-button:hover::after,
   .neon-button:focus::after {
     opacity: 1;
-  }
-  
+  } */
+
+
+/**
+  Regular button
+  **/
+.button {
+  width: 100px;
+  padding: 15px 0;
+  text-align: center;
+  /* margin: 20px 10px; */
+  border-radius: 5px;
+  font-weight: bold;
+  border: 2px rgb(24, 94, 56) solid;
+  background: mediumseagreen;
+  cursor: pointer;
+}
+
+.button:hover {
+  transition: all 0.5s;
+  box-shadow: 0 0 1em;
+}
