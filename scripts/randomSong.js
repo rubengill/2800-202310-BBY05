@@ -39,18 +39,20 @@ async function getRandomSongs(uid) {
             }
         });
 
-    // Pull random songs, which includes all of the documents fields
+    // Pull random songs, retrieving only the "Song Name" and "Artist" fields
     const NUM_SONGS = 5;
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
         const random = Math.random();
         try {
-            const songDoc = await db.collection('database')
+            const songQuery = db.collection('database')
                 .where('Difficulty', '==', skillLevel)
                 .where('Random', '>=', random)
                 .orderBy('Random')
-                .limit(1)
-                .get();
+                .limit(1);
+
+            // Select only the "Song Name" and "Artist" fields
+            const songDoc = await songQuery.select('Song Name', 'Artist').get();
 
             console.log('songDoc:', songDoc); // Log the song document
 
@@ -66,6 +68,7 @@ async function getRandomSongs(uid) {
 
     return songs;
 }
+
 
 
 //Test to see if it correctly pulls songs by logging it to the console 
