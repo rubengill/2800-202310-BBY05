@@ -146,38 +146,42 @@ function addFriendToFirestore(friendData, userId, streakData, successCallback, e
     addEmailCardToResults(userCard);
   }
   
-  // Searches Firestore to check if friend is added, if not add them
-  function addFriends(event) {
-    // Prevent default form behavior
-    event.preventDefault();
-  
-    // Get the user's search query from the input field
-    var searchQuery = getSearchQuery();
-  
-    // Clear any previous search results displayed on the page
-    clearSearchResults();
-  
-    // Search Firestore for users with email addresses containing the search query
-    db.collection('users')
-      .where('email', '>=', searchQuery.toLowerCase())
-      .where('email', '<=', searchQuery.toLowerCase() + '\uf8ff')
-      .get()
-      .then(function (querySnapshot) {
-        // Get the current user's Firestore document ID
-        var userId = firebase.auth().currentUser.uid;
-  
-        // Loop through the Firestore documents with matching email addresses
-        querySnapshot.forEach(function (doc) {
+// Searches Firestore to check if friend is added, if not add them
+function addFriends(event) {
+  // Prevent default form behavior
+  event.preventDefault();
+
+  // Get the user's search query from the input field
+  var searchQuery = getSearchQuery();
+
+  // Clear any previous search results displayed on the page
+  clearSearchResults();
+
+  // Get the current user's Firestore document ID
+  var currentUserId = firebase.auth().currentUser.uid;
+
+  // Search Firestore for users with email addresses containing the search query
+  db.collection('users')
+    .where('email', '>=', searchQuery.toLowerCase())
+    .where('email', '<=', searchQuery.toLowerCase() + '\uf8ff')
+    .get()
+    .then(function (querySnapshot) {
+      // Loop through the Firestore documents with matching email addresses
+      querySnapshot.forEach(function (doc) {
+        // Exclude the current user's document from the search results
+        if (doc.id !== currentUserId) {
           // Process each user document and create a friend card
-          processUserDocument(doc, createEmailCard(doc.data()), userId);
-        });
-  
-        // Handle the case where no users match the search query
-        if (querySnapshot.empty) {
-          var noResultsMessage = document.createElement('p');
-          noResultsMessage.textContent = 'No users found';
-          document.getElementById('search-results').appendChild(noResultsMessage);
+          processUserDocument(doc, createEmailCard(doc.data()), currentUserId);
         }
       });
-  }
+
+      // Handle the case where no users match the search query
+      if (querySnapshot.empty) {
+        var noResultsMessage = document.createElement('p');
+        noResultsMessage.textContent = 'No users found';
+        document.getElementById('search-results').appendChild(noResultsMessage);
+      }
+    });
+}
+
   
