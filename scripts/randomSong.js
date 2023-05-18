@@ -38,14 +38,21 @@ async function getRandomSongs(uid) {
             }
         });
 
-    // Pull random songs, which includes all of the documents fields
+    // Check if the user already has a songs subcollection
+    const songsCollection = db.collection('users').doc(uid).collection('songs');
+    const songsSnapshot = await songsCollection.get();
+
+    if (!songsSnapshot.empty) {
+        // The user already has songs, so log them and return them
+        let songs = songsSnapshot.docs.map(doc => doc.data());
+        console.log('Existing songs:', songs);
+        return songs;
+    }
+
+    // The user doesn't have any songs yet, so generate some
     const NUM_SONGS = 5;
-    //Create an array to store the desired song information, in this case the Song Name, Artist
-    //and the Difficulty
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
-        //Generatre a random number, and only pull songs that are greater than the random number
-        //And that have the same Difficulty as skill level
         const random = Math.random();
         try {
             const songDoc = await db.collection('database')
@@ -65,9 +72,12 @@ async function getRandomSongs(uid) {
                 songs.push({
                     "Song Name": songData["Song Name"],
                     "Artist": songData["Artist"],
-                    "Difficulty":songData["Difficulty"]
-
+                    "Difficulty": songData["Difficulty"]
                 });
+
+                // Add the song to the user's songs subcollection
+                // Use the song's ID as the document ID
+                await songsCollection.doc(songData["Song Name"]).set(songData);
             }
         } catch (error) {
             console.error('Error fetching song:', error); // Log any errors
@@ -77,10 +87,7 @@ async function getRandomSongs(uid) {
     return songs;
 }
 
-
-
-
-//Test to see if it correctly pulls songs by logging it to the console 
+//Test to see if it correctly pulls songs by logging it to the console
 // getRandomSongs().then(songs => {
 //     for (let song of songs) {
 //         console.log(song["Song Name"]); // Access the "Song Name" field
