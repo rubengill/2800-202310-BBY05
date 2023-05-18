@@ -1,10 +1,10 @@
-html,body
-{
+html,
+body {
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 .banner {
@@ -21,13 +21,13 @@ html,body
     text-align: center;
 }
 
-.content h1{
+.content h1 {
     font-size: 70px;
     text-shadow: 5px 5px grey;
 }
 
-.content h3{
-    margin: 20px auto;
+.content h3 {
+    margin: auto;
     font-weight: 400;
     line-height: 25px;
 }
@@ -43,3 +43,59 @@ button {
     background: mediumseagreen;
     cursor: pointer;
 }
+
+button:hover {
+    transition: all 1s;
+    box-shadow: 0 0 4em black;
+}
+
+
+/**
+page-anim.css
+**/
+/** *{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root {
+    font-size: calc(1vw + 1vh + .5vmin);
+}
+body {
+    font: 1rem/1.6 sans-serif;
+    width:100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+[data-page]{
+    position:fixed; 
+    width: 100%;
+    min-height: 100vh;
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+    transition: transform 0.5s ease-in, opacity 0.5s ease-in; 
+    z-index: 10;
+}
+[data-page="home"]{
+    background-color: hsl(90, 70%, 20%);
+    color: hsl(90, 90%, 90%);
+}
+[data-page="other"]{
+    background-color: hsl(270, 70%, 20%);
+    color: hsl(270, 90%, 90%);
+}
+[data-page].active{
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    z-index: 100;
+}
+[data-role="link"]{
+    color: white;
+}
+section h1{
+    padding: 1rem;
+    text-align: center;
+}
+section p{
+    padding: 1rem 2rem;
+} **/
