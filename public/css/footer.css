@@ -53,7 +53,7 @@
     height: 100%;
   
     transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
-    filter: blur(2em);
+    filter: blur(3em);
     opacity: 0.7;
   }
   
