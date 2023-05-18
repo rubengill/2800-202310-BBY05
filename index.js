@@ -1,7 +1,8 @@
 const express = require("express");
 const session = require("express-session");
-// const { getTab } = require('./guitarTab'); //import getTab function from guitarTab.js
 const path = require('path');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 const app = express();
 
@@ -41,18 +42,32 @@ app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
-// app.get('/tab', async (req, res) => {
-//     const { songName, bandName } = req.query;
-  
-//     try {
-//       const tab = await getTab(songName, bandName);
-//       res.json(tab);
-//     } catch (error) {
-//       res.status(500).json({ error: 'An error occurred while fetching the tab.' });
-//     }
-//   });
+app.get('/api/guitar-tabs', async (req, res) => {
+    const { songName, artist } = req.query;
 
+    try {
+        const guitarTab = await fetchGuitarTab(songName, artist);
+        res.json({ guitarTab });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while fetching guitar tab data' });
+    }
+});
 
 app.listen(3000, function () {
     console.log('App is listening on port 3000!');
-  });
+});
+
+async function fetchGuitarTab(songName, artist) {
+    try {
+        const response = await axios.get(`https://www.songsterr.com/a/wa/search?pattern=${songName}+${artist}`);
+        const $ = cheerio.load(response.data);
+
+        
+        const guitarTab = $('.guitar-tab-class').text();
+
+        return guitarTab;
+    } catch (error) {
+        console.error('Error fetching guitar tab:', error);
+        return null;
+    }
+}
