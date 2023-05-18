@@ -1,6 +1,8 @@
 const express = require("express");
 const session = require("express-session");
 const path = require('path');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 const app = express();
 
@@ -16,23 +18,23 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/main.html', function (req, res) {
+app.get('/main', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/main.html'));
 });
 
-app.get('/settings.html', function (req, res) {
+app.get('/settings', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/settings.html'));
 });
 
-app.get('/userProfile.html', function (req, res) {
+app.get('/userProfile', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userProfile.html'));
 });
 
-app.get('/questions.html', function (req, res) {
+app.get('/questions', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/questions.html'));
 });
 
-app.get('/login.html', function (req, res) {
+app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
@@ -40,6 +42,35 @@ app.get('/practiceRoom.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
 });
 
+app.get('/userskill', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
+});
+
+// app.get('/api/guitar-tabs', async (req, res) => {
+//     const { songName, artist } = req.query;
+
+//     try {
+//         const guitarTab = await fetchGuitarTab(songName, artist);
+//         res.json({ guitarTab });
+//     } catch (error) {
+//         res.status(500).json({ error: 'An error occurred while fetching guitar tab data' });
+//     }
+// });
+
 app.listen(3000, function () {
-    console.log('App is listening on port 3000!');
-  });
+});
+
+// async function fetchGuitarTab(songName, artist) {
+//     try {
+//         const response = await axios.get(`https://www.songsterr.com/a/wa/search?pattern=${songName}+${artist}`);
+//         const $ = cheerio.load(response.data);
+
+        
+//         const guitarTab = $('.guitar-tab-class').text();
+
+//         return guitarTab;
+//     } catch (error) {
+//         console.error('Error fetching guitar tab:', error);
+//         return null;
+//     }
+// }
