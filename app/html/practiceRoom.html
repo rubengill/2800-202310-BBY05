@@ -45,7 +45,15 @@
 
         <!-- Song script -->
         <script>
+            const FIRST_TASK = 1;
+            const LAST_TASK = 5;
+
             var currentTask = 1;
+            var myContainer = "frmTask" + currentTask;
+
+            function updateMyContainer() {
+                myContainer = "frmTask" + currentTask;
+            }
         </script>
         <script src="/scripts/btnsToPractice.js"></script>
         <script src="/scripts/getRanSong.js"></script>
@@ -66,42 +74,26 @@
 
         <div class="card-body text-center" id="cardTask2">
             <form id="frmTask2" action="practiceTask2">
-                <button
-                    class="btn btn-success mt-3 col-4 offset-4"
-                    style="height: 65px"
-                >
-                    Task 2
-                </button>
+                <div class="topSection">Task 2 |prev| |skip| |next|</div>
+                <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
         <div class="card-body text-center" id="cardTask3">
             <form id="frmTask3" action="practiceTask3">
-                <button
-                    class="btn btn-success mt-3 col-4 offset-4"
-                    style="height: 65px"
-                >
-                    Task 2
-                </button>
+                <div class="topSection">Task 3 |prev| |skip| |next|</div>
+                <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
         <div class="card-body text-center" id="cardTask4">
             <form id="frmTask4" action="practiceTask4">
-                <button
-                    class="btn btn-success mt-3 col-4 offset-4"
-                    style="height: 65px"
-                >
-                    Task 2
-                </button>
+                <div class="topSection">Task 4 |prev| |skip| |next|</div>
+                <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
         <div class="card-body text-center" id="cardTask5">
             <form id="frmTask5" action="practiceTask5">
-                <button
-                    class="btn btn-success mt-3 col-4 offset-4"
-                    style="height: 65px"
-                >
-                    Task 2
-                </button>
+                <div class="topSection">Task 5 |prev| |skip| |next|</div>
+                <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
 
