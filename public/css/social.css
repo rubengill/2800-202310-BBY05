@@ -1,5 +1,9 @@
 /* social.css */
 
+* {
+  overflow: auto;
+}
+
 /* Add styles for the card container */
 .container {
   display: flex;
