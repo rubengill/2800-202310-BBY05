@@ -29,3 +29,40 @@
 //         .catch((error) => console.error("Error writing document: ", error));
 //     });
 //   }
+
+// async function addRandomField() {
+//     // Get all song documents
+//     const songDocs = await firebase.firestore().collection('database').get();
+
+//     // Initialize a batch
+//     let batch = firebase.firestore().batch();
+//     let count = 0;
+
+//     // Iterate over each song document
+//     for (const doc of songDocs.docs) {
+//         // For each song, add a 'Random' field with a random number
+//         const songRef = firebase.firestore().collection('database').doc(doc.id);
+//         batch.update(songRef, { 'Random': Math.random() });
+
+//         count++;
+
+//         // If count reaches 500, commit the batch and start a new one
+//         if (count === 500) {
+//             await batch.commit();
+//             batch = firebase.firestore().batch();
+//             count = 0;
+//         }
+//     }
+
+//     // Commit any remaining operations in the current batch
+//     if (count > 0) {
+//         await batch.commit();
+//     }
+// }
+
+// // Call the function
+// addRandomField().then(() => {
+//     console.log('Random field added to all songs.');
+// }).catch((error) => {
+//     console.error('Error adding random field: ', error);
+// });
