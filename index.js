@@ -42,6 +42,14 @@ app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
+app.get('/addFriend', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/addFriend.html'));
+});
+
+app.get('/social', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/social.html'));
+});
+
 // async function fetchGuitarTab(songName, artist) {
 //     console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
 
@@ -79,7 +87,6 @@ app.get('/userskill', function (req, res) {
 // }
 
 app.listen(3000, function () {
-    console.log('App is listening on port 3000!');
 });
 
 // app.get('/api/guitar-tabs', async (req, res) => {
