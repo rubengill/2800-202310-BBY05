@@ -41,52 +41,52 @@ async function getRandomSongs(uid) {
     const songsCollection = db.collection('users').doc(uid).collection('songs');
     const songsSnapshot = await songsCollection.get();
 
+    let songs = [];
     if (!songsSnapshot.empty) {
         // The user already has songs, so log them and return them
-        let songs = songsSnapshot.docs.map(doc => doc.data());
+        songs = songsSnapshot.docs.map(doc => doc.data());
         console.log('Existing songs:', songs);
-        return songs;
-    }
+    } else {
+        // The user doesn't have any songs yet, so generate some
+        const NUM_SONGS = 5;
+        for (let i = 0; i < NUM_SONGS; i++) {
+            const random = Math.random();
+            try {
+                const songDoc = await db.collection('database')
+                    .where('Difficulty', '==', skillLevel)
+                    .where('Random', '>=', random)
+                    .orderBy('Random')
+                    .limit(1)
+                    .get();
 
-    // The user doesn't have any songs yet, so generate some
-    const NUM_SONGS = 5;
-    let songs = [];
-    for (let i = 0; i < NUM_SONGS; i++) {
-        const random = Math.random();
-        try {
-            const songDoc = await db.collection('database')
-                .where('Difficulty', '==', skillLevel)
-                .where('Random', '>=', random)
-                .orderBy('Random')
-                .limit(1)
-                .get();
+                console.log('songDoc:', songDoc); // Log the song document
 
-            console.log('songDoc:', songDoc); // Log the song document
+                if (!songDoc.empty) {
+                    const songData = songDoc.docs[0].data();
+                    console.log('songData:', songData); // Log the song data
 
-            if (!songDoc.empty) {
-                const songData = songDoc.docs[0].data();
-                console.log('songData:', songData); // Log the song data
+                    // Fetch the guitar tab
+                    const guitarTab = await fetchGuitarTab(songData["Song Name"], songData["Artist"]);
+                    console.log('Fetched guitar tab:', guitarTab);
 
-                // Add Song Name, Artist and Difficulty to songs array
-                songs.push({
-                    "Song Name": songData["Song Name"],
-                    "Artist": songData["Artist"],
-                    "Difficulty": songData["Difficulty"]
-                });
+                    // Add Song Name, Artist, Difficulty, and Guitar Tab to songs array
+                    songs.push({
+                        "Song Name": songData["Song Name"],
+                        "Artist": songData["Artist"],
+                        "Difficulty": songData["Difficulty"],
+                        "Guitar Tab": guitarTab
+                    });
 
-                // Fetch the guitar tab
-                const guitarTab = await fetchGuitarTab(songData["Song Name"], songData["Artist"]);
-                console.log('Fetched guitar tab:', guitarTab);
-
-                // Add the song to the user's songs subcollection
-                // Use the song's ID as the document ID
-                await songsCollection.doc(songData["Song Name"]).set({
-                    ...songData,
-                    "Guitar Tab": guitarTab
-                });
+                    // Add the song to the user's songs subcollection
+                    // Use the song's ID as the document ID
+                    await songsCollection.doc(songData["Song Name"]).set({
+                        ...songData,
+                        "Guitar Tab": guitarTab
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching song:', error); // Log any errors
             }
-        } catch (error) {
-            console.error('Error fetching song:', error); // Log any errors
         }
     }
 
@@ -94,42 +94,41 @@ async function getRandomSongs(uid) {
     return songs;
 }
 
+// async function fetchGuitarTab(songName, artist) {
+//     console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
 
-async function fetchGuitarTab(songName, artist) {
-    console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
+//     try {
+//         const songNameFormatted = songName.toLowerCase().replace(/ /g, '-');
+//         const artistFormatted = artist.toLowerCase().replace(/ /g, '-');
+//         console.log('Formatted songName:', songNameFormatted, 'and artist:', artistFormatted);
 
-    try {
-        const songNameFormatted = songName.toLowerCase().replace(/ /g, '-');
-        const artistFormatted = artist.toLowerCase().replace(/ /g, '-');
-        console.log('Formatted songName:', songNameFormatted, 'and artist:', artistFormatted);
+//         const url = `https://www.songsterr.com/a/wsa/${artistFormatted}-${songNameFormatted}-tab-s`;
+//         console.log('Fetching data from URL:', url);
 
-        const url = `https://www.songsterr.com/a/wsa/${artistFormatted}-${songNameFormatted}-tab-s`;
-        console.log('Fetching data from URL:', url);
+//         const response = await axios.get(url);
+//         console.log('Received response from Songsterr API:', response);
 
-        const response = await axios.get(url);
-        console.log('Received response from Songsterr API:', response);
+//         const $ = cheerio.load(response.data);
+//         console.log('Loaded HTML data into Cheerio');
 
-        const $ = cheerio.load(response.data);
-        console.log('Loaded HTML data into Cheerio');
+//         const lines = $('[data-line]');
+//         console.log('Found', lines.length, 'lines of guitar tab');
 
-        const lines = $('[data-line]');
-        console.log('Found', lines.length, 'lines of guitar tab');
+//         const randomLineIndex = Math.floor(Math.random() * lines.length);
+//         console.log('Selected random line index:', randomLineIndex);
 
-        const randomLineIndex = Math.floor(Math.random() * lines.length);
-        console.log('Selected random line index:', randomLineIndex);
+//         const randomLine = lines[randomLineIndex];
+//         console.log('Selected line:', randomLine);
 
-        const randomLine = lines[randomLineIndex];
-        console.log('Selected line:', randomLine);
+//         const guitarTab = $(randomLine).html();
+//         console.log('Extracted guitar tab:', guitarTab);
 
-        const guitarTab = $(randomLine).html();
-        console.log('Extracted guitar tab:', guitarTab);
-
-        return guitarTab;
-    } catch (error) {
-        console.error('Error fetching guitar tab:', error);
-        return null;
-    }
-}
+//         return guitarTab;
+//     } catch (error) {
+//         console.error('Error fetching guitar tab:', error);
+//         return null;
+//     }
+// }
 
 //Test to see if it correctly pulls songs by logging it to the console
 // getRandomSongs().then(songs => {

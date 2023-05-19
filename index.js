@@ -42,6 +42,46 @@ app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
 
+async function fetchGuitarTab(songName, artist) {
+    console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
+
+    try {
+        const songNameFormatted = songName.toLowerCase().replace(/ /g, '-');
+        const artistFormatted = artist.toLowerCase().replace(/ /g, '-');
+        console.log('Formatted songName:', songNameFormatted, 'and artist:', artistFormatted);
+
+        const url = `https://www.songsterr.com/a/wsa/${artistFormatted}-${songNameFormatted}-tab-s`;
+        console.log('Fetching data from URL:', url);
+
+        const response = await axios.get(url);
+        console.log('Received response from Songsterr API:', response);
+
+        const $ = cheerio.load(response.data);
+        console.log('Loaded HTML data into Cheerio');
+
+        const lines = $('[data-line]');
+        console.log('Found', lines.length, 'lines of guitar tab');
+
+        const randomLineIndex = Math.floor(Math.random() * lines.length);
+        console.log('Selected random line index:', randomLineIndex);
+
+        const randomLine = lines[randomLineIndex];
+        console.log('Selected line:', randomLine);
+
+        const guitarTab = $(randomLine).html();
+        console.log('Extracted guitar tab:', guitarTab);
+
+        return guitarTab;
+    } catch (error) {
+        console.error('Error fetching guitar tab:', error);
+        return null;
+    }
+}
+
+app.listen(3000, function () {
+    console.log('App is listening on port 3000!');
+});
+
 // app.get('/api/guitar-tabs', async (req, res) => {
 //     const { songName, artist } = req.query;
 
@@ -52,8 +92,3 @@ app.get('/userskill', function (req, res) {
 //         res.status(500).json({ error: 'An error occurred while fetching guitar tab data' });
 //     }
 // });
-
-app.listen(3000, function () {
-    console.log('App is listening on port 3000!');
-});
-
