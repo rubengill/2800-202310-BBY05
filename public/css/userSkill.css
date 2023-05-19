@@ -1,0 +1,26 @@
+* {
+    text-align: center;
+    
+}
+
+.continue {
+    font-size: 22px;
+    width: 200px;
+    background: rgba(20, 135, 54, 0.585);
+    border-radius: 20px;
+}
+
+.continue:hover {
+    transform: scale(1.1);
+    transition: all 0.75s;
+    box-shadow: 0 0 1em black;
+}
+
+#skill {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 20px;
+}
