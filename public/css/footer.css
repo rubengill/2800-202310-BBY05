@@ -1,4 +1,16 @@
 /**
+header
+**/
+.navbar {
+  background-image: linear-gradient(rgba(19, 100, 43, 0.785), rgb(255, 255, 255));
+}
+
+.logo {
+  zoom: 200%;
+  border-radius: 50%;
+}
+
+/**
 footer
 **/
 .svg {
@@ -100,6 +112,17 @@ Neon button css
     opacity: 1;
   } */
 
+ /**
+ navbar profile icon
+ 
+ .bg-custom-1 {
+  background-color: #85144b;
+}
+
+.bg-custom-2 {
+background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+}
+**/
 
 /**
   Regular button
@@ -111,12 +134,12 @@ Neon button css
   /* margin: 20px 10px; */
   border-radius: 5px;
   font-weight: bold;
-  border: 2px rgb(24, 94, 56) solid;
+  border: 2px rgb(24, 94, 56) solid black;
   background: mediumseagreen;
   cursor: pointer;
 }
 
 .button:hover {
   transition: all 0.5s;
-  box-shadow: 0 0 1em;
+  box-shadow: 0 0 1em black;
 }

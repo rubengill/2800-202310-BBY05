@@ -33,7 +33,7 @@ body {
 }
 
 button {
-    width: 200px;
+    width: 180px;
     padding: 15px 0;
     text-align: center;
     margin: 20px 10px;
@@ -42,11 +42,14 @@ button {
     border: 2px rgb(24, 94, 56) solid;
     background: mediumseagreen;
     cursor: pointer;
+    opacity: 80%;
 }
 
 button:hover {
-    transition: all 1s;
+    opacity: 100%;
+    transition: all 0.75s;
     box-shadow: 0 0 4em black;
+    transform: scale(1.1);
 }
 
 
