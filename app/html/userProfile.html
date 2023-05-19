@@ -50,27 +50,22 @@
 </head>
 
 <body>
-  <nav id="navbarPlaceholder"></nav>
-
-  <div class="container">
-    <div id="page-content">
-      <div class="container py-5">
-        <div class="row">
-          <div class="col-lg-6 offset-lg-3">
-            <h1 class="mb-4">User Profile</h1>
-            <div class="card mb-2">
-              <div class="card-body text-center">
-                <div class="form-group">
-                  <div id="profile-container">
-                    <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
-                    <img id="mypic-goes-here" src="/img/profileplaceholder.png" class="profile-picture"
-                      alt="Profile Picture">
-                    <hr>
-                    <div class="form-group py-3">
-                      <input id="fileInput" type="file" accept="image/*" class="form-control-file">
-                      <button type="button" class="btn btn-primary mt-3" onclick="saveUserPic()">Save</button>
-                    </div>
-                  </div>
+  <div id="page-content">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <h1 class="mb-4">User Profile</h1>
+        <div id="message" class="alert alert-success" style="display: none;"></div>
+        <div class="card mb-2">
+          <div class="card-body text-center">
+            <div class="form-group">
+              <div id="profile-container">
+                <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
+                <img id="mypic-goes-here" src="./images/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
+                <hr>
+                <div class="form-group py-3">
+                  <input id="fileInput" type="file" accept="image/*" class="form-control-file">
+                  <button type="button" class="btn btn-primary mt-3" onclick="saveUserPic()">Save</button>
                 </div>
               </div>
             </div>

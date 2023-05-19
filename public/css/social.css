@@ -1,0 +1,42 @@
+/* social.css */
+
+/* Add styles for the card container */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Add styles for the card */
+.card {
+  max-width: 18rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Add styles for the card body */
+.card-body {
+  padding: 1.25rem;
+  background-color: #f8f8f8;
+}
+
+/* Add styles for the card title */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Add styles for the card subtitle */
+.card-subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Add styles for the card text */
+.card-text {
+  margin-top: 1rem;
+  font-size: 1rem;
+}

@@ -13,9 +13,9 @@ app.use('/img', express.static(path.join(__dirname, 'public/img')));
 app.use('/template', express.static(path.join(__dirname, 'template')));
 app.use('/data', express.static(path.join(__dirname, 'app/data')));
 
-// Serve login.html
+// Serve index.html
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/login.html'));
+    res.sendFile(path.join(__dirname, 'app/html/index.html'));
 });
 
 app.get('/main', function (req, res) {
@@ -40,6 +40,14 @@ app.get('/login', function (req, res) {
 
 app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
+});
+
+app.get('/addFriend', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/addFriend.html'));
+});
+
+app.get('/social', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/social.html'));
 });
 
 // async function fetchGuitarTab(songName, artist) {
@@ -79,7 +87,6 @@ app.get('/userskill', function (req, res) {
 // }
 
 app.listen(3000, function () {
-    console.log('App is listening on port 3000!');
 });
 
 // app.get('/api/guitar-tabs', async (req, res) => {
