@@ -13,9 +13,9 @@ app.use('/img', express.static(path.join(__dirname, 'public/img')));
 app.use('/template', express.static(path.join(__dirname, 'template')));
 app.use('/data', express.static(path.join(__dirname, 'app/data')));
 
-// Serve login.html
+// Serve index.html
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/login.html'));
+    res.sendFile(path.join(__dirname, 'app/html/index.html'));
 });
 
 app.get('/main', function (req, res) {
