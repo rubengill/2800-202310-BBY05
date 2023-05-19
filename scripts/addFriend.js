@@ -104,47 +104,66 @@ function addFriendToFirestore(friendData, userId, streakData, successCallback, e
     });
   }
   
-  // Process a Firestore user document, create a friend card, set up the "Add Friend" button,
-  // and add the friend card to the search results section of the page
-  function processUserDocument(doc, emailHtml, userId) {
-    // Extract user data from the Firestore document
-    var userData = doc.data();
-  
-    // Create a new user card element using the email card template and user data
-    var userCard = createEmailCard(userData);
-  
-    // Set user card content
-    userCard.querySelector('.card-title').textContent = userData.name;
-    userCard.querySelector('.card-subtitle').textContent = userData.email;
-    userCard.querySelector('.card-text').textContent = 'Favorite Genre: ' + userData.favoriteGenre;
-  
-    // Set profile picture if available
-    if (userData.profilePic) {
-      userCard.querySelector('.card-img-top').setAttribute('src', userData.profilePic);
-    }
-  
-    // Get the "Add Friend" button element within the user card
-    var addFriendButton = userCard.querySelector('.add-friend-button');
-  
-    // Create a friend data object with the friend's email address, name, favorite genre, and profile picture
-    var friendData = {
-      email: userData.email,
-      name: userData.name,
-      favoriteGenre: userData.favoriteGenre,
-      profilePic: userData.profilePic || '', // Use an empty string as default if profilePic is undefined
-    };
-  
-    // Create a streak data object with the friend's streak count
-    var streakData = {
-      count: userData.streak ? userData.streak.count : 0 // Set the initial streak count to 0 if it doesn't exist
-    };
-  
-    // Set up the "Add Friend" button with the friend data, current user ID, and streak data
-    setupAddFriendButton(addFriendButton, friendData, userId, streakData);
-  
-    // Add the newly created user card to the search results section of the page
-    addEmailCardToResults(userCard);
+// Process a Firestore user document, create a friend card, set up the "Add Friend" button,
+// and add the friend card to the search results section of the page
+function processUserDocument(doc, emailHtml, userId) {
+  // Extract user data from the Firestore document
+  var userData = doc.data();
+
+  // Create a new user card element using the email card template and user data
+  var userCard = createEmailCard(userData);
+
+  // Set user card content
+  userCard.querySelector('.card-title').textContent = userData.name;
+  userCard.querySelector('.card-subtitle').textContent = userData.email;
+  userCard.querySelector('.card-text').textContent = userData.favoriteGenre
+    ? 'Favorite Genre: ' + userData.favoriteGenre
+    : 'Favorite Genre: Not specified'; // Display a default value if favoriteGenre is missing or undefined
+
+  // Set profile picture if available
+  if (userData.profilePic) {
+    userCard.querySelector('.card-img-top').setAttribute('src', userData.profilePic);
   }
+
+  // Get the "Add Friend" button element within the user card
+  var addFriendButton = userCard.querySelector('.add-friend-button');
+
+  // Create a friend data object with the friend's email address, name, and profile picture
+  var friendData = {
+    email: userData.email,
+    name: userData.name,
+    profilePic: userData.profilePic || '', // Use an empty string as default if profilePic is undefined
+  };
+
+  // Get the streak count from the subcollection
+  var streakRef = db.collection('users').doc(userId).collection('streak').doc('streak');
+  streakRef.get().then(function (snapshot) {
+    if (snapshot.exists) {
+      // The streak document exists, retrieve the count
+      var streakData = {
+        count: snapshot.data().count,
+      };
+
+      // Set up the "Add Friend" button with the friend data, current user ID, and streak data
+      setupAddFriendButton(addFriendButton, friendData, userId, streakData);
+    } else {
+      // The streak document doesn't exist, set the count to 0
+      var streakData = {
+        count: 0,
+      };
+
+      // Set up the "Add Friend" button with the friend data, current user ID, and streak data
+      setupAddFriendButton(addFriendButton, friendData, userId, streakData);
+    }
+  }).catch(function (error) {
+    console.error('Error getting streak data:', error);
+  });
+
+  // Add the newly created user card to the search results section of the page
+  addEmailCardToResults(userCard);
+}
+
+
   
 // Searches Firestore to check if friend is added, if not add them
 function addFriends(event) {
@@ -160,28 +179,40 @@ function addFriends(event) {
   // Get the current user's Firestore document ID
   var currentUserId = firebase.auth().currentUser.uid;
 
-  // Search Firestore for users with email addresses containing the search query
-  db.collection('users')
-    .where('email', '>=', searchQuery.toLowerCase())
-    .where('email', '<=', searchQuery.toLowerCase() + '\uf8ff')
-    .get()
-    .then(function (querySnapshot) {
-      // Loop through the Firestore documents with matching email addresses
-      querySnapshot.forEach(function (doc) {
-        // Exclude the current user's document from the search results
-        if (doc.id !== currentUserId) {
-          // Process each user document and create a friend card
-          processUserDocument(doc, createEmailCard(doc.data()), currentUserId);
-        }
-      });
+// Search Firestore for users with email addresses containing the search query
+db.collection('users')
+  .where('email', '>=', searchQuery.toLowerCase())
+  .where('email', '<=', searchQuery.toLowerCase() + '\uf8ff')
+  .get()
+  .then(function (querySnapshot) {
+    // Loop through the Firestore documents with matching email addresses
+    querySnapshot.forEach(function (doc) {
+      // Exclude the current user's document from the search results
+      if (doc.id !== currentUserId) {
+        // Process each user document and create a friend card
+        var userData = doc.data();
+        var friendData = {
+          email: userData.email,
+          name: userData.name,
+          profilePic: userData.profilePic || '',
+        };
 
-      // Handle the case where no users match the search query
-      if (querySnapshot.empty) {
-        var noResultsMessage = document.createElement('p');
-        noResultsMessage.textContent = 'No users found';
-        document.getElementById('search-results').appendChild(noResultsMessage);
+        var streakData = {
+          count: userData.streak ? userData.streak.count : 0,
+        };
+
+        processUserDocument(doc, createEmailCard(userData), currentUserId, friendData, streakData);
       }
     });
+
+    // Handle the case where no users match the search query
+    if (querySnapshot.empty) {
+      var noResultsMessage = document.createElement('p');
+      noResultsMessage.textContent = 'No users found';
+      document.getElementById('search-results').appendChild(noResultsMessage);
+    }
+  });
+
 }
 
   
