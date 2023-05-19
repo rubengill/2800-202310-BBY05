@@ -23,12 +23,12 @@
 
 #question-container {
     padding: 20px 0;
+    text-align: left;
 }
 
 .question-text h2 {
     font-size: 6px;
     font-weight: 300;
-    text-align: center;
 }
 
 #choices-container {
@@ -41,8 +41,19 @@
 }
 
 #next-question {
-    width: 100px;
+    width: 150px;
     border-radius: 10px;
     /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
     display: none;
+}
+
+button {
+    /* background-color: red; */
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    padding: 6px;
+    /* width: 80px; */
+    text-align: left;
 }
