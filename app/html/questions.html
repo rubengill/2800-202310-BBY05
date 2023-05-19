@@ -35,17 +35,20 @@
     <script src="/scripts/SkillAssessment.js"></script>
 
     <!-- Link to styles of your own -->
-    <!-- <link rel="stylesheet" href="./styles/style.css"> -->
+    <link rel="stylesheet" href="/css/questions.css">
 </head>
 
 <body>
     <nav id="navbarPlaceholder"></nav>
 
-    <div id="question-container">
-        <h2 id="question-text"></h2>
-        <div id="choices-container"></div>
+    <div class="app">
+        <h1>Skill Assessment</h1>
+        <div id="question-container">
+            <h2 id="question-text"></h2>
+            <button id="choices-container"></button>
+        </div>
+        <button id="next-question">Next Question</button>
     </div>
-    <button id="next-question" style="display: none;">Next Question</button>
 
     <nav id="footerPlaceholder"></nav>
 </body>
