@@ -14,8 +14,8 @@ header
 footer
 **/
 .svg {
-  margin-right: 3em;
-  margin-left: 3em;
+  margin-right: 3rem;
+  margin-left: 3rem;
   zoom: 80%;
   max-width: 60px;
 }
@@ -137,11 +137,12 @@ background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
   border-radius: 20px;
   font-weight: bold;
   border: 2px mediumseagreen solid black;
-  /* background: mediumseagreen; */
+  background: whitesmoke;
   cursor: pointer;
 }
 
 .button:hover {
   transition: all 0.5s;
   box-shadow: 0 0 1em black;
+  transform: scale(1.1);
 }
