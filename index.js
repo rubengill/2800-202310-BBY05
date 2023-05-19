@@ -4,6 +4,8 @@ const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+const port = 3000;
+
 const app = express();
 
 //Creating remote paths, for our static files
@@ -38,7 +40,7 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/practiceRoom.html', function (req, res) {
+app.get('/practiceRoom', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
 });
 
@@ -91,6 +93,7 @@ app.get('/social', function (req, res) {
 // }
 
 app.listen(3000, function () {
+    console.log("Node application listening on port " + port);
 });
 
 // async function fetchGuitarTab(songName, artist) {
