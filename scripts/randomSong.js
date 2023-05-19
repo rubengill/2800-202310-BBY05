@@ -19,6 +19,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
 });
 
+
 async function getRandomSongs(uid) {
     console.log('getRandomSongs uid:', uid); // Log the uid at the start of the function
 
@@ -41,56 +42,48 @@ async function getRandomSongs(uid) {
     const songsCollection = db.collection('users').doc(uid).collection('songs');
     const songsSnapshot = await songsCollection.get();
 
-    let songs = [];
     if (!songsSnapshot.empty) {
         // The user already has songs, so log them and return them
-        songs = songsSnapshot.docs.map(doc => doc.data());
+        let songs = songsSnapshot.docs.map(doc => doc.data());
         console.log('Existing songs:', songs);
-    } else {
-        // The user doesn't have any songs yet, so generate some
-        const NUM_SONGS = 5;
-        for (let i = 0; i < NUM_SONGS; i++) {
-            const random = Math.random();
-            try {
-                const songDoc = await db.collection('database')
-                    .where('Difficulty', '==', skillLevel)
-                    .where('Random', '>=', random)
-                    .orderBy('Random')
-                    .limit(1)
-                    .get();
+        return songs;
+    }
 
-                console.log('songDoc:', songDoc); // Log the song document
+    // The user doesn't have any songs yet, so generate some
+    const NUM_SONGS = 5;
+    let songs = [];
+    for (let i = 0; i < NUM_SONGS; i++) {
+        const random = Math.random();
+        try {
+            const songDoc = await db.collection('database')
+                .where('Difficulty', '==', skillLevel)
+                .where('Random', '>=', random)
+                .orderBy('Random')
+                .limit(1)
+                .get();
 
-                if (!songDoc.empty) {
-                    const songData = songDoc.docs[0].data();
-                    console.log('songData:', songData); // Log the song data
+            console.log('songDoc:', songDoc); // Log the song document
 
-                    // Fetch the guitar tab
-                    const guitarTab = await fetchGuitarTab(songData["Song Name"], songData["Artist"]);
-                    console.log('Fetched guitar tab:', guitarTab);
+            if (!songDoc.empty) {
+                const songData = songDoc.docs[0].data();
+                console.log('songData:', songData); // Log the song data
 
-                    // Add Song Name, Artist, Difficulty, and Guitar Tab to songs array
-                    songs.push({
-                        "Song Name": songData["Song Name"],
-                        "Artist": songData["Artist"],
-                        "Difficulty": songData["Difficulty"],
-                        "Guitar Tab": guitarTab
-                    });
+                // Add Song Name, Artist and Difficulty to songs array
+                songs.push({
+                    "Song Name": songData["Song Name"],
+                    "Artist": songData["Artist"],
+                    "Difficulty": songData["Difficulty"]
+                });
 
-                    // Add the song to the user's songs subcollection
-                    // Use the song's ID as the document ID
-                    await songsCollection.doc(songData["Song Name"]).set({
-                        ...songData,
-                        "Guitar Tab": guitarTab
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching song:', error); // Log any errors
+                // Add the song to the user's songs subcollection
+                // Use the song's ID as the document ID
+                await songsCollection.doc(songData["Song Name"]).set(songData);
             }
+        } catch (error) {
+            console.error('Error fetching song:', error); // Log any errors
         }
     }
 
-    console.log('Returning songs:', songs);
     return songs;
 }
 
