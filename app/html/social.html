@@ -2,58 +2,54 @@
 <html lang="en">
 
 <head>
-    <title>Guitar Genius</title>
+    <title>Social</title>
     <meta name="Guitar Genius" content="My 2800 App" />
-
-    <!-- Required meta tags -->
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap Library CSS CDN go here -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
+
+    <!-- Add the link for the social.css file here -->
+    <link rel="stylesheet" href="/public/css/social.css">
+
+    <!-- Boostrap Library JS CDN  go here -->
 
 
-    <!-- Other libraries go here -->
+    <!-- Firebase Scripts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
 
-    <!-- Scripts -->
+    <!--Firebase key script-->
     <script src="/scripts/firebaseAPI_BBY5.js"></script>
+    <script src="/scripts/social.js"></script>
     <script src="/scripts/skeleton.js"></script>
+    <script src="/scripts/authentication.js"></script>
     <script src="/scripts/session.js"></script>
-    <script src="/scripts/questionBlock.js"></script>
-    
-    
 
-    <!-- Link to styles of your own -->
-    <link rel="stylesheet" href="/css/questions.css">
+    <script>
+    window.addEventListener("load", function () {
+        updateFriendInformation();
+      });
+    </script>
+
 </head>
 
 <body>
     <nav id="navbarPlaceholder"></nav>
-
-    <div class="app">
-        <h1>Skill Assessment</h1>
-        <div id="question-container">
-            <h2 id="question-text"></h2>
-            <button id="choices-container"></button>
-        </div>
-        <button id="next-question">Next Question</button>
+    <div class ="mx-auto text-center"><h1>My Friends</h1></div>
+    <div class="container">
+      <div id="current-friends" class="row"></div>
     </div>
-
     <nav id="footerPlaceholder"></nav>
-</body>
+  </body>  
 
 </html>
-<script src="/scripts/skillAssessment.js"></script>
