@@ -38,6 +38,10 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
+app.get('/practiceRoom.html', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
+});
+
 app.get('/userskill', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
 });
@@ -89,13 +93,17 @@ app.get('/social', function (req, res) {
 app.listen(3000, function () {
 });
 
-// app.get('/api/guitar-tabs', async (req, res) => {
-//     const { songName, artist } = req.query;
-
+// async function fetchGuitarTab(songName, artist) {
 //     try {
-//         const guitarTab = await fetchGuitarTab(songName, artist);
-//         res.json({ guitarTab });
+//         const response = await axios.get(`https://www.songsterr.com/a/wa/search?pattern=${songName}+${artist}`);
+//         const $ = cheerio.load(response.data);
+
+        
+//         const guitarTab = $('.guitar-tab-class').text();
+
+//         return guitarTab;
 //     } catch (error) {
-//         res.status(500).json({ error: 'An error occurred while fetching guitar tab data' });
+//         console.error('Error fetching guitar tab:', error);
+//         return null;
 //     }
-// });
+// }
