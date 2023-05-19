@@ -5,5 +5,6 @@ firebase.auth().onAuthStateChanged(function(user) {
   } else {
     // No user is signed in, redirect to the login page
     window.location.href = "/login";
+    alert("Please Login to access content again! Redirecting...");
   }
 });
