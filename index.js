@@ -45,7 +45,7 @@ app.get('/practiceRoom', function (req, res) {
 });
 
 app.get('/userskill', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/userskill.html'));
+    res.sendFile(path.join(__dirname, 'app/html/userSkill.html'));
 });
 
 app.get('/addFriend', function (req, res) {
