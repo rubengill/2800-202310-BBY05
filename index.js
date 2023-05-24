@@ -4,6 +4,7 @@ const session = require("express-session");
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 const port = 3000;
 
@@ -60,25 +61,28 @@ app.get('/social', function (req, res) {
 async function fetchGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
 
-    let response;
-    try {
-        response = await axios.get(url);
-    } catch (error) {
-        console.error('Error fetching song:', error);
-        return null;
-    }
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
 
-    const $ = cheerio.load(response.data);
-    console.log($.html());
+    await page.goto(url, {waitUntil: 'networkidle2'});
 
-    const dataLines = $('div[data-line]');
+    // Get page content as HTML
+    const content = await page.content();
+
+    await browser.close();
+
+    const $ = cheerio.load(content);
+    
+    // Select divs with class D2820n and data-line attribute
+    const dataLines = $('div.D2820n[data-line]');
+    console.log(dataLines.length);
     if (!dataLines.length) {
         console.log('Found 0 lines of guitar tab');
         return null;
     }
 
-    const randomDataLine = dataLines[Math.floor(Math.random() * dataLines.length)];
-    const svgElements = $(randomDataLine).find('svg');
+    const randomDataLine = dataLines.eq(Math.floor(Math.random() * dataLines.length));
+    const svgElements = randomDataLine.find('svg');
 
     if (!svgElements.length) {
         console.log('Found 0 SVG elements in selected line');
@@ -88,7 +92,11 @@ async function fetchGuitarTab(songName, artist) {
     console.log('Loaded HTML data into Cheerio');
     console.log(`Found ${dataLines.length} lines of guitar tab`);
     console.log(`Selected random line index: ${randomDataLine}`);
-    console.log(`Extracted SVG elements: ${svgElements}`);
+    svgElements.each(function(i, elem) {
+        console.log(`SVG element ${i}:`, $.html(elem));
+    });
+    
+
 
     // Return SVG elements HTML
     let svgHtml = '';
@@ -97,6 +105,7 @@ async function fetchGuitarTab(songName, artist) {
     });
     return svgHtml;
 }
+
 
 
 //Get request to fetch guitar tabs 
