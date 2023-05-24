@@ -58,6 +58,13 @@ app.get('/social', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/social.html'));
 });
 
+// Helper function to introduce delay
+function delay(time) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, time)
+    });
+}
+
 async function fetchGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
 
@@ -65,6 +72,9 @@ async function fetchGuitarTab(songName, artist) {
     const page = await browser.newPage();
     
     await page.goto(url, {waitUntil: 'networkidle2'});
+
+    // Add delay
+    await delay(1000); // waits for 1 second
 
     // Select divs with class D2820n and data-line attribute
     const dataLines = await page.$$('div.D2820n[data-line]');
@@ -75,7 +85,12 @@ async function fetchGuitarTab(songName, artist) {
     }
 
     const randomDataLine = dataLines[Math.floor(Math.random() * dataLines.length)];
+    const randomDataLineHtml = await page.evaluate(el => el.outerHTML, randomDataLine);
+
     const svgElements = await randomDataLine.$$('svg');
+
+    // Add another delay
+    await delay(1000); // waits for 1 second
 
     if (!svgElements.length) {
         console.log('Found 0 SVG elements in selected line');
@@ -84,7 +99,7 @@ async function fetchGuitarTab(songName, artist) {
 
     console.log('Loaded HTML data into Puppeteer');
     console.log(`Found ${dataLines.length} lines of guitar tab`);
-    console.log(`Selected random line index: ${randomDataLine}`);
+    console.log(`Selected random line outer HTML: ${randomDataLineHtml}`);
     
     // Iterate over each SVG element and log its HTML
     for (let i = 0; i < svgElements.length; i++) {
