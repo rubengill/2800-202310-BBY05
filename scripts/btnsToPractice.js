@@ -20,29 +20,25 @@ function previousTask(event) {
     updatePage();
 }
 
-async function skipTask(event) {
-    event.preventDefault();
-    
-    // Get the current user
-    const user = firebase.auth().currentUser;
-    if (user) {
-        const uid = user.uid;
-        
-        // Get the current song
-        const song = songs[currentTask - 1];  // Assumes 'songs' array is globally accessible
+async function skipSong(event) {
+    event.preventDefault(); //default is to refresh the page
 
-        // Delete the current song from Firestore
-        await db.collection('users').doc(uid).collection('songs').doc(song["Song Name"]).delete();
-        
-        // Get a new song and add it to Firestore
-        const newSongs = await getRandomSongs(uid);
-        songs = newSongs; // Update the 'songs' array
+    // Get the songs
+    let songs = songManager.getSongs();
 
-        // Update the display
-        updatePage();
-    } else {
-        console.log('No user is signed in.');
-    }
+    // Remove the current song
+    songs.splice(currentTask - 1, 1);
+
+    // Fetch a new song and add it to the array
+    await songManager.getRandomSongs(uid);
+    const newSongs = songManager.getSongs();
+    const newSong = newSongs[newSongs.length - 1]; // The last song is the new one
+
+    // Add the new song to the same position
+    songs.splice(currentTask - 1, 0, newSong);
+
+    // Update the page
+    updatePage();
 }
 
 function nextTask(event) {
@@ -57,10 +53,12 @@ function updatePage() {
     updateMyContainer();
     addButton();
 
+    let songs = songManager.getSongs();
     // Display the song for the current task
-    if (window.songs) {
-        displaySong(window.songs, currentTask);
-    }
+    displaySong(songs, currentTask);
+    // if (window.songs) {
+    //     displaySong(window.songs, currentTask);
+    // }
     currContainer = "cardTask" + currentTask;
     const container = document.getElementById(currContainer);
 
