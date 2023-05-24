@@ -10,28 +10,28 @@ firebase.auth().onAuthStateChanged(async (user) => {
                 const song = doc.data();
                 const songName = song['Song Name'];
                 const artist = song['Artist'];
-    
+
                 // Create a button for each song
                 const button = document.createElement("button");
                 button.innerHTML = "View Tab";
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     //Request tab endpoint on our serer, and the parameters are used in the fetchGuitar function
                     fetch(`/tab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
-                        .then(response => response.json())
+                        .then(response => response.text()) // Get the response as text
                         .then(data => {
-                            if (data && data.guitarTab) {
-                                newDiv.textContent = data.guitarTab;
+                            if (data) {
+                                newDiv.innerHTML = data; // Set the innerHTML to the SVG data
                             } else {
                                 newDiv.textContent = 'No tab available.';
                             }
                         })
                         .catch(error => console.error('Error:', error));
                 });
-    
+
                 // Add song name, artist and button to the div
                 newDiv.textContent = songName + ' by ' + artist;
                 newDiv.appendChild(button);
-    
+
                 // Append the div to the songList div in the page
                 document.getElementById('songList').appendChild(newDiv);
             });
