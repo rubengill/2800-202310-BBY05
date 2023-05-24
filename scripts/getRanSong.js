@@ -2,7 +2,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         // Get UID if user is signed in
         const uid = user.uid;
-        console.log(`uid ` + uid);
         // Call getRandomSongs on current user
         const songs = await getRandomSongs(uid);
 
@@ -25,6 +24,8 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 async function getRandomSongs(uid) {
     console.log("getRandomSongs uid:", uid); // Log the uid at the start of the function
+
+    let songs;
 
     // Fetch the user's data from Firestore
     let skillLevel;
@@ -52,60 +53,60 @@ async function getRandomSongs(uid) {
 
     if (!songsSnapshot.empty) {
         // The user already has songs, so log them and return them
-        let songs = songsSnapshot.docs.map((doc) => doc.data());
+        songs = songsSnapshot.docs.map((doc) => doc.data());
         console.log(`There are ${songs.length} existing songs:`, songs);
 
         if (!(songs.length == 5)) {
-            generateSongs(5 - songs.length);
+            await generateSongs(5 - songs.length);
         }
-        console.log('Gen. songs from getRandomSongs():', songs);
+        console.log('songs after getRandomSongs():', songs);
         return songs;
     }
 
-    generateSongs(5);
+    await generateSongs(5);
 
     async function generateSongs(n) {
         // The user doesn't have any songs yet, so generate some
         const NUM_SONGS = n;
-        let songs = [];
         for (let i = 0; i < NUM_SONGS; i++) {
-            const random = Math.random();
-            try {
-                const songDoc = await db
-                    .collection("database")
-                    .where("Difficulty", "==", skillLevel)
-                    .where("Random", ">=", random)
-                    .orderBy("Random")
-                    .limit(1)
-                    .get();
+            let songData;
+            let isDuplicate = true;
+            while (isDuplicate) {
+                const random = Math.random();
+                try {
+                    const songDoc = await db
+                        .collection("database")
+                        .where("Difficulty", "==", skillLevel)
+                        .where("Random", ">=", random)
+                        .orderBy("Random")
+                        .limit(1)
+                        .get();
 
-                console.log("songDoc:", songDoc); // Log the song document
-
-                if (!songDoc.empty) {
-                    const songData = songDoc.docs[0].data();
-                    console.log("songData:", songData); // Log the song data
-
-                    // Add Song Name, Artist and Difficulty to songs array
-                    songs.push({
-                        "Song Name": songData["Song Name"],
-                        Artist: songData["Artist"],
-                        Difficulty: songData["Difficulty"],
-                    });
-
-                    // Add the song to the user's songs subcollection
-                    // Use the song's ID as the document ID
-                    await songsCollection
-                        .doc(songData["Song Name"])
-                        .set(songData);
+                    if (!songDoc.empty) {
+                        songData = songDoc.docs[0].data();
+                        // Check if this song already exists in user's songs
+                        isDuplicate = songs.some(song => song["Song Name"] === songData["Song Name"]);
+                    }
+                } catch (error) {
+                    console.error("Error fetching song:", error); // Log any errors
+                    return;
                 }
-            } catch (error) {
-                console.error("Error fetching song:", error); // Log any errors
+            }
+            // If the song does not exist in user's songs, add it
+            if (songData) {
+                console.log("songData:", songData); // Log the song data
+
+                songs.push(songData);
+                // Add the song to the user's songs subcollection
+                // Use the song's ID as the document ID
+                await songsCollection.doc(songData["Song Name"]).set(songData);
             }
         }
     }
     console.log('Generated songs:', songs);
     return songs;
 }
+
 
 function displaySong(songs, taskNumber = 1) {
     const container = document.getElementById(myContainer);

@@ -1,6 +1,4 @@
 function addButton() {
-    const containerIds = ["frmTask1"];
-
     const container = document.getElementById(myContainer);
     const topSection = container.querySelector(".topSection");
     topSection.innerHTML =
@@ -59,5 +57,5 @@ function updatePage() {
         }
         //hide all others
     }
-    console.log("------updatePage() finished------")
+    console.log("------updatePage()  done----------")
 }
