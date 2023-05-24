@@ -56,6 +56,10 @@ app.get('/social', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/social.html'));
 });
 
+app.get('/fav', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/fav.html'));
+});
+
 async function fetchGuitarTab(songName, artist) {
     console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
 
