@@ -101,21 +101,28 @@ async function fetchGuitarTab(songName, artist) {
     console.log(`Found ${dataLines.length} lines of guitar tab`);
     console.log(`Selected random line outer HTML: ${randomDataLineHtml}`);
     
-    // Iterate over each SVG element and log its HTML
-    for (let i = 0; i < svgElements.length; i++) {
-        const svgHtml = await page.evaluate(svg => svg.outerHTML, svgElements[i]);
-        console.log(`SVG element ${i}:`, svgHtml);
+    // Get the first SVG element and log its HTML
+    const svgElement = svgElements[0];
+
+    // Get the 'g' elements within the SVG
+    const gElements = await svgElement.$$('g');
+    console.log('Number of g elements:', gElements.length);
+
+    // Iterate over each 'g' element and log its HTML
+    for (let gElement of gElements) {
+        const gHtml = await page.evaluate(g => g.outerHTML, gElement);
+        console.log('g element:', gHtml);
     }
 
-    // Return SVG elements HTML
-    let svgHtml = '';
-    for (let svgElement of svgElements) {
-        const svgContent = await page.evaluate(svg => svg.outerHTML, svgElement);
-        svgHtml += svgContent;
-    }
+    // Get the outerHTML of the SVG element
+    const svgHtml = await page.evaluate(svg => svg.outerHTML, svgElement);
+    console.log('First SVG element:', svgHtml);
+
     await browser.close();
     return svgHtml;
 }
+
+
 
 
 //Get request to fetch guitar tabs 
