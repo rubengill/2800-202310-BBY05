@@ -65,7 +65,7 @@ async function fetchGuitarTab(songName, artist) {
         const artistFormatted = artist.toLowerCase().replace(/ /g, '-');
         console.log('Formatted songName:', songNameFormatted, 'and artist:', artistFormatted);
 
-        const url = `https://www.songsterr.com/a/wsa/${artistFormatted}-${songNameFormatted}-tab-s`;
+        const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${songName}&a=${artist}`;
         console.log('Fetching data from URL:', url);
 
         const response = await axios.get(url);

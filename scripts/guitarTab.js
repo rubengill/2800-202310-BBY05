@@ -15,6 +15,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
                 const button = document.createElement("button");
                 button.innerHTML = "View Tab";
                 button.addEventListener('click', function() {
+                    //Request tab endpoint on our serer, and the parameters are used in the fetchGuitar function
                     fetch(`/tab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
                         .then(response => response.json())
                         .then(data => {
@@ -36,22 +37,4 @@ firebase.auth().onAuthStateChanged(async (user) => {
             });
         });
     }
-});
-
-
-
-document.getElementById('fetchTab').addEventListener('click', function() {
-    var songName = "Your Song Name"; // Replace with actual song name
-    var artist = "Your Artist"; // Replace with actual artist
-
-    fetch(`/tab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.guitarTab) {
-                document.getElementById('tab').textContent = data.guitarTab;
-            } else {
-                document.getElementById('tab').textContent = 'No tab available.';
-            }
-        })
-        .catch(error => console.error('Error:', error));
 });
