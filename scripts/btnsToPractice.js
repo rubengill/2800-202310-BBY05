@@ -4,7 +4,7 @@ function addButton() {
     topSection.innerHTML =
         `<h3> TASK ${currentTask} </h3> ` +
         "<button onclick='previousTask(event);'>previous</button>" +
-        "<button>skip</button>" +
+        `<button onclick='skipTask(event);'>skip</button>` +
         "<button onclick='nextTask(event);'>next</button>";
 }
 
@@ -20,7 +20,30 @@ function previousTask(event) {
     updatePage();
 }
 
-//Todo skip task fn
+async function skipTask(event) {
+    event.preventDefault();
+    
+    // Get the current user
+    const user = firebase.auth().currentUser;
+    if (user) {
+        const uid = user.uid;
+        
+        // Get the current song
+        const song = songs[currentTask - 1];  // Assumes 'songs' array is globally accessible
+
+        // Delete the current song from Firestore
+        await db.collection('users').doc(uid).collection('songs').doc(song["Song Name"]).delete();
+        
+        // Get a new song and add it to Firestore
+        const newSongs = await getRandomSongs(uid);
+        songs = newSongs; // Update the 'songs' array
+
+        // Update the display
+        updatePage();
+    } else {
+        console.log('No user is signed in.');
+    }
+}
 
 function nextTask(event) {
     event.preventDefault();
