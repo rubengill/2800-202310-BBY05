@@ -38,7 +38,7 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/practiceRoom.html', function (req, res) {
+app.get('/practiceRoom', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
 });
 

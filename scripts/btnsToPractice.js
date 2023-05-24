@@ -34,10 +34,12 @@ function nextTask(event) {
 
 function updatePage() {
     updateMyContainer();
-
-    //updateSong();
-    displaySong();
     addButton();
+
+    // Display the song for the current task
+    if (window.songs) {
+        displaySong(window.songs, currentTask);
+    }
     currContainer = "cardTask" + currentTask;
     const container = document.getElementById(currContainer);
 
