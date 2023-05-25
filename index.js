@@ -60,6 +60,11 @@ app.get('/fav', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/fav.html'));
 });
 
+app.all('*', (req, res) => {
+    // res.status(404).send('<h1>404! Page not found</h1>');
+    res.status(404).sendFile(path.join(__dirname, 'app/html/404.html'))
+});
+
 async function fetchGuitarTab(songName, artist) {
     console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
 
@@ -111,7 +116,7 @@ app.get('/tab', async function (req, res) {
       res.status(500).send("Failed to fetch guitar tab.");
     }
   });
-  
+
 
 app.listen(3000, function () {
     console.log("Node application listening on port " + port);

@@ -1,3 +1,4 @@
+//For collapsible "About Us" section on index
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
