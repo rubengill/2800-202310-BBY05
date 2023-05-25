@@ -13,11 +13,11 @@
 }
 
 /* Styling for guitar tab */
-.svg-container {
+.pulled-guitar-tab {
     position: relative;
 }
 
-.svg-container svg {
+.pulled-guitar-tabsvg {
     position: absolute;
     top: 0;
     left: 0;
