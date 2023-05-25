@@ -24,8 +24,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
                             const svgDiv = document.createElement("div");
                             // Create a new SVG for the tab lines
                             const linesSVG =    
-                '<path d="M0,0v65M0,0H399.3999938964844M0,13H399.3999938964844M0,26H399.3999938964844M0,39H399.3999938964844M0,52H399.3999938964844M0,65H18m16,0H41m16,0H65m16,0H88m16,0H111m16,0H135m16,0H158m16,0H181m16,0H205m16,0H228m16,0H251m16,0H275m16,0H298m16,0H321m16,0H345m16,0H368m16,0H399.3999938964844" class="B6413b"></path>'
-            ;
+                '<svg xmlns="http://www.w3.org/2000/svg" width="610" viewBox="-15 -34 610 143" class="Cw81bf"><path d="M0,0v65M0,0H399.3999938964844M0,13H399.3999938964844M0,26H399.3999938964844M0,39H399.3999938964844M0,52H399.3999938964844M0,65H18m16,0H41m16,0H65m16,0H88m16,0H111m16,0H135m16,0H158m16,0H181m16,0H205m16,0H228m16,0H251m16,0H275m16,0H298m16,0H321m16,0H345m16,0H368m16,0H399.3999938964844" class="B6413b" stroke="black"></path></svg>';
 
                             if (data) {
                                 svgDiv.innerHTML = linesSVG + data; // Add the lines SVG and the tab SVG to the div

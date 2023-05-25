@@ -67,15 +67,12 @@ function delay(time) {
 
 async function fetchGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
-    console.log(url)
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    // await page.setViewport({ width: 1920, height: 1080 });
     
     await page.goto(url, {waitUntil: 'networkidle2'});
 
-    
 
     // Select div with data-line=3
     const dataLine = await page.$('div.D2820n[data-line="3"]');
@@ -105,11 +102,6 @@ async function fetchGuitarTab(songName, artist) {
     await browser.close();
     return svgHtml;
 }
-
-
-
-
-
 
 //Get request to fetch guitar tabs 
 app.get('/tab', async function (req, res) {
