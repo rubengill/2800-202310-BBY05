@@ -74,3 +74,13 @@ button.btn-info {
   display: block;
   margin-bottom: 0.5rem;
 }
+
+/* Additional Spacing */
+#page-content {
+  padding: 30px;
+}
+
+.container.py-5 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
