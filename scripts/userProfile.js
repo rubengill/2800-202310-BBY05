@@ -90,6 +90,12 @@ function saveUserInfo() {
         return;
       }
 
+      // Validate input for special characters and different languages
+      if (!validateInput(fullName) || !validateInput(id)) {
+        displayConfirmationMessage("Invalid input. Please avoid special characters.", true);
+        return;
+      }
+
       // Update the user information in Firestore
       currentUser
         .update({
@@ -117,6 +123,13 @@ function saveUserInfo() {
       console.log("No user currently signed in.");
     }
   });
+}
+
+// Validate input for special characters and different languages
+function validateInput(input) {
+  // Regular expression for validating input without special characters
+  const inputRegex = /^[a-zA-Z0-9\s]*$/;
+  return inputRegex.test(input);
 }
 
 // Email format validation function
