@@ -20,6 +20,7 @@
     "fs": "^0.0.1-security",
     "joi": "^17.8.4",
     "nodemon": "^2.0.22",
+    "puppeteer": "^20.4.0",
     "session": "^0.1.0"
   }
 }
