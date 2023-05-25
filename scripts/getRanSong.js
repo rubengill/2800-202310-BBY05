@@ -1,6 +1,7 @@
 class SongManager {
     constructor() {
       this.mySongs = [];
+      this.mySkillLevel = undefined;
     }
   
     async getRandomSongs(uid) {
@@ -21,6 +22,7 @@ class SongManager {
                     // Retrieve the skill level from the document
                     skillLevel = doc.data().skillLevel;
                     console.log("skillLevel:", skillLevel); // Log the skill level
+                    this.mySkillLevel = skillLevel;
                 } else {
                     console.error("No such document!");
                 }
@@ -91,6 +93,10 @@ class SongManager {
         return songs;
     }
   
+    getSkillLevel(){
+        return this.mySkillLevel;
+    }
+
     getSongs() {
       return this.mySongs;
     }
@@ -104,16 +110,37 @@ firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         // Get UID if user is signed in
         uid = user.uid;
+
+        
         // Call getRandomSongs on current user
         //const songs = await getRandomSongs(uid);
-
+        
         //const songManager = new SongManager();
-
+        
         // Get songs for a user
         await songManager.getRandomSongs(uid);
-
+        
         // Get the songs array
         const songs = songManager.getSongs();
+        let skill = songManager.getSkillLevel();
+
+        await db
+            .collection("learnexp")
+            .doc(skill)
+            .get()
+            .then((doc) => {
+                console.log("doc data for advanced:", doc.data()); // Log the document data
+    
+                if (doc.exists) {
+                    // Retrieve the skill level from the document
+                    taskNumeroUno = doc.data().task1;
+                    console.log("taskNumeroUno:", taskNumeroUno); // Log the skill level
+                } else {
+                    console.error("No such task!");
+                }
+            }).catch((error) => {
+                console.error('Error fetching task data:', error);
+            });
 
         // Save songs in a global variable so they can be accessed elsewhere
         //------TODO: delete? may be redundant cuz of songManager
