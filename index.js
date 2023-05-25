@@ -1,4 +1,3 @@
-
 const express = require("express");
 const session = require("express-session");
 const path = require('path');
@@ -44,6 +43,10 @@ app.get('/login', function (req, res) {
 
 app.get('/dummyRoom', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/dummyRoom.html'));
+});
+
+app.get('/practiceRoom', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
 });
 
 app.get('/userskill', function (req, res) {
@@ -118,8 +121,6 @@ app.get('/tab', async function (req, res) {
       res.status(500).send("Failed to fetch guitar tab.");
     }
 });
-
-  
 
 app.listen(3000, function () {
     console.log("Node application listening on port " + port);
