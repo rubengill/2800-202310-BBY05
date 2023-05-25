@@ -1,8 +1,12 @@
+
 const express = require("express");
 const session = require("express-session");
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
+
+const port = 3000;
 
 const port = 3000;
 
@@ -56,40 +60,49 @@ app.get('/social', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/social.html'));
 });
 
+// Helper function to introduce delay
+function delay(time) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, time)
+    });
+}
+
 async function fetchGuitarTab(songName, artist) {
-    console.log('fetchGuitarTab called with songName:', songName, 'and artist:', artist);
+    const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
 
-    try {
-        const songNameFormatted = songName.toLowerCase().replace(/ /g, '-');
-        const artistFormatted = artist.toLowerCase().replace(/ /g, '-');
-        console.log('Formatted songName:', songNameFormatted, 'and artist:', artistFormatted);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    
+    await page.goto(url, {waitUntil: 'networkidle2'});
 
-        const url = `https://www.songsterr.com/a/wsa/${artistFormatted}-${songNameFormatted}-tab-s`;
-        console.log('Fetching data from URL:', url);
 
-        const response = await axios.get(url);
-        console.log('Received response from Songsterr API:', response);
-
-        const $ = cheerio.load(response.data);
-        console.log('Loaded HTML data into Cheerio');
-
-        const lines = $('[data-line]');
-        console.log('Found', lines.length, 'lines of guitar tab');
-
-        const randomLineIndex = Math.floor(Math.random() * lines.length);
-        console.log('Selected random line index:', randomLineIndex);
-
-        const randomLine = lines[randomLineIndex];
-        console.log('Selected line:', randomLine);
-
-        const guitarTab = $(randomLine).html();
-        console.log('Extracted guitar tab:', guitarTab);
-
-        return guitarTab;
-    } catch (error) {
-        console.error('Error fetching guitar tab:', error);
+    // Select div with data-line=3
+    const dataLine = await page.$('div.D2820n[data-line="3"]');
+    if (!dataLine) {
+        console.log('Could not find a div with data-line=3');
         return null;
     }
+
+    console.log('Loaded data-line 3 into Puppeteer');
+
+    const svgElement = await dataLine.$('svg');
+    if (!svgElement) {
+        console.log('Could not find an SVG element in div with data-line=3');
+        return null;
+    }
+
+    // Get the outerHTML of the SVG element
+    const svgHtml = await page.evaluate(svgElement => {
+        const clone = svgElement.cloneNode(true); // Create a deep clone of the svgElement
+        const unwantedPath = clone.querySelector('g > path:last-child');
+        if (unwantedPath) unwantedPath.remove();
+        return clone.outerHTML;
+    }, svgElement);
+
+    console.log('First SVG element without second path:', svgHtml);
+
+    await browser.close();
+    return svgHtml;
 }
 
 //Get request to fetch guitar tabs 
@@ -102,11 +115,12 @@ app.get('/tab', async function (req, res) {
   
     const guitarTab = await fetchGuitarTab(songName, artist);
     if (guitarTab) {
-      res.json({ guitarTab });
+      res.send(guitarTab); // Send guitarTab as a string
     } else {
       res.status(500).send("Failed to fetch guitar tab.");
     }
-  });
+});
+
   
 
 app.listen(3000, function () {
