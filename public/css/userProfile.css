@@ -68,3 +68,9 @@ button.btn-info {
   color: white;
   background-color: rgb(248, 109, 109);
 }
+
+.left-aligned-label {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+}

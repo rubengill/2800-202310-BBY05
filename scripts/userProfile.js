@@ -299,7 +299,7 @@ function changePassword() {
     .catch((error) => {
       console.error("Error changing password:", error);
       displayConfirmationMessage(
-        "An error occurred while changing the password.",
+        "Please enter a valid input.",
         true
       );
       // Handle the error appropriately
