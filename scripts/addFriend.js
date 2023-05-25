@@ -86,7 +86,7 @@ function addFriendToFirestore(friendData, userId, streakData, successCallback, e
             streakData, // Pass the streak data along with the friend data
             // Success callback function for adding the friend
             function (docRef) {
-              console.log('Friend added successfully!');
+              // console.log('Friend added successfully!');
               addFriendButton.textContent = 'Added';
               addFriendButton.disabled = true;
             },

@@ -47,7 +47,7 @@ firebase.auth().onAuthStateChanged(function(user) {
               });
           } else {
             // User document does not exist
-            console.log("User document not found.");
+            // console.log("User document not found.");
           }
         })
         .catch(error => {
@@ -95,10 +95,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     streakRef
       .set({ count: 1 })
       .then(() => {
-        console.log("Streak started.");
+        // console.log("Streak started.");
       })
       .catch(error => {
-        console.error("Error starting streak:", error);
+        // console.error("Error starting streak:", error);
       });
   }
   
@@ -109,10 +109,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     streakRef
       .update({ count: newCount })
       .then(() => {
-        console.log("Streak updated:", newCount);
+        // console.log("Streak updated:", newCount);
       })
       .catch(error => {
-        console.error("Error updating streak:", error);
+        // console.error("Error updating streak:", error);
       });
   }
   
@@ -140,7 +140,7 @@ function updateFriendInformation(userId) {
         user.friends = friends;
   
         // Perform any additional actions or UI updates based on the updated friend information
-        console.log('Friend information updated:', user.friends);
+        // console.log('Friend information updated:', user.friends);
       })
       .catch(function(error) {
         console.error('Error retrieving friend information:', error);

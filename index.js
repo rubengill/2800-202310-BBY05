@@ -62,6 +62,14 @@ app.get('/social', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/social.html'));
 });
 
+app.get('/tos', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/tos.html'));
+});
+
+app.get('/privacypolicy', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/privacyPolicy.html'));
+});
+
 app.get('/fullTab', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/tab.html'));
 });
