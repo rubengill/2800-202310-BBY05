@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- <link rel="stylesheet" href="/styles/style.css" /> -->
-  <link rel="stylesheet" href="/public/css/userProfile.css" />
+
 
   <!-- Bootstrap Library CSS CDN go here -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
@@ -56,20 +56,26 @@
   <div class="container py-5">
     <div class="row">
       <div class="col-lg-6 offset-lg-3">
-        <h1 class="mb-4">User Profile</h1>
+        <span id="name-goes-here">
+          <h3>
+              <span id="user-name">
+                  &lt;insert user's name here &gt; </span
+              >'s Profile
+          </h3>
+      </span>
         <div id="message" class="alert alert-success" style="display: none;"></div>
         <div class="card mb-2">
           <div class="card-body text-center">
             <div class="form-group">
               <div id="profile-container">
                 <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
-                <img id="mypic-goes-here" src="/public/img/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
+                <img id="mypic-goes-here" src="/img/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
                 <hr>
                 <div class="form-group py-3">
-                  <input id="mypic-input" type="file" accept="image/*" class="form-control-file">
+                  <input id="fileInput" type="file" accept="image/*" class="form-control-file">
                   <button type="button" class="btn btn-success mt-3" onclick="saveUserPic()">Save</button>
                 </div>
-              </div>              
+              </div>
             </div>
             <form>
               <fieldset class="mb-3" id="personalInfoFields">
@@ -127,6 +133,8 @@
   <nav id="footerPlaceholder"></nav>
 </body>
 
+<link rel="stylesheet" href="/css/userProfile.css" />
 <script src="/scripts/userProfile.js"></script>
+<script src="/scripts/retrieveName.js"></script>
 
 </html>

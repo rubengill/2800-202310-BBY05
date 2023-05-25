@@ -27,6 +27,7 @@
 /* User Profile Card */
 .card {
   margin-bottom: 10px;
+  border-radius: 20px;
 }
 
 /* User Profile Picture */
@@ -42,6 +43,7 @@
 #mypic-goes-here {
   width: 300px;
   height: 300px;
+  border-radius: 20px;
 }
 
 #mypic-input {
