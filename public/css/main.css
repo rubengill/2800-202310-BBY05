@@ -12,6 +12,17 @@
     text-align: center;
 }
 
+/* Styling for guitar tab */
+.svg-container {
+    position: relative;
+}
+
+.svg-container svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #game {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
