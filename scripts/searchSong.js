@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         var searchInput = document.getElementById("search-input").value;
 
+        // Capitalize the first letter of each word in the user's input
+        searchInput = capitalizeWords(searchInput);
+
         // Get a reference to the Firestore collection
-        var collection = firebase.firestore().collection('database');
+        var collection = db.collection('database');
 
         // Create a query against the collection.
         var query = collection.where('Song Name', '==', searchInput);
@@ -42,4 +45,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+//Helper function that searches song properly by accounting for various user capitalization.
+//Takes the user input and ensures only the first letter of a word is capitalized
+function capitalizeWords(input) {
+    return input.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 
