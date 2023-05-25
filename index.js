@@ -64,7 +64,7 @@ app.get('/social', function (req, res) {
 
 // Helper function to introduce delay
 function delay(time) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve, time)
     });
 }
@@ -76,7 +76,7 @@ async function fetchGuitarTab(songName, artist) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto(url, {waitUntil: 'networkidle2'});
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
     // Select div with data-line=3
     const dataLine = await page.$('div.D2820n[data-line="3"]');
@@ -124,7 +124,8 @@ async function fetchGuitarTab(songName, artist) {
 //     const browser = await puppeteer.launch();
 //     const page = await browser.newPage();
 
-//     await page.goto(url, {waitUntil: 'networkidle2'});
+//     await page.goto(url, { waitUntil: 'networkidle2' });
+
 
 //     // Select div with data-line=3
 //     const dataLine = await page.$('div.D2820n[data-line="3"]');
@@ -141,52 +142,28 @@ async function fetchGuitarTab(songName, artist) {
 //         return null;
 //     }
 //     function delay(time) {
-//         return new Promise(function(resolve) {
+//         return new Promise(function (resolve) {
 //             setTimeout(resolve, time)
 //         });
 //     }
-    
-//     // Get the outerHTML of the SVG element
-//     const svgHtml = await page.evaluate(svgElement => {
-//         const clone = svgElement.cloneNode(true); // Create a deep clone of the svgElement
-//         const unwantedPath = clone.querySelector('g > path:last-child');
-//         if (unwantedPath) unwantedPath.remove();
 
-//         // Duplicate the path element
-//         const pathElement = clone.querySelector('path');
-//         if (pathElement) {
-//             const duplicatePath = pathElement.cloneNode(true);
-//             clone.appendChild(duplicatePath);
-//             pathElement.setAttribute("stroke", "black"); // Add stroke="black" to the original path
-//             clone.appendChild(duplicatePath);
+//     //Get request to fetch guitar tabs 
+//     app.get('/tab', async function (req, res) {
+//         const { songName, artist } = req.query;
+
+//         if (!songName || !artist) {
+//             return res.status(400).send("Missing 'songName' or 'artist' query parameters.");
 //         }
 
-//         return clone.outerHTML;
-//     }, svgElement);
+//         const guitarTab = await fetchGuitarTab(songName, artist);
+//         if (guitarTab) {
+//             res.send(guitarTab); // Send guitarTab as a string
+//         } else {
+//             res.status(500).send("Failed to fetch guitar tab.");
+//         }
+//     });
 
-//     console.log('First SVG element without second path:', svgHtml);
-
-//     await browser.close();
-//     return svgHtml;
-// }
-
-//Get request to fetch guitar tabs 
-app.get('/tab', async function (req, res) {
-    const { songName, artist } = req.query;
-    
-    if (!songName || !artist) {
-      return res.status(400).send("Missing 'songName' or 'artist' query parameters.");
-    }
-  
-    const guitarTab = await fetchGuitarTab(songName, artist);
-    if (guitarTab) {
-      res.send(guitarTab); // Send guitarTab as a string
-    } else {
-      res.status(500).send("Failed to fetch guitar tab.");
-    }
-});
-
-app.listen(3000, function () {
-    console.log("Node application listening on port " + port);
-});
+    app.listen(3000, function () {
+        console.log("Node application listening on port " + port);
+    });
 
