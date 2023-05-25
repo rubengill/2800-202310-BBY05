@@ -18,7 +18,7 @@ footer
   margin-left: 4rem;
   zoom: 80%;
   max-width: 60px;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.8s;
 }
 
 .svg:hover {
