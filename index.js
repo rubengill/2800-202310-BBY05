@@ -60,6 +60,10 @@ app.get('/fav', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/fav.html'));
 });
 
+app.get('/about', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/aboutus.html'));
+});
+
 app.all('*', (req, res) => {
     // res.status(404).send('<h1>404! Page not found</h1>');
     res.status(404).sendFile(path.join(__dirname, 'app/html/404.html'))

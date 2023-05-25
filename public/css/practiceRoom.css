@@ -1,11 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .card-body {
 
     border: 3px solid rgba(0,0,0,.125);
     border-radius: 20px;
-    /* width: 80vw; */
-    margin-left: 500px;
-    margin-right: 500px;
+    width: 90%;
+    max-width: 600px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
     background-color: #2d864880;
 }
