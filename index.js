@@ -122,7 +122,7 @@ async function fetchGuitarTab(songName, artist) {
 }
 
 //Function to fetch entire guitar tab 
-async function fetchEntireGuitarTab(songName, artist) {
+async function fetchFullGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
 
     const browser = await puppeteer.launch();
@@ -209,7 +209,7 @@ app.get('/fulltab', async function (req, res) {
         return res.status(400).send("Missing 'songName' or 'artist' query parameters.");
     }
 
-    const guitarTab = await fetchEntireGuitarTab(songName, artist);
+    const guitarTab = await fetchFullGuitarTab(songName, artist);
     if (guitarTab) {
         res.send(guitarTab); // Send guitarTab as a string
     } else {

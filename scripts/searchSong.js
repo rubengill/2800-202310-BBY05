@@ -2,15 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         var searchInput = document.getElementById("search-input").value;
 
-        // Capitalize the first letter of each word in the user's input and remove any leading or trailing whitespace
-        searchInput = capitalizeWords(searchInput).trim();
-    
+        // Capitalize the first letter of each word in the user's input
+        searchInput = capitalizeWords(searchInput);
+
         // Get a reference to the Firestore collection
-        var collection = firebase.firestore().collection('database');
-    
+        var collection = db.collection('database');
+
         // Create a query against the collection.
         var query = collection.where('Song Name', '==', searchInput);
-    
 
         query.get().then((querySnapshot) => {
             var resultsContainer = document.getElementById("search-results");
@@ -24,9 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     var docData = doc.data();
                     var resultDiv = document.createElement("div");
                     resultDiv.className = "search-result";
+                    var pulledSongName = `${docData['Song Name']}`;
+                    var pulledArtist = `${docData['Artist']}`;
                     resultDiv.innerHTML = `
-                    <h3>${docData['Song Name']}</h3>
-                    <p>Artist: ${docData.Artist}</p>
+                    <h3>${pulledSongName}</h3>
+                    <p>Artist: ${pulledArtist}</p>
                     <p>Difficulty: ${docData.Difficulty}</p>
                     <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
                 `;
@@ -38,8 +39,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 viewTabButtons.forEach((button) => {
                     button.addEventListener("click", function (event) {
                         var docId = event.target.getAttribute("data-id");
-                        // call a function to handle viewing the tab, you need to implement it.
-                        viewTab(docId);
+                        var songName = capitalizeWords(document.querySelector(`[data-id="${docId}"]`).innerText);
+                        var artist = capitalizeWords(document.querySelector(`[data-id="${docId}"]`).nextElementSibling.innerText.slice(8));
+
+                        fetch(`/fulltab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
+                            .then(response => response.text()) // Get the response as text
+                            .then(data => {
+                                // Create a new div for the SVG data
+                                const svgDiv = document.createElement("div");
+                                svgDiv.classList.add("svg-container");  // Add the class "svg-container" to the div
+
+                                if (data) {
+                                    svgDiv.innerHTML = data; // Inject the SVG HTML into the div
+                                } else {
+                                    svgDiv.textContent = 'No tab available.';
+                                }
+
+                                // Append svgDiv to the SVG container in the page
+                                document.getElementById('pulled-guitar-tab').appendChild(svgDiv);
+                            })
+                            .catch(error => console.error('Error:', error));
                     });
                 });
             }
