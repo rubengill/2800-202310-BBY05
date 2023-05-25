@@ -70,9 +70,8 @@ async function fetchGuitarTab(songName, artist) {
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    
-    await page.goto(url, {waitUntil: 'networkidle2'});
 
+    await page.goto(url, {waitUntil: 'networkidle2'});
 
     // Select div with data-line=3
     const dataLine = await page.$('div.D2820n[data-line="3"]');
@@ -94,6 +93,16 @@ async function fetchGuitarTab(songName, artist) {
         const clone = svgElement.cloneNode(true); // Create a deep clone of the svgElement
         const unwantedPath = clone.querySelector('g > path:last-child');
         if (unwantedPath) unwantedPath.remove();
+
+        // Duplicate the path element
+        const pathElement = clone.querySelector('path');
+        if (pathElement) {
+            const duplicatePath = pathElement.cloneNode(true);
+            clone.appendChild(duplicatePath);
+            pathElement.setAttribute("stroke", "black"); // Add stroke="black" to the original path
+            clone.appendChild(duplicatePath);
+        }
+
         return clone.outerHTML;
     }, svgElement);
 
@@ -102,6 +111,7 @@ async function fetchGuitarTab(songName, artist) {
     await browser.close();
     return svgHtml;
 }
+
 
 //Get request to fetch guitar tabs 
 app.get('/tab', async function (req, res) {
