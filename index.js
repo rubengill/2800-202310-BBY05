@@ -8,8 +8,6 @@ const puppeteer = require('puppeteer');
 
 const port = 3000;
 
-const port = 3000;
-
 const app = express();
 
 //Creating remote paths, for our static files
@@ -44,8 +42,8 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/practiceRoom', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
+app.get('/dummyRoom', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/dummyRoom.html'));
 });
 
 app.get('/userskill', function (req, res) {
