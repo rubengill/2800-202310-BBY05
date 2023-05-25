@@ -67,60 +67,46 @@ function delay(time) {
 
 async function fetchGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
+    console.log(url)
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    // await page.setViewport({ width: 1920, height: 1080 });
     
     await page.goto(url, {waitUntil: 'networkidle2'});
 
-    // Add delay
-    await delay(1000); // waits for 1 second
-
-    // Select divs with class D2820n and data-line attribute
-    const dataLines = await page.$$('div.D2820n[data-line]');
-    console.log(dataLines.length);
-    if (!dataLines.length) {
-        console.log('Found 0 lines of guitar tab');
-        return null;
-    }
-
-    const randomDataLine = dataLines[Math.floor(Math.random() * dataLines.length)];
-    const randomDataLineHtml = await page.evaluate(el => el.outerHTML, randomDataLine);
-
-    const svgElements = await randomDataLine.$$('svg');
-
-    // Add another delay
-    await delay(1000); // waits for 1 second
-
-    if (!svgElements.length) {
-        console.log('Found 0 SVG elements in selected line');
-        return null;
-    }
-
-    console.log('Loaded HTML data into Puppeteer');
-    console.log(`Found ${dataLines.length} lines of guitar tab`);
-    console.log(`Selected random line outer HTML: ${randomDataLineHtml}`);
     
-    // Get the first SVG element and log its HTML
-    const svgElement = svgElements[0];
 
-    // Get the 'g' elements within the SVG
-    const gElements = await svgElement.$$('g');
-    console.log('Number of g elements:', gElements.length);
+    // Select div with data-line=3
+    const dataLine = await page.$('div.D2820n[data-line="3"]');
+    if (!dataLine) {
+        console.log('Could not find a div with data-line=3');
+        return null;
+    }
 
-    // Iterate over each 'g' element and log its HTML
-    for (let gElement of gElements) {
-        const gHtml = await page.evaluate(g => g.outerHTML, gElement);
-        console.log('g element:', gHtml);
+    console.log('Loaded data-line 3 into Puppeteer');
+
+    const svgElement = await dataLine.$('svg');
+    if (!svgElement) {
+        console.log('Could not find an SVG element in div with data-line=3');
+        return null;
     }
 
     // Get the outerHTML of the SVG element
-    const svgHtml = await page.evaluate(svg => svg.outerHTML, svgElement);
-    console.log('First SVG element:', svgHtml);
+    const svgHtml = await page.evaluate(svgElement => {
+        const clone = svgElement.cloneNode(true); // Create a deep clone of the svgElement
+        const unwantedPath = clone.querySelector('g > path:last-child');
+        if (unwantedPath) unwantedPath.remove();
+        return clone.outerHTML;
+    }, svgElement);
+
+    console.log('First SVG element without second path:', svgHtml);
 
     await browser.close();
     return svgHtml;
 }
+
+
 
 
 
