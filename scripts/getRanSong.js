@@ -122,11 +122,11 @@ firebase.auth().onAuthStateChanged(async (user) => {
         displaySong(songs);
 
         // Log each song's fields
-        for (let song of songs) {
-            console.log("Song Name: " + song["Song Name"]); // Access the "Song Name" field
-            console.log("Artist: " + song["Artist"]); // Access the "Artist" field
-            console.log("Difficulty: " + song["Difficulty"]); // Access the "Difficulty" field
-        }
+        // for (let song of songs) {
+        //     console.log("Song Name: " + song["Song Name"]); // Access the "Song Name" field
+        //     console.log("Artist: " + song["Artist"]); // Access the "Artist" field
+        //     console.log("Difficulty: " + song["Difficulty"]); // Access the "Difficulty" field
+        // }
 
 
 
@@ -145,7 +145,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 //old "non-SongManager" getRandomSongs(uid) fn was here
 
 function displaySong(songs, taskNumber = 1) {
-    const container = document.getElementById(myContainer);
+    const container = document.getElementById(myForm);
     const bottomSection = container.querySelector(".bottomSection");
     const song = songs[taskNumber - 1];
     
@@ -167,7 +167,7 @@ function displaySong(songs, taskNumber = 1) {
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 function addButton() {
-    const container = document.getElementById(myContainer);
+    const container = document.getElementById(myForm);
     const topSection = container.querySelector(".topSection");
     topSection.innerHTML =
         `<h3> TASK ${currentTask} </h3> ` +
@@ -213,12 +213,15 @@ function nextTask(event) {
     event.preventDefault();
     if (currentTask != LAST_TASK) {
         currentTask++;
+        
     }
     updatePage();
 }
 
 function updatePage() {
-    updateMyContainer();
+
+    updateMyForm();//myForm = "frmTask" + currentTask; 
+    updateMyCard(); //myCardTask = "cardTask" + currentTask;
     addButton();
 
     let songs = songManager.getSongs();
@@ -228,6 +231,8 @@ function updatePage() {
     // if (window.songs) {
     //     displaySong(window.songs, currentTask);
     // }
+
+    //---these two are temp things, not to be confused with myForm 
     currContainer = "cardTask" + currentTask;
     const container = document.getElementById(currContainer);
 
@@ -246,6 +251,10 @@ function updatePage() {
             others.style = "display: none;";
         }
         //hide all others
+    }
+
+    if(!container.querySelector("#guitarTabThing")) {
+        putTabStuffIn();
     }
     console.log("------updatePage()  done----------")
 }

@@ -1,5 +1,5 @@
 function addButton() {
-    const container = document.getElementById(myContainer);
+    const container = document.getElementById(myForm);
     const topSection = container.querySelector(".topSection");
     topSection.innerHTML =
         `<h3> TASK ${currentTask} </h3> ` +
@@ -50,7 +50,7 @@ function nextTask(event) {
 }
 
 function updatePage() {
-    updateMyContainer();
+    updateMyForm();
     addButton();
 
     let songs = songManager.getSongs();
