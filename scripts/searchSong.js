@@ -2,14 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         var searchInput = document.getElementById("search-input").value;
 
-        // Capitalize the first letter of each word in the user's input
-        searchInput = capitalizeWords(searchInput);
-
+        // Capitalize the first letter of each word in the user's input and remove any leading or trailing whitespace
+        searchInput = capitalizeWords(searchInput).trim();
+    
         // Get a reference to the Firestore collection
-        var collection = db.collection('database');
-
+        var collection = firebase.firestore().collection('database');
+    
         // Create a query against the collection.
         var query = collection.where('Song Name', '==', searchInput);
+    
 
         query.get().then((querySnapshot) => {
             var resultsContainer = document.getElementById("search-results");
