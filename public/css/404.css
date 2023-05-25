@@ -21,7 +21,7 @@ body {
   align-content: center;
   justify-content: center;
   padding: 12px;
-  background: rgb(21, 135, 55);
+  background: rgb(14, 169, 60);
   color: black;
   font-family: "brandon-grotesque", "Brandon Grotesque", "Source Sans Pro", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 24px;
@@ -91,7 +91,7 @@ main > div svg {
   z-index: 1;
 }
 main > div svg polygon {
-  fill: rgb(21, 135, 55);
+  fill: rgb(14, 169, 60);
 }
 main > div span {
   display: block;

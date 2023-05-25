@@ -1,6 +1,16 @@
-/**
+/*
+background
+*/
+.banner {
+  background-image: url(/img/bgmain.jpg);
+  background-position: top;
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+/*
 header
-**/
+*/
 .navbar {
   background-image: linear-gradient(rgba(19, 100, 43, 0.785), rgb(255, 255, 255));
 }
@@ -8,11 +18,16 @@ header
 .logo {
   zoom: 220%;
   padding-left: 8px;
+  transition: all 0.8s;
 }
 
-/**
+.logo:hover {
+  transform: scale(1.2);
+}
+
+/*
 footer
-**/
+*/
 .svg {
   margin-right: 4rem;
   margin-left: 4rem;
@@ -37,9 +52,9 @@ footer
   border-radius: 10px;
 }
 
-/**
+/*
   Regular button
-  **/
+*/
 .button {
   width: 100px;
   padding: 15px 0;
@@ -50,7 +65,7 @@ footer
   border: 2px mediumseagreen solid black;
   background: whitesmoke;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.8s;
 }
 
 .button:hover {
