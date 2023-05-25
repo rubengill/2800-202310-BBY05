@@ -12,10 +12,11 @@ body {
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 36px;
     margin-bottom: 20px;
 }
 
 p {
     line-height: 1.5;
+    font-size: large;
 }

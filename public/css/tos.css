@@ -1,6 +1,4 @@
-body {
-    background-color: #f8f9fa;
-}
+
 
 .container {
     max-width: 800px;
@@ -12,10 +10,11 @@ body {
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 36px;
     margin-bottom: 20px;
 }
 
 p {
     line-height: 1.5;
+    font-size: large;
 }

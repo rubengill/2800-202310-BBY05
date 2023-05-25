@@ -201,12 +201,14 @@ function populatePicture() {
           const userProfile = userDoc.data();
           const picUrl = userProfile && userProfile.profilePic;
           
+          const imgElement = document.getElementById("mypic-goes-here");
+          
           if (picUrl) {
             // Set the image source
-            const imgElement = document.getElementById("mypic-goes-here");
             imgElement.src = picUrl;
           } else {
-            console.log("Profile picture URL is missing or empty");
+            // Display the placeholder image
+            imgElement.src = "/public/img/profileplaceholder.png";
           }
           
         })
@@ -218,6 +220,7 @@ function populatePicture() {
     }
   });
 }
+
 
 populatePicture();
 

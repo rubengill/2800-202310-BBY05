@@ -63,13 +63,13 @@
             <div class="form-group">
               <div id="profile-container">
                 <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
-                <img id="mypic-goes-here" src="./images/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
+                <img id="mypic-goes-here" src="/public/img/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
                 <hr>
                 <div class="form-group py-3">
-                  <input id="fileInput" type="file" accept="image/*" class="form-control-file">
-                  <button type="button" class="btn btn-primary mt-3" onclick="saveUserPic()">Save</button>
+                  <input id="mypic-input" type="file" accept="image/*" class="form-control-file">
+                  <button type="button" class="btn btn-success mt-3" onclick="saveUserPic()">Save</button>
                 </div>
-              </div>
+              </div>              
             </div>
             <form>
               <fieldset class="mb-3" id="personalInfoFields">
@@ -90,7 +90,7 @@
                   <input type="text" id="genre" class="form-control" placeholder="Edit your favorite genre">
                 </div>
                 <div>
-                  <button type="button" onclick="saveUserInfo()" class="btn btn-primary">Save Changes</button>
+                  <button type="button" onclick="saveUserInfo()" class="btn btn-success">Save Changes</button>
                 </div>
               </fieldset>
             </form>
@@ -113,7 +113,7 @@
                     placeholder="Confirm your new password">
                 </div>
                 <div>
-                  <button type="button" onclick="changePassword()" class="btn btn-primary">Change Password</button>
+                  <button type="button" onclick="changePassword()" class="btn btn-success">Change Password</button>
                 </div>
               </fieldset>
             </form>
