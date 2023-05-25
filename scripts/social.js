@@ -1,3 +1,19 @@
+// Remove a friend from Firestore
+function removeFriend(userId, friendId) {
+  db.collection('users')
+    .doc(userId)
+    .collection('friends')
+    .doc(friendId)
+    .delete()
+    .then(function() {
+      console.log('Friend removed:', friendId);
+    })
+    .catch(function(error) {
+      console.error('Error removing friend:', error);
+    });
+}
+
+// Create a friend card element using the friend data
 function createFriendCard(friendData) {
   var friendCard = document.createElement('div');
   friendCard.innerHTML = `
@@ -8,6 +24,7 @@ function createFriendCard(friendData) {
         <h6 class="card-subtitle mb-2 text-muted">${friendData.email}</h6>
         ${friendData.favoriteGenre ? `<p class="card-text favorite-genre">Favorite Genre: ${friendData.favoriteGenre}</p>` : ''}
         ${friendData.streak && friendData.streak.count > 0 ? `<p class="card-text streak">Streak: ${friendData.streak.count} 🔥</p>` : ''}
+        <button class="btn btn-danger remove-friend-btn" data-friend-id="${friendData.friendId}">Remove Friend</button>
       </div>
     </div>
   `;
@@ -16,12 +33,13 @@ function createFriendCard(friendData) {
 }
 
 // Process a Firestore friend document, update the corresponding friend card in the "current-friends" section of the page
-function processFriendDocument(change) {
+function processFriendDocument(change, userId) {
   console.log('Processing friend document change:', change);
 
   if (change.type === 'added' || change.type === 'modified') {
     // Create a new friend card element using the friend data
     var friendData = change.doc.data();
+    friendData.friendId = change.doc.id; // Add friendId property to friendData
     console.log('Friend data:', friendData);
     var friendCard = createFriendCard(friendData);
 
@@ -84,12 +102,13 @@ function processFriendDocument(change) {
     if (friendCard) {
       friendCard.parentNode.removeChild(friendCard);
     }
+
+    // Remove friend from Firestore
+    removeFriend(userId, change.doc.id);
   }
 }
 
-
-
-
+// Update the friend information on the page
 function updateFriendInformation(userId) {
   var currentFriendsContainer = document.getElementById('current-friends');
 
@@ -102,20 +121,14 @@ function updateFriendInformation(userId) {
   db.collection('users')
     .doc(userId)
     .collection('friends')
-    .onSnapshot(function (querySnapshot) {
-      querySnapshot.docChanges().forEach(function (change) {
+    .onSnapshot(function(querySnapshot) {
+      querySnapshot.docChanges().forEach(function(change) {
         if (change.type === 'added' || change.type === 'modified') {
           // Process each friend document change and update the corresponding friend card
-          processFriendDocument(change);
-        } else if (change.type === 'removed') {
-          // Remove friend card from the DOM
-          var friendCard = document.getElementById(change.doc.id);
-          if (friendCard) {
-            friendCard.parentNode.removeChild(friendCard);
-          }
+          processFriendDocument(change, userId);
         }
       });
-    }, function (error) {
+    }, function(error) {
       console.error('Error getting current friends:', error);
     });
 
@@ -124,13 +137,13 @@ function updateFriendInformation(userId) {
     .doc(userId)
     .collection('friends')
     .get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
         var friendData = doc.data();
         db.collection('users')
           .where('email', '==', friendData.email)
           .get()
-          .then(function (userQuerySnapshot) {
+          .then(function(userQuerySnapshot) {
             if (!userQuerySnapshot.empty) {
               var userData = userQuerySnapshot.docs[0].data();
               db.collection('users')
@@ -138,24 +151,23 @@ function updateFriendInformation(userId) {
                 .collection('friends')
                 .doc(doc.id)
                 .set(userData, { merge: true })  // Update friend document with latest information
-                .then(function () {
+                .then(function() {
                   console.log('Friend document updated:', doc.id);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                   console.error('Error updating friend document:', error);
                 });
             }
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.error('Error getting user data:', error);
           });
       });
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.error('Error getting current friends:', error);
     });
 }
-
 
 // Load friend information when the page is loaded
 function loadFriendInformation() {
@@ -169,3 +181,16 @@ function loadFriendInformation() {
 
 // Call the loadFriendInformation function when the page is loaded
 window.addEventListener('load', loadFriendInformation);
+
+// Attach event listener to remove friend buttons
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('remove-friend-btn')) {
+    var friendId = event.target.dataset.friendId;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var userId = user.uid;
+        removeFriend(userId, friendId);
+      }
+    });
+  }
+});

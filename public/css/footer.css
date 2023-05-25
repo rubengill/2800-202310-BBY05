@@ -6,23 +6,23 @@ header
 }
 
 .logo {
-  zoom: 200%;
-  border-radius: 50%;
+  zoom: 220%;
+  padding-left: 8px;
 }
 
 /**
 footer
 **/
 .svg {
-  margin-right: 3rem;
-  margin-left: 3rem;
+  margin-right: 4rem;
+  margin-left: 4rem;
   zoom: 80%;
   max-width: 60px;
   transition: ease-in-out 0.5s;
 }
 
 .svg:hover {
-  transform: scale(1.3);
+  transform: scale(1.36);
 }
 
 .box {
