@@ -93,8 +93,20 @@
                 </div>
                 <div class="mb-3">
                   <label for="genre" class="form-label">Favorite Genre</label>
-                  <input type="text" id="genre" class="form-control" placeholder="Edit your favorite genre">
+                  <select id="genre" class="form-control">
+                    <option value="" disabled selected>Select your favorite genre</option>
+                    <option value="blues">Blues</option>
+                    <option value="funk">Funk</option>
+                    <option value="rhythm">Rhythm</option>
+                    <option value="folk">Folk</option>
+                    <option value="rock">Rock</option>
+                    <option value="metal">Metal</option>
+                    <option value="classic">Classic</option>
+                    <option value="jazz">Jazz</option>
+                    <option value="acoustic">Acoustic</option>
+                  </select>
                 </div>
+                
                 <div>
                   <button type="button" onclick="saveUserInfo()" class="btn btn-success">Save Changes</button>
                 </div>
