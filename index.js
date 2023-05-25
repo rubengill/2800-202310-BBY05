@@ -74,7 +74,7 @@ async function fetchGuitarTab(songName, artist) {
 
     
     await page.goto(url, {waitUntil: 'networkidle2'});
-
+    
     // Add delay
     await delay(1000); // waits for 1 second
 

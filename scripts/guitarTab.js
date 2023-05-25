@@ -25,7 +25,9 @@ function putTabStuffIn() {
                     // Create a button for the song
                     const button = document.createElement("button");
                     button.innerHTML = "View Tab";
+                    button.classList = "viewTabButton";
                     button.addEventListener('click', function () {
+                        button.innerHTML = "Loading";
                         // Request tab endpoint on our server
                         fetch(`/tab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
                             .then(response => response.text()) // Get the response as text
@@ -42,12 +44,13 @@ function putTabStuffIn() {
 
                                 // Append svgDiv to newDiv
                                 newDiv.appendChild(svgDiv);
+                                button.innerHTML = "Loaded";
                             })
                             .catch(error => console.error('Error:', error));
                     });
 
                     // Add song name, artist and button to the div
-                    newDiv.textContent = songName + ' by ' + artist;
+                    //newDiv.textContent = songName + ' by ' + artist;
                     newDiv.appendChild(button);
 
                     // Append the div to the songList div in the page
