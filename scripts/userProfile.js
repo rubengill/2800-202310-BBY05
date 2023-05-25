@@ -43,7 +43,7 @@ function readUserInfo() {
             document.getElementById("genre").value =
               userInfo.favoriteGenre || "";
           } else {
-            console.log("No user information found.");
+            // console.log("No user information found.");
             // Set input fields to empty
             document.getElementById("full-name").value = "";
             document.getElementById("id").value = ""; // Updated ID here
@@ -55,7 +55,7 @@ function readUserInfo() {
           console.error("Error retrieving user information:", error);
         });
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
       // Set input fields to empty
       document.getElementById("full-name").value = "";
       document.getElementById("email").value = "";
@@ -120,7 +120,7 @@ function saveUserInfo() {
           );
         });
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
     }
   });
 }
@@ -166,7 +166,7 @@ function saveUserPic() {
         storageRef
           .put(ImageFile)
           .then(function (snapshot) {
-            console.log("Uploaded to Cloud Storage.");
+            // console.log("Uploaded to Cloud Storage.");
 
             // Asynchronous call to get the download URL of the uploaded image
             storageRef
@@ -187,7 +187,7 @@ function saveUserPic() {
                           profilePic: url, // Save the download URL into the "users" collection
                         })
                         .then(function () {
-                          console.log("Added Profile Pic URL to Firestore.");
+                          // console.log("Added Profile Pic URL to Firestore.");
                           populatePicture();
                           fileInput.value = "";
                           displayConfirmationMessage(
@@ -236,11 +236,11 @@ function saveUserPic() {
             );
           });
       } else {
-        console.log("No file selected.");
+        // console.log("No file selected.");
         displayConfirmationMessage("No file selected.", true);
       }
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
       displayConfirmationMessage("No user currently signed in.", true);
     }
   });
@@ -262,14 +262,14 @@ function populatePicture() {
             const imgElement = document.getElementById("mypic-goes-here");
             imgElement.src = picUrl;
           } else {
-            console.log("Profile picture URL is missing or empty");
+            // console.log("Profile picture URL is missing or empty");
           }
         })
         .catch((error) => {
           console.error("Error retrieving profile picture URL:", error);
         });
     } else {
-      console.log("No user is currently logged in");
+      // console.log("No user is currently logged in");
     }
   });
 }
@@ -282,7 +282,7 @@ function changePassword() {
 
   // Check if the new password and confirm password match
   if (newPassword !== confirmPassword) {
-    console.log("New password and confirm password do not match");
+    // console.log("New password and confirm password do not match");
     return;
   }
 
@@ -292,7 +292,7 @@ function changePassword() {
   user
     .updatePassword(newPassword)
     .then(() => {
-      console.log("Password changed successfully");
+      // console.log("Password changed successfully");
       displayConfirmationMessage("Password changed successfully.");
       // Redirect the user or show a success message
     })

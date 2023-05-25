@@ -5,6 +5,6 @@ function logout() {
         window.location.href = '/login';
       })
       .catch((error) => {
-        console.log('Error signing out:', error);
+        // console.log('Error signing out:', error);
       });
   }

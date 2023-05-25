@@ -18,7 +18,7 @@ function removeFriend(userId, friendId) {
       .doc(friendId)
       .delete()
       .then(function() {
-        console.log('Friend removed:', friendId);
+        // console.log('Friend removed:', friendId);
         // Hide the confirmation card
         container.innerHTML = '';
       })
@@ -77,7 +77,7 @@ function createFriendCard(friendData) {
 
 // Process a Firestore friend document, update the corresponding friend card in the "current-friends" section of the page
 function processFriendDocument(change, userId) {
-  console.log('Processing friend document change:', change);
+  // console.log('Processing friend document change:', change);
 
   if (change.type === 'added' || change.type === 'modified') {
     // Create a new friend card element using the friend data
