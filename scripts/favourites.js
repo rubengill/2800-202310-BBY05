@@ -1,38 +1,55 @@
+// Wait for the DOM to be fully loaded before running the function
 document.addEventListener("DOMContentLoaded", function () {
     console.log('Page loaded');
+    // Set an observer for changes in the authentication state
     firebase.auth().onAuthStateChanged(function(user) {
+        // If a user is logged in
         if (user) {
             console.log('Current user:', user.uid);
+            // Get a reference to the user's document in the 'users' collection
             var userDocRef = db.collection('users').doc(user.uid);
+            // Get a reference to the 'favourites' sub-collection for the current user
             var favouritesSubCollectionRef = userDocRef.collection('favourites');
 
+            // Fetch all documents from the 'favourites' collection
             favouritesSubCollectionRef.get().then((querySnapshot) => {
                 console.log('Got favourites');
+                // Get the HTML element where the results should be displayed
                 var resultsContainer = document.getElementById("favourites-results");
+                // Clear any existing content
                 resultsContainer.innerHTML = "";
+                // Initialize an object to store song data
                 var songData = {};
 
+                // If the query didn't return any documents
                 if (querySnapshot.empty) {
                     console.log('No favourites found');
+                    // Display a message saying that no favourites were found
                     resultsContainer.innerHTML = "<p>No Favourites Found</p>";
                 } else {
                     console.log('Processing favourites');
+                    // For each document in the query results
                     querySnapshot.forEach((doc) => {
                         console.log('Processing doc:', doc.id);
+                        // Get the data from the document
                         var docData = doc.data();
+                        // Store the song name and artist in the songData object
                         songData[doc.id] = {
                             songName: docData['songName'],
                             artist: docData['artist']
                         };
 
                         console.log('Creating result div for doc:', doc.id);
+                        // Create a new div to display the song data
                         var resultDiv = document.createElement("div");
                         resultDiv.className = "favourite-result";
+                        // Fill the div with the song name, artist, and a button to view the tab
                         resultDiv.innerHTML = `
                         <h3>${songData[doc.id].songName}</h3>
                         <p>Artist: ${songData[doc.id].artist}</p>
                         <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
                         `;
+                        // Add the new div to the results container
                         resultsContainer.appendChild(resultDiv);
                         console.log('Appended result div for doc:', doc.id);
                     });
@@ -40,13 +57,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Adding event listener to view tab buttons
                     var viewTabButtons = document.querySelectorAll(".view-tab-button");
                     viewTabButtons.forEach((button) => {
+                        // When a button is clicked
                         button.addEventListener("click", function (event) {
+                            // Get the ID of the document associated with the button
                             var docId = event.target.getAttribute("data-id");
+                            // Get the song name and artist from the songData object
                             var songName = songData[docId].songName;
                             var artist = songData[docId].artist;
                             console.log('View tab button clicked for doc:', docId, songName, artist);
 
                             console.log('Before fetch call');
+                            // Make a fetch call to get the guitar tab for the song
                             fetch(`/fullguitartab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
                                 .then(response => {
                                     if (!response.ok) {
