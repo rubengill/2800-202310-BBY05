@@ -141,4 +141,74 @@ function flipTile(tile, val) {
     }
 }
 
+let timeInterval = 60 * 60 * 1000;
+
+function updateSongOfTheDay() {
+    const lastUpdate = sessionStorage.getItem('lastUpdate');
+    const now = Date.now();
+
+    // Check if it's been more than two minutes since the last update
+    if (lastUpdate && now - lastUpdate < timeInterval) {
+        const songData = JSON.parse(sessionStorage.getItem('songData'));
+
+        // Use stored song data
+        updateSongData(songData);
+        return;
+    }
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+            let uid = user.uid;
+            let songData;
+            const random = Math.random();
+
+            let skillLevel;
+            try {
+                const doc = await db
+                    .collection("users")
+                    .doc(uid)
+                    .get();
+                
+                if (doc.exists) {
+                    skillLevel = doc.data().skillLevel;
+                }
+
+                const songDoc = await db
+                    .collection("database")
+                    .where("Random", ">=", random)
+                    .orderBy("Random")
+                    .limit(1)
+                    .get();
+        
+                if (!songDoc.empty) {
+                    songData = songDoc.docs[0].data();
+
+                    // Store song data and update time in sessionStorage
+                    sessionStorage.setItem('songData', JSON.stringify(songData));
+                    sessionStorage.setItem('lastUpdate', String(now));
+
+                    // Use new song data
+                    updateSongData(songData);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error); // Log any errors
+                return;
+            }
+        }
+    });
+}
+
+function updateSongData(songData) {
+    let songCon = document.getElementById("songcon");
+    let name = songCon.querySelector("#songname");
+    let author = songCon.querySelector("#author");
+
+    name.innerHTML = songData["Song Name"];
+    author.innerHTML = songData.Artist;
+}
+
+window.onload = function() {
+    updateSongOfTheDay();
+    setInterval(updateSongOfTheDay, timeInterval); // 2 minutes
+};
 
