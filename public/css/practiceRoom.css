@@ -32,6 +32,11 @@ h2 {
     text-align: center;
 }
 
+#bbb {
+    float: right;
+
+}
+
 #Btn {
     width: 90px;
     height: 40px;
@@ -42,5 +47,5 @@ h2 {
     background: whitesmoke;
     cursor: pointer;
     transition: all 0.8s;
-    float: right;
+    /* float: right; */
 }

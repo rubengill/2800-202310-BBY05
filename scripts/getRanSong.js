@@ -176,9 +176,11 @@ function addButton() {
 
     topSection.innerHTML =
         `<label class = "taskDiv"> </label>` +
+        `<frm id= "bbb" >` +
         `<button id="Btn" onclick='previousTask(event);'>previous</button>` +
         `<button id="Btn" onclick='skipTask(event);'>skip</button>` +
         `<button id="Btn" onclick='nextTask(event);'>next</button>` +
+        `</frm>` + 
         `<h3> TASK ${currentTask} </h3> <h5> ${myTask} </h5>`;
     if(value == "complete") {
         const label = topSection.querySelector(".taskDiv");
