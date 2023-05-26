@@ -12,6 +12,8 @@
     border-radius: 10px;
     margin-top: 50px;
     padding: 30px;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
 }
 
 .app h1{
@@ -20,16 +22,24 @@
     border-bottom: 1px solid black;
     padding-bottom: 30px;
     text-align: center;
+    transition: ease-in-out 0.6s;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
 }
 
 #question-container {
     padding: 20px 0;
     text-align: left;
+    transition: ease-in-out 0.8s;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
 }
 
 .question-text h2 {
     font-size: 6px;
     font-weight: 300;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
 }
 
 #choices-container {
@@ -44,17 +54,26 @@
 #next-question {
     width: 150px;
     border-radius: 10px;
-    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
     display: none;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
 }
 
 button {
-    /* background-color: red; */
     margin-right: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 6px;
-    padding: 6px;
-    /* width: 80px; */
+    padding: 8px;
     text-align: left;
+    transition: all 0.8s;
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+@keyframes fadeinout {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

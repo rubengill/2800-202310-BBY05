@@ -1,23 +1,43 @@
-/**
+/*
+background
+*/
+.banner {
+  background-image: url(/img/bgmain.jpg);
+  background-position: top;
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+/*
 header
-**/
+*/
 .navbar {
   background-image: linear-gradient(rgba(19, 100, 43, 0.785), rgb(255, 255, 255));
 }
 
 .logo {
-  zoom: 200%;
-  border-radius: 50%;
+  zoom: 220%;
+  padding-left: 8px;
+  transition: all 0.8s;
 }
 
-/**
+.logo:hover {
+  transform: scale(1.2);
+}
+
+/*
 footer
-**/
+*/
 .svg {
-  margin-right: 3rem;
-  margin-left: 3rem;
+  margin-right: 4rem;
+  margin-left: 4rem;
   zoom: 80%;
   max-width: 60px;
+  transition: ease-in-out 0.8s;
+}
+
+.svg:hover {
+  transform: scale(1.36);
 }
 
 .box {
@@ -29,106 +49,12 @@ footer
   align-items: center;
   justify-content: center;
   background-color: rgba(14, 101, 40, 0.476);
+  border-radius: 10px;
 }
 
-
-/**
-Neon button css
-**/
-/* :root {
-    --clr-neon: rgb(12, 112, 42);
-  }
-  
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-  
-  body {
-    background: var(--clr-bg);
-    font-family: "Balsamiq Sans", cursive;
-    color: var(--clr-neon);
-  }
-  
-  .neon-button {
-    font-size: 1.4rem;
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--clr-neon);
-    border: var(--clr-neon) 0.125em solid;
-    padding: 0.25em 1em;
-    border-radius: 0.25em;
-  
-    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
-  
-    box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
-  
-    position: relative;
-  }
-  
-  .neon-button::before {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    background: var(--clr-neon);
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  
-    transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
-    filter: blur(3em);
-    opacity: 0.7;
-  }
-  
-  .neon-button::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 0 3em 0.2em var(--clr-neon);
-    opacity: 0;
-    background-color: var(--clr-neon);
-    z-index: -1;
-    transition: opacity 100ms linear;
-  }
-  
-  .neon-button:hover,
-  .neon-button:focus {
-    color: rgb(165, 165, 165);
-    text-shadow: none;
-  }
-  
-  .neon-button:hover::before,
-  .neon-button:focus::before {
-    opacity: 1;
-  }
-  .neon-button:hover::after,
-  .neon-button:focus::after {
-    opacity: 1;
-  } */
-
- /**
- navbar profile icon
- 
- .bg-custom-1 {
-  background-color: #85144b;
-}
-
-.bg-custom-2 {
-background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
-}
-**/
-
-
-
-/**
+/*
   Regular button
-  **/
+*/
 .button {
   width: 100px;
   padding: 15px 0;
@@ -139,10 +65,10 @@ background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
   border: 2px mediumseagreen solid black;
   background: whitesmoke;
   cursor: pointer;
+  transition: all 0.8s;
 }
 
 .button:hover {
-  transition: all 0.5s;
   box-shadow: 0 0 1em black;
   transform: scale(1.1);
 }

@@ -74,12 +74,21 @@ app.get('/fullTab', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/tab.html'));
 });
 
+app.get('/about', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/aboutus.html'));
+});
+
+// app.all('*', (req, res) => {
+//     // res.status(404).send('<h1>404! Page not found</h1>');
+//     res.status(404).sendFile(path.join(__dirname, 'app/html/404.html'))
+// });
+
 // Helper function to introduce delay
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time)
-    });
-}
+// function delay(time) {
+//     return new Promise(function (resolve) {
+//         setTimeout(resolve, time)
+//     });
+// }
 
 //Rubens Function 
 async function fetchGuitarTab(songName, artist) {

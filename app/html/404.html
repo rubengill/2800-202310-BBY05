@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <title>Add a Friend!</title>
+    <title>Guitar Genius</title>
     <meta name="Guitar Genius" content="My 2800 App" />
-    
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -25,30 +25,61 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://use.typekit.net/ytd4ine.js"></script>
+    <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="./style.css">
 
     <!--Firebase key script-->
     <script src="/scripts/firebaseAPI_BBY5.js"></script>
     <script src="/scripts/skeleton.js"></script>
     <script src="/scripts/authentication.js"></script>
-    <script src="./scripts/session.js"></script>
-    <script src="./scripts/addFriend.js"></script>
+    <!-- <script src="/scripts/404.js"></script> -->
+
+    <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="/css/404.css">
+
 </head>
 
 <body>
-    <nav id="navbarPlaceholder"></nav>
-    <br><br>
-        <div class="container">
-          <div class="mb-3">
-            <form class="d-flex" onsubmit="addFriends(event)">
-              <input id="search-input" class="form-control me-2" type="text" placeholder="Search by Email">
-              <button class="btn btn-success" type="submit">Search</button>
-            </form>
-          </div>
-          <div id="search-results"></div>
-        </div>
-        <br><br><br><br>
 
-    <nav id="footerPlaceholder"></nav>
+    <main>
+        <!-- <nav id="navbarPlaceholder"></nav> -->
+
+        <div>
+          <div>
+            <span>404&nbsp;error</span>
+            <span>page&nbsp;not&nbsp;found</span>
+          </div>
+          <svg viewBox='0 0 200 600'>
+            <polygon
+              points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514 200 591.044514 200 8'>
+            </polygon>
+          </svg>
+        </div>
+        <svg class='crack' viewBox='0 0 200 600'>
+          <polyline
+            points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514'>
+          </polyline>
+        </svg>
+        <div>
+          <svg viewBox='0 0 200 600'>
+            <polygon
+              points='118.302698 8 59.5369448 66.7657528 186.487016 193.715824 14 366.202839 153.491505 505.694344 68.1413353 591.044514 0 591.044514 0 8'>
+            </polygon>
+          </svg>
+          <div>
+            <span>sorry&nbsp;about&nbsp;that!</span>
+            <span>
+              <a>
+                <b onclick="location.href='/main'">return&nbsp;home?</b>
+              </a>
+            </span>
+          </div>
+        </div>
+      </main>
+
+
 </body>
 
 </html>

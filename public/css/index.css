@@ -43,11 +43,11 @@ button {
     background: mediumseagreen;
     cursor: pointer;
     opacity: 80%;
+    transition: all 0.75s;
 }
 
 button:hover {
     opacity: 100%;
-    transition: all 0.75s;
     box-shadow: 0 0 4em black;
     transform: scale(1.1);
 }
