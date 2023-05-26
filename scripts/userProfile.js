@@ -1,72 +1,76 @@
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
-    // Do something for the user here. 
+    // Do something for the user here.
   } else {
     // No user is signed in.
   }
 });
 
-var ImageFile;      //global variable to store the File Object reference
+var ImageFile; //global variable to store the File Object reference
 
-function chooseFileListener(){
-    const fileInput = document.getElementById("mypic-input");   // pointer #1
-    const image = document.getElementById("mypic-goes-here");   // pointer #2
+function chooseFileListener() {
+  const fileInput = document.getElementById("mypic-input"); // pointer #1
+  const image = document.getElementById("mypic-goes-here"); // pointer #2
 
-    //attach listener to input file
-    //when this file changes, do something
-    fileInput.addEventListener('change', function(e){
+  //attach listener to input file
+  //when this file changes, do something
+  fileInput.addEventListener("change", function (e) {
+    //the change event returns a file "e.target.files[0]"
+    ImageFile = e.target.files[0];
+    var blob = URL.createObjectURL(ImageFile);
 
-        //the change event returns a file "e.target.files[0]"
-	      ImageFile = e.target.files[0];
-        var blob = URL.createObjectURL(ImageFile);
-
-        //change the DOM img element source to point to this file
-        image.src = blob;    //assign the "src" property of the "img" tag
-    })
+    //change the DOM img element source to point to this file
+    image.src = blob; //assign the "src" property of the "img" tag
+  });
 }
 chooseFileListener();
 
 chooseFileListener();
 
 function readUserInfo() {
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var currentUser = db.collection("users").doc(user.uid);
       currentUser
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             var userInfo = doc.data();
-            document.getElementById("full-name").value = userInfo.name || '';
-            document.getElementById("id").value = userInfo.id || ''; // Updated ID here
-            document.getElementById("email").value = userInfo.email || '';
-            document.getElementById("genre").value = userInfo.favoriteGenre || '';
+            document.getElementById("full-name").value = userInfo.name || "";
+            document.getElementById("id").value = userInfo.id || "";
+            document.getElementById("email").value = userInfo.email || "";
+            document.getElementById("genre").value =
+              userInfo.favoriteGenre || "";
+            document.getElementById("status").value = userInfo.status || ""; // Add this line
           } else {
-            console.log("No user information found.");
+            // console.log("No user information found.");
             // Set input fields to empty
-            document.getElementById("full-name").value = '';
-            document.getElementById("id").value = ''; // Updated ID here
-            document.getElementById("email").value = '';
-            document.getElementById("genre").value = '';
+            document.getElementById("full-name").value = "";
+            document.getElementById("id").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("genre").value = "";
+            document.getElementById("status").value = ""; // Add this line
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error retrieving user information:", error);
         });
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
       // Set input fields to empty
-      document.getElementById("full-name").value = '';
-      document.getElementById("email").value = '';
-      document.getElementById("id").value = ''; // Updated ID here
-      document.getElementById("genre").value = '';
+      document.getElementById("full-name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("id").value = "";
+      document.getElementById("genre").value = "";
+      document.getElementById("status").value = ""; // Add this line
     }
   });
 }
 
+
 function saveUserInfo() {
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var currentUser = db.collection("users").doc(user.uid);
       var userID = user.uid;
@@ -75,7 +79,27 @@ function saveUserInfo() {
       let fullName = document.getElementById("full-name").value;
       let userEmail = document.getElementById("email").value;
       let id = document.getElementById("id").value;
-      let favoriteGenre = document.getElementById("genre").value;
+      let genreDropdown = document.getElementById("genre");
+      let favoriteGenre = genreDropdown.value;
+      let status = document.getElementById("status").value; // Add this line
+
+      // Perform basic field validation
+      if (fullName === "" || id === "" || favoriteGenre === "") { // Modify this line
+        displayConfirmationMessage("Please fill in all required fields.", true);
+        return;
+      }
+
+      // Validate email format
+      if (!validateEmail(userEmail)) {
+        displayConfirmationMessage("Please enter a valid email address.", true);
+        return;
+      }
+
+      // Validate input for special characters and different languages
+      if (!validateInput(fullName) || !validateInput(id)) {
+        displayConfirmationMessage("Invalid input. Please avoid special characters.", true);
+        return;
+      }
 
       // Update the user information in Firestore
       currentUser
@@ -83,21 +107,36 @@ function saveUserInfo() {
           name: fullName,
           email: userEmail,
           id: id,
-          favoriteGenre: favoriteGenre
+          favoriteGenre: favoriteGenre,
+          status: status, // Add this line
         })
         .then(() => {
           console.log("User information updated in Firestore for user:", userID);
           readUserInfo();
           displayConfirmationMessage("User information updated successfully.");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error updating user information:", error);
           displayConfirmationMessage("An error occurred while updating user information.", true);
         });
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
     }
   });
+}
+
+
+// Validate input for special characters and different languages
+function validateInput(input) {
+  // Regular expression for validating input without special characters
+  const inputRegex = /^[a-zA-Z0-9\s]*$/;
+  return inputRegex.test(input);
+}
+
+// Email format validation function
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 function displayConfirmationMessage(message, isError = false) {
@@ -115,8 +154,6 @@ function displayConfirmationMessage(message, isError = false) {
   messageElement.style.display = "block";
 }
 
-
-
 function saveUserPic() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -130,7 +167,7 @@ function saveUserPic() {
         storageRef
           .put(ImageFile)
           .then(function (snapshot) {
-            console.log("Uploaded to Cloud Storage.");
+            // console.log("Uploaded to Cloud Storage.");
 
             // Asynchronous call to get the download URL of the uploaded image
             storageRef
@@ -151,76 +188,94 @@ function saveUserPic() {
                           profilePic: url, // Save the download URL into the "users" collection
                         })
                         .then(function () {
-                          console.log("Added Profile Pic URL to Firestore.");
+                          // console.log("Added Profile Pic URL to Firestore.");
                           populatePicture();
                           fileInput.value = "";
-                          displayConfirmationMessage("Profile picture updated successfully.");
+                          displayConfirmationMessage(
+                            "Profile picture updated successfully."
+                          );
                         })
                         .catch(function (error) {
-                          console.error("Error updating profile picture URL in Firestore:", error);
-                          displayConfirmationMessage("An error occurred while updating the profile picture.", true);
+                          console.error(
+                            "Error updating profile picture URL in Firestore:",
+                            error
+                          );
+                          displayConfirmationMessage(
+                            "An error occurred while updating the profile picture.",
+                            true
+                          );
                         });
                     });
                   })
                   .catch(function (error) {
-                    console.error("Error querying user document in Firestore:", error);
-                    displayConfirmationMessage("An error occurred while updating the profile picture.", true);
+                    console.error(
+                      "Error querying user document in Firestore:",
+                      error
+                    );
+                    displayConfirmationMessage(
+                      "An error occurred while updating the profile picture.",
+                      true
+                    );
                   });
               })
               .catch(function (error) {
-                console.error("Error getting download URL from Firebase Storage:", error);
-                displayConfirmationMessage("An error occurred while updating the profile picture.", true);
+                console.error(
+                  "Error getting download URL from Firebase Storage:",
+                  error
+                );
+                displayConfirmationMessage(
+                  "An error occurred while updating the profile picture.",
+                  true
+                );
               });
           })
           .catch(function (error) {
             console.error("Error uploading image to Firebase Storage:", error);
-            displayConfirmationMessage("An error occurred while updating the profile picture.", true);
+            displayConfirmationMessage(
+              "An error occurred while updating the profile picture.",
+              true
+            );
           });
       } else {
-        console.log("No file selected.");
+        // console.log("No file selected.");
         displayConfirmationMessage("No file selected.", true);
       }
     } else {
-      console.log("No user currently signed in.");
+      // console.log("No user currently signed in.");
       displayConfirmationMessage("No user currently signed in.", true);
     }
   });
 }
 
-
-
-
 function populatePicture() {
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const currentUser = db.collection("users").doc(user.uid);
 
       currentUser
         .get()
-        .then(userDoc => {
+        .then((userDoc) => {
           const userProfile = userDoc.data();
           const picUrl = userProfile && userProfile.profilePic;
-          
+
           if (picUrl) {
             // Set the image source
             const imgElement = document.getElementById("mypic-goes-here");
             imgElement.src = picUrl;
           } else {
-            console.log("Profile picture URL is missing or empty");
+            // console.log("Profile picture URL is missing or empty");
           }
-          
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error retrieving profile picture URL:", error);
         });
     } else {
-      console.log("No user is currently logged in");
+      // console.log("No user is currently logged in");
     }
   });
 }
 
 populatePicture();
-
 
 function changePassword() {
   var newPassword = document.getElementById("new-password").value;
@@ -228,22 +283,26 @@ function changePassword() {
 
   // Check if the new password and confirm password match
   if (newPassword !== confirmPassword) {
-    console.log("New password and confirm password do not match");
+    // console.log("New password and confirm password do not match");
     return;
   }
 
   var user = firebase.auth().currentUser;
 
   // Update the password
-  user.updatePassword(newPassword)
+  user
+    .updatePassword(newPassword)
     .then(() => {
-      console.log("Password changed successfully");
+      // console.log("Password changed successfully");
       displayConfirmationMessage("Password changed successfully.");
       // Redirect the user or show a success message
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error changing password:", error);
-      displayConfirmationMessage("An error occurred while changing the password.", true);
+      displayConfirmationMessage(
+        "Please enter a valid input.",
+        true
+      );
       // Handle the error appropriately
     });
 }

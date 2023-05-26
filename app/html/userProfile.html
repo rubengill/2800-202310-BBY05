@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- <link rel="stylesheet" href="/styles/style.css" /> -->
-  <link rel="stylesheet" href="/public/css/userProfile.css" />
+
 
   <!-- Bootstrap Library CSS CDN go here -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
@@ -53,80 +53,108 @@
   <nav id="navbarPlaceholder"></nav>
 
   <div id="page-content">
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-3">
-        <h1 class="mb-4">User Profile</h1>
-        <div id="message" class="alert alert-success" style="display: none;"></div>
-        <div class="card mb-2">
-          <div class="card-body text-center">
-            <div class="form-group">
-              <div id="profile-container">
-                <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
-                <img id="mypic-goes-here" src="./images/profileplaceholder.png" class="profile-picture" alt="Profile Picture">
-                <hr>
-                <div class="form-group py-3">
-                  <input id="fileInput" type="file" accept="image/*" class="form-control-file">
-                  <button type="button" class="btn btn-primary mt-3" onclick="saveUserPic()">Save</button>
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <span id="name-goes-here">
+            <h3>
+              <span id="user-name">
+                &lt;insert user's name here &gt; </span
+              >'s Profile
+            </h3>
+          </span>
+          <div id="message" class="alert alert-success" style="display: none;"></div>
+          <div class="card mb-2">
+            <div class="card-body text-center">
+              <div class="form-group">
+                <div id="profile-container">
+                  <h5 class="my-3"><span id="name-goes-here"></span> Profile Picture</h5>
+                  <img id="mypic-goes-here" src="/img/profileplaceholder.png" class="profile-picture"
+                    alt="Profile Picture">
+                  <hr>
+                  <div class="form-group py-3">
+                    <input id="fileInput" type="file" accept="image/*" class="form-control-file">
+                    <button type="button" class="btn btn-success mt-3" onclick="saveUserPic()">Save</button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <form>
-              <fieldset class="mb-3" id="personalInfoFields">
-                <div class="mb-3">
-                  <label for="full-name" class="form-label">Name</label>
-                  <input type="text" id="full-name" class="form-control" placeholder="Edit your name">
-                </div>
-                <div class="mb-3">
-                  <label for="id" class="form-label">ID</label>
-                  <input type="text" id="id" class="form-control" placeholder="Edit your ID">
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="text" id="email" class="form-control" placeholder="Edit your email">
-                </div>
-                <div class="mb-3">
-                  <label for="genre" class="form-label">Favorite Genre</label>
-                  <input type="text" id="genre" class="form-control" placeholder="Edit your favorite genre">
-                </div>
-                <div>
-                  <button type="button" onclick="saveUserInfo()" class="btn btn-primary">Save Changes</button>
-                </div>
-              </fieldset>
-            </form>
+              <form>
+                <fieldset class="mb-3" id="personalInfoFields">
+                  <div class="mb-3">
+                    <label for="full-name" class="left-aligned-label">Name*</label>
+                    <input type="text" id="full-name" class="form-control" placeholder="Edit your name">
+                  </div>
+                  <div class="mb-3">
+                    <label for="id" class="left-aligned-label">ID*</label>
+                    <input type="text" id="id" class="form-control" placeholder="Edit your ID">
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="left-aligned-label">Email*</label>
+                    <input type="text" id="email" class="form-control" placeholder="Edit your email">
+                  </div>
+                  <div class="mb-3">
+                    <label for="genre" class="left-aligned-label">Favorite Genre*</label>
+                    <select id="genre" class="form-control">
+                      <option value="" disabled selected>Select your favorite genre</option>
+                      <option value="blues">Blues</option>
+                      <option value="funk">Funk</option>
+                      <option value="rhythm">Rhythm</option>
+                      <option value="folk">Folk</option>
+                      <option value="rock">Rock</option>
+                      <option value="metal">Metal</option>
+                      <option value="classic">Classic</option>
+                      <option value="jazz">Jazz</option>
+                      <option value="acoustic">Acoustic</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="status" class="left-aligned-label">Status</label>
+                    <input type="text" id="status" class="form-control" placeholder="Enter status" />
+                  </div>
 
-            <form>
-              <fieldset class="mb-3" id="changePasswordFields">
-                <legend>Change Password</legend>
-                <div class="mb-3">
-                  <label for="current-password" class="form-label">Current Password</label>
-                  <input type="password" id="current-password" class="form-control"
-                    placeholder="Enter your current password">
-                </div>
-                <div class="mb-3">
-                  <label for="new-password" class="form-label">New Password</label>
-                  <input type="password" id="new-password" class="form-control" placeholder="Enter your new password">
-                </div>
-                <div class="mb-3">
-                  <label for="confirm-password" class="form-label">Confirm New Password</label>
-                  <input type="password" id="confirm-password" class="form-control"
-                    placeholder="Confirm your new password">
-                </div>
-                <div>
-                  <button type="button" onclick="changePassword()" class="btn btn-primary">Change Password</button>
-                </div>
-              </fieldset>
-            </form>
+                  <div>
+                    <button type="button" onclick="saveUserInfo()" class="btn btn-success">Save Changes</button>
+                  </div>
+                </fieldset>
+              </form>
+
+              <form>
+                <fieldset class="mb-3" id="changePasswordFields">
+                  <legend>Change Password</legend>
+                  <div class="mb-3">
+                    <label for="current-password" class="left-aligned-label">Current Password</label>
+                    <input type="password" id="current-password" class="form-control"
+                      placeholder="Enter your current password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="new-password" class="left-aligned-label">New Password</label>
+                    <input type="password" id="new-password" class="form-control" placeholder="Enter your new password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirm-password" class="left-aligned-label">Confirm New Password</label>
+                    <input type="password" id="confirm-password" class="form-control"
+                      placeholder="Confirm your new password">
+                  </div>
+                  <div>
+                    <button type="button" onclick="changePassword()" class="btn btn-success">Change Password</button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <br><br>
+
   </div>
-  <br><br>
 
   <nav id="footerPlaceholder"></nav>
-</body>
 
-<script src="/scripts/userProfile.js"></script>
+  <link rel="stylesheet" href="/css/userProfile.css" />
+  <script src="/scripts/userProfile.js"></script>
+  <script src="/scripts/retrieveName.js"></script>
+
+</body>
 
 </html>

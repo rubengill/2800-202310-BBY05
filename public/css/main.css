@@ -12,6 +12,21 @@
     text-align: center;
 }
 
+/* Styling for guitar tab */
+.pulled-guitar-tab {
+    position: relative;
+}
+
+.pulled-guitar-tabsvg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.full-guitar-tab {
+    position: relative;
+}
+
 #game {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -31,3 +46,15 @@
     grid-template-rows: repeat(2, 1fr);
     gap: 10px; /* Add gap between grid items if you want */
 }
+
+.narrower-button {
+    width: 100px;
+    justify-content: center;
+  }
+
+  .smaller-height {
+    height: 55px; /* Adjust the height as desired */
+    line-height: 1.5; /* Adjust the line-height as desired */
+  }
+  
+

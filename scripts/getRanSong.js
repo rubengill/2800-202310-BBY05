@@ -1,209 +1,292 @@
-// const tempDB = db.collection("temp_small_database");
-// tempDB.get().then((querySnapshot) => {
-//     var docRef = db.collection("temp_small_database").doc("document_0");
-//     docRef
-//         .get()
-//         .then((doc) => {
-//                 console.log("small data:", doc.data());
-//         })
-//         .catch((error) => {
-//             console.log("Error getting document:", error);
-//         });
-// });
-
-const databaseRef = db.collection("database");
-const songs = [];
-function updateSong() {
-    const numSongsPulled = 30;
-    const songPromises = [];
-  
-    for (let i = 0; i < LAST_TASK; i++) {
-      var randomDocNum = "document_" + Math.floor(Math.random() * 849);
-  
-      var docRef = db.collection("database").doc(randomDocNum);
-  
-      const songPromise = docRef.get().then((doc) => {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-          const song = doc.data();
-          songs.push(song);
-        } else {
-          console.log("No such document: " + randomDocNum + "!");
-        }
-      }).catch((error) => {
-        console.log("Error getting document:", error);
-      });
-  
-      songPromises.push(songPromise);
+class SongManager {
+    constructor() {
+      this.mySongs = [];
+      this.mySkillLevel = undefined;
     }
   
-    Promise.all(songPromises).then(() => {
-      displaySong();
-    });
-  }
-updateSong();
+    async getRandomSongs(uid) {
+        console.log("getRandomSongs uid:", uid); // Log the uid at the start of the function
+    
+        let songs;
+    
+        // Fetch the user's data from Firestore
+        let skillLevel;
+        await db
+            .collection("users")
+            .doc(uid)
+            .get()
+            .then((doc) => {
+                console.log("doc data for uid " + uid + ":", doc.data()); // Log the document data
+    
+                if (doc.exists) {
+                    // Retrieve the skill level from the document
+                    skillLevel = doc.data().skillLevel;
+                    console.log("skillLevel:", skillLevel); // Log the skill level
+                    this.mySkillLevel = skillLevel;
+                } else {
+                    console.error("No such document!");
+                }
+            }).catch((error) => {
+                console.error('Error fetching user data:', error);
+            });
+    
+        // Check if the user already has a songs subcollection
+        const songsCollection = db.collection("users").doc(uid).collection("songs");
+        const songsSnapshot = await songsCollection.get();
+    
+        if (!songsSnapshot.empty) {
+            // The user already has songs, so log them and return them
+            songs = songsSnapshot.docs.map((doc) => doc.data());
+            console.log(`There are ${songs.length} existing songs:`, songs);
+    
+            if (!(songs.length == 5)) {
+                await generateSongs(5 - songs.length);
+            }
 
-// firebase.auth().onAuthStateChanged(async (user) => {
-//   if (user) {
-//       // Get UID if user is signed in 
-//       const uid = user.uid;
-//       console.log(uid)
-//       // Call getRandomSongs on current user
-//       const songs = await getRandomSongs(uid);
-//       displaySong(songs);
-//       console.log(songs);
+            console.log('songs after getRandomSongs():', songs);
+            this.mySongs = songs;
+            return songs;
+        }
+    
+        await generateSongs(5);
+    
+        async function generateSongs(n) {
+            // The user doesn't have any songs yet, so generate some
+            const NUM_SONGS = n;
+            for (let i = 0; i < NUM_SONGS; i++) {
+                let songData;
+                let isDuplicate = true;
+                while (isDuplicate) {
+                    const random = Math.random();
+                    try {
+                        const songDoc = await db
+                            .collection("database")
+                            .where("Difficulty", "==", skillLevel)
+                            .where("Random", ">=", random)
+                            .orderBy("Random")
+                            .limit(1)
+                            .get();
+    
+                        if (!songDoc.empty) {
+                            songData = songDoc.docs[0].data();
+                            // Check if this song already exists in user's songs
+                            isDuplicate = songs.some(song => song["Song Name"] === songData["Song Name"]);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching song:", error); // Log any errors
+                        return;
+                    }
+                }
+                // If the song does not exist in user's songs, add it
+                if (songData) {
+                    console.log("songData:", songData); // Log the song data
+    
+                    songs.push(songData);
+                    // Add the song to the user's songs subcollection
+                    // Use the song's ID as the document ID
+                    await songsCollection.doc(songData["Song Name"]).set(songData);
+                }
+            }
+        }
+        console.log('Generated songs:', songs);
+        this.mySongs = songs;
+        return songs;
+    }
+  
+    getSkillLevel(){
+        return this.mySkillLevel;
+    }
 
-//       // Log each song's fields
-//       for (let song of songs) {
-//           console.log('Song Name: ' + song["Song Name"]); // Access the "Song Name" field
-//           console.log('Artist: ' + song["Artist"]); // Access the "Artist" field
-//           console.log('Difficulty: ' + song["Difficulty"]); // Access the "Difficulty" field
-//       }
-//   } else {
-//       // No user is signed in.
-//       console.log('No user is signed in.');
-//   }
-// });
-
-
-// async function getRandomSongs(uid) {
-//   console.log('getRandomSongs uid:', uid); // Log the uid at the start of the function
-
-//   // Fetch the user's data from Firestore
-//   let skillLevel;
-//   await db.collection('users').doc(uid).get()
-//       .then((doc) => {
-//           console.log('doc data for uid ' + uid + ':', doc.data()); // Log the document data
-
-//           if (doc.exists) {
-//               // Retrieve the skill level from the document
-//               skillLevel = doc.data().skillLevel;
-//               console.log('skillLevel:', skillLevel); // Log the skill level
-//           } else {
-//               console.error("No such document!");
-//           }
-//       });
-
-//   // Check if the user already has a songs subcollection
-//   const songsCollection = db.collection('users').doc(uid).collection('songs');
-//   const songsSnapshot = await songsCollection.get();
-
-//   if (!songsSnapshot.empty) {
-//       // The user already has songs, so log them and return them
-//       let songs = songsSnapshot.docs.map(doc => doc.data());
-//       console.log('Existing songs:', songs);
-//       return songs;
-//   }
-
-//   // The user doesn't have any songs yet, so generate some
-//   const NUM_SONGS = 5;
-//   let songs = [];
-//   for (let i = 0; i < NUM_SONGS; i++) {
-//       const random = Math.random();
-//       try {
-//           const songDoc = await db.collection('database')
-//               .where('Difficulty', '==', skillLevel)
-//               .where('Random', '>=', random)
-//               .orderBy('Random')
-//               .limit(1)
-//               .get();
-
-//           console.log('songDoc:', songDoc); // Log the song document
-
-//           if (!songDoc.empty) {
-//               const songData = songDoc.docs[0].data();
-//               console.log('songData:', songData); // Log the song data
-
-//               // Add Song Name, Artist and Difficulty to songs array
-//               songs.push({
-//                   "Song Name": songData["Song Name"],
-//                   "Artist": songData["Artist"],
-//                   "Difficulty": songData["Difficulty"]
-//               });
-
-//               // Add the song to the user's songs subcollection
-//               // Use the song's ID as the document ID
-//               await songsCollection.doc(songData["Song Name"]).set(songData);
-//           }
-//       } catch (error) {
-//           console.error('Error fetching song:', error); // Log any errors
-//       }
-//   }
-
-//   return songs;
-// }
+    getSongs() {
+        return this.mySongs;
+    }
+}
 
 
+const songManager = new SongManager();
+let uid = undefined;
 
-function displaySong() {
-    const container = document.getElementById(myContainer);
+firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+        // Get UID if user is signed in
+        uid = user.uid;
+
+        
+        // Call getRandomSongs on current user
+        //const songs = await getRandomSongs(uid);
+        
+        //const songManager = new SongManager();
+        
+        // Get songs for a user
+        await songManager.getRandomSongs(uid);
+        
+        // Get the songs array
+        const songs = songManager.getSongs();
+        let skill = songManager.getSkillLevel();
+
+        
+
+        // Save songs in a global variable so they can be accessed elsewhere
+        //------TODO: delete? may be redundant cuz of songManager
+        window.songs = songs;
+         
+        displaySong(songs);
+
+    } else {
+        // No user is signed in.
+        console.log("No user is signed in.");
+    }
+});
+
+
+//old "non-SongManager" getRandomSongs(uid) fn was here
+
+function displaySong(songs, taskNumber = 1) {
+    const container = document.getElementById(myForm);
     const bottomSection = container.querySelector(".bottomSection");
-    const song = songs[currentTask - 1];//tasks go 1-5, songs[] go 0-4
+    const song = songs[taskNumber - 1];
+    
+    if (song) {
+        bottomSection.innerHTML = `
+        <h3>${song["Song Name"]}</h3>
+        <p>Artist: ${song.Artist}</p>
+        <p>Difficulty: ${song.Difficulty}</p>
+        `;
+    } else {
+        console.error('No song to display for task number:', taskNumber);
+    }
+}
 
-    bottomSection.innerHTML = `
-    <h3>${song["Song Name"]}</h3>
-    <p>Artist: ${song.Artist}</p>
-    <p>Difficulty: ${song.Difficulty}</p>
-    <!-- Add additional song details as needed -->
-    `;
-    console.log("------displaySong() done----------")
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------BUTTONS STUFF---------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+function addButton() {
+
+    let tasks = ["Practice this section five times!", "Play this riff ten times without an error.", 
+    "Try out this new chord!", "Play this riff for 10 minutes", "Play this riff faster each time!"]
+
+    const card = document.getElementById(myCardTask)
+    let value = card.getAttribute('value');
+    const container = document.getElementById(myForm);
+    const topSection = container.querySelector(".topSection");
+
+    const myTask = tasks[currentTask - 1];
+
+    topSection.innerHTML =
+        `<label class = "taskDiv"> </label>` +
+        `<frm id= "bbb" >` +
+        `<button id="Btn" onclick='previousTask(event);'>previous</button>` +
+        `<button id="Btn" onclick='skipTask(event);'>skip</button>` +
+        `<button id="Btn" onclick='nextTask(event);'>next</button>` +
+        `</frm>` + 
+        `<h3> TASK ${currentTask} </h3> <h5> ${myTask} </h5>`;
+    if(value == "complete") {
+        const label = topSection.querySelector(".taskDiv");
+        label.innerHTML += "<h3> -- complete! </h3>";
+    }
+}
+
+window.onload = function () {
+    addButton();
+};
+
+function previousTask(event) {
+    event.preventDefault();
+    if (currentTask != FIRST_TASK) {
+        currentTask--;
+    }
+    updatePage();
+}
+
+async function skipTask(event) {
+    event.preventDefault(); //default is to refresh the page
+
+    // // Get the songs
+    // let songs = songManager.getSongs();
+
+    // // Remove the current song
+    // songs.splice(currentTask - 1, 1);
+
+    // // Fetch a new song and add it to the array
+    // await songManager.getRandomSongs(uid);
+    // const newSongs = songManager.getSongs();
+    // const newSong = newSongs[newSongs.length - 1]; // The last song is the new one
+
+    // // Add the new song to the same position
+    // songs.splice(currentTask - 1, 0, newSong);
+
+    // // Update the page
+    // updatePage();
+}
+
+function nextTask(event) {
+    event.preventDefault();
+    if (currentTask != LAST_TASK) {
+        currentTask++;
+        
+    }
+    updatePage();
+}
+
+function updatePage() {
+
+    updateMyForm();//myForm = "frmTask" + currentTask; 
+    updateMyCard(); //myCardTask = "cardTask" + currentTask;
+    addButton();
+
+    let songs = songManager.getSongs();
+    // Display the song for the current task
+    displaySong(songs, currentTask);
+    // if (window.songs) {
+    //     displaySong(window.songs, currentTask);
+    // }
+
+    //---these two are temp things, not to be confused with myForm 
+    currContainer = "cardTask" + currentTask;
+    const container = document.getElementById(currContainer);
+    container.style = "display: block;";
+
+    for (let i = 1; i <= LAST_TASK; i++) {
+        //show this task card
+        if (i != currentTask) {
+            currContainer = "cardTask" + i;
+            const others = document.getElementById(currContainer);
+            others.style = "display: none;";
+        }
+        //hide all others
+    }
+
+    if(!container.querySelector("#guitarTabThing")) {
+        putTabStuffIn();
+    }
+    console.log("------updatePage()  done----------")
 }
 
 
 
-//   function displayRandomSongs() {
-//     const containerIds = ["frmTask1", "frmTask2", "frmTask3", "frmTask4", "frmTask5"];
-//     const songs = [];
+async function addTask() {
+    await db
+        .collection("learnexp")
+        .doc(skill)
+        .get()
+        .then((doc) => {
+            console.log("doc data for advanced:", doc.data()); // Log the document data
 
-//     // Check if songs are already generated for today
-//     // const storedSongs = localStorage.getItem('randomSongs');
-//     // const storedTimestamp = localStorage.getItem('randomSongsTimestamp');
+            if (doc.exists) {
+                // Retrieve the skill level from the document
+                taskNumeroUno = doc.data().task1;
+                console.log("taskNumeroUno:", taskNumeroUno); // Log the skill level
+                const cont = document.getElementById(myForm);
+                const topSection = cont.querySelector(".topSection");
+                const taskDiv = topSection.querySelector(".taskDiv");
+                taskDiv.innerHTML += `<h5> ${taskNumeroUno} </h5>`;
 
-//     // const currentTimestamp = new Date().toISOString().slice(0, 10);
-
-//     // if (storedSongs && storedTimestamp === currentTimestamp) {
-//     //   songs.push(...JSON.parse(storedSongs));
-//     // }
-//     // else {
-//       // Generate random songs
-//       const db = firebase.firestore();
-//       const databaseRef = db.collection("database");
-
-//       databaseRef.get().then((querySnapshot) => {
-//         querySnapshot.forEach((doc) => {
-//           const song = doc.data();
-//           songs.push(song);
-//         });
-
-//         // Shuffle the songs array
-//         for (let i = songs.length - 1; i > 0; i--) {
-//           const j = Math.floor(Math.random() * (i + 1));
-//           [songs[i], songs[j]] = [songs[j], songs[i]];
-//         }
-
-//         // Store the generated songs and timestamp in local storage
-//         localStorage.setItem('randomSongs', JSON.stringify(songs));
-//         localStorage.setItem('randomSongsTimestamp', currentTimestamp);
-
-//         displaySongsInContainers();
-//       });
-//     // }
-
-//     function displaySongsInContainers() {
-//       containerIds.forEach((containerId, index) => {
-//         const container = document.getElementById(containerId);
-//         const song = songs[index];
-
-//         container.innerHTML += `
-//             <h2>${song['Song Name']}</h2>
-//             <p>Artist: ${song.Artist}</p>
-//             <p>Album: ${song.Difficulty}</p>
-//             <!-- Add additional song details as needed -->
-//         `;
-//       });
-//     }
-
-//     displaySongsInContainers();
-//   }
-
-//   displayRandomSongs();
+            } else {
+                console.error("No such task!");
+            }
+        }).catch((error) => {
+            console.error('Error fetching task data:', error);
+        });
+}

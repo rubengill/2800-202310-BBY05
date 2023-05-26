@@ -1,0 +1,64 @@
+.container {
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+/* Style the container */
+#firebaseui-auth-container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style the heading */
+  #firebaseui-auth-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Style the input fields */
+  #firebaseui-auth-container input[type="email"],
+  #firebaseui-auth-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none; /* Remove the blue outline */
+    text-align: center; /* Center the text within the input field */
+  }
+
+  /* Style the buttons */
+  #firebaseui-auth-container button {
+    align-items: center;
+    justify-content: center;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  /* Style the next button */
+  .firebaseui-id-submit {
+    width: 150px;
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .firebaseui-id-submit:hover {
+    background-color: #45a049;
+  }
+
+  /* Style the loading message */
+  #loader {
+    text-align: center;
+    display: none; /* Hide the loading message by default */
+}

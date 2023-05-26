@@ -66,6 +66,7 @@ function displayQuestion(index) {
   }
 }
 
+//Function that calculates total score by adding the results of the questionaire up
 function calculateTotalScore() {
   let totalScore = 0;
 

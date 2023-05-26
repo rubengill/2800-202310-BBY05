@@ -50,14 +50,22 @@
             const LAST_TASK = 5;
 
             var currentTask = 1;
-            var myContainer = "frmTask" + currentTask;
+            var myForm = "frmTask" + currentTask;
 
-            function updateMyContainer() {
-                myContainer = "frmTask" + currentTask;
+            function updateMyForm() {
+                myForm = "frmTask" + currentTask;
             }
+
+            var myCardTask = "cardTask" + currentTask;
+
+            function updateMyCard() {
+                myCardTask = "cardTask" + currentTask;
+            }
+
         </script>
-        <script src="/scripts/btnsToPractice.js"></script>
+        <!-- <script src="/scripts/btnsToPractice.js"></script> -->
         <script src="/scripts/getRanSong.js"></script>
+        <script src="/scripts/guitarTab.js"></script>
 
         <link rel="stylesheet" href="/css/practiceRoom.css" />
     </head>
@@ -65,33 +73,39 @@
     <body>
         <nav id="navbarPlaceholder"></nav>
 
-        Welcome to the practice room.
-        <div class="card-body text-center" id="cardTask1">
+        <br><br>
+        <h2>
+            Welcome to the Practice Room.
+        </h2>
+        <div class="card-body text-center" value = "incomplete" id="cardTask1">
             <form id="frmTask1">
                 <div class="topSection">Task 1 |prev| |skip| |next|</div>
                 <div class="bottomSection">INSERT SONG HERE</div>
             </form>
+            <!-- Creates a triangle svg <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width = "200" height = "200">
+                <path d="M0,0 L10,1 L10,10 L0,10 Z" fill="none" stroke="red"/>
+              </svg> --> 
         </div>
 
-        <div class="card-body text-center" id="cardTask2">
+        <div class="card-body text-center" value = "incomplete" id="cardTask2" style="display: none;">
             <form id="frmTask2" action="practiceTask2">
                 <div class="topSection">Task 2 |prev| |skip| |next|</div>
                 <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
-        <div class="card-body text-center" id="cardTask3">
+        <div class="card-body text-center" value = "incomplete" id="cardTask3" style="display: none;">
             <form id="frmTask3" action="practiceTask3">
                 <div class="topSection">Task 3 |prev| |skip| |next|</div>
                 <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
-        <div class="card-body text-center" id="cardTask4">
+        <div class="card-body text-center" value = "incomplete" id="cardTask4" style="display: none;">
             <form id="frmTask4" action="practiceTask4">
                 <div class="topSection">Task 4 |prev| |skip| |next|</div>
                 <div class="bottomSection">INSERT SONG HERE</div>
             </form>
         </div>
-        <div class="card-body text-center" id="cardTask5">
+        <div class="card-body text-center" value = "incomplete" id="cardTask5" style="display: none;">
             <form id="frmTask5" action="practiceTask5">
                 <div class="topSection">Task 5 |prev| |skip| |next|</div>
                 <div class="bottomSection">INSERT SONG HERE</div>

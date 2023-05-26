@@ -8,11 +8,11 @@
     width: 200px;
     background: rgba(20, 135, 54, 0.585);
     border-radius: 20px;
+    transition: all 0.75s;
 }
 
 .continue:hover {
     transform: scale(1.1);
-    transition: all 0.75s;
     box-shadow: 0 0 1em black;
 }
 
