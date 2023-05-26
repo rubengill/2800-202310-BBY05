@@ -44,17 +44,14 @@
 #next-question {
     width: 150px;
     border-radius: 10px;
-    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
     display: none;
 }
 
 button {
-    /* background-color: red; */
     margin-right: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 6px;
     padding: 6px;
-    /* width: 80px; */
     text-align: left;
 }

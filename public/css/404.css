@@ -273,7 +273,6 @@ main > div:last-child span:last-child {
     opacity: 1;
   }
 }
-/* https://goo.gl/p1Hnde */
 @-webkit-keyframes translateRight {
   0% {
     transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -150, 0, 0, 1);

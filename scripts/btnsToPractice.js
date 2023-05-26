@@ -41,11 +41,6 @@ function updatePage() {
     currContainer = "cardTask" + currentTask;
     const container = document.getElementById(currContainer);
 
-    // container.style = "display: none;";
-//---------might be useful if you need to check the css of an element---------------------
-    // if ($(container).css("display") == "none") {
-    //     // true
-    // }
     container.style = "display: block;";
 
     for (let i = 1; i <= LAST_TASK; i++) {

@@ -8,27 +8,6 @@ var noClicks = 0;
 // duplicate array to get pairs
 memoryItems = memoryItems.concat(memoryItems);
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     newBoard();
-// });
-
-
-
-//NOTE: DOUBLE-CLICK DOESN'T WORK IN MOBILE VERSION!! ONLY COMPUTER.
-// document
-//     .getElementById("fav")
-//     .addEventListener("dblclick", function () { 
-//         noClicks++;
-//         console.log("dbl click " + noClicks);
-//         easterEgg();
-//         if(noClicks == 8) {
-//             isPlaying = true;
-//             document.getElementById("easterEgg").innerHTML = "";
-//             newBoard();
-//         }
-
-//     });
-
 let favClicked = false;
 let shareClicked = false;
 
@@ -104,7 +83,6 @@ function flipTile(tile, val) {
     
     console.log("flipTile(" + tile + " " + val + ")");
 
-    // if (tile.innerHTML == "e" && memoryValues.length < 2) {
     if (memoryValues.length < 2) {
         tile.style.background = '#FFF';
         tile.innerHTML = val;
