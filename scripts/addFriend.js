@@ -52,17 +52,21 @@ function checkFriendAlreadyAdded(friendEmail, userId, callback) {
 
 // Add a friend to Firestore subcollection
 function addFriendToFirestore(friendData, userId, streakData, successCallback, errorCallback) {
-  const { profilePic, ...dataWithoutPic } = friendData;
-  const friendDataWithPic = {
-    ...dataWithoutPic,
-    profilePic: profilePic || '', // Use an empty string as default if profilePic is undefined
-    streak: streakData // Add the streak information to the friend document
+  const { profilePic, status, ...dataWithoutPicStatus } = friendData;
+  const friendDataWithPicStatus = {
+    ...dataWithoutPicStatus,
+    profilePic: profilePic || '',
+    streak: streakData,
   };
+
+  if (status) {
+    friendDataWithPicStatus.status = status;
+  }
 
   db.collection('users')
     .doc(userId)
     .collection('friends')
-    .add(friendDataWithPic)
+    .add(friendDataWithPicStatus)
     .then(successCallback)
     .catch(errorCallback);
 }
@@ -83,7 +87,7 @@ function setupAddFriendButton(addFriendButton, friendData, userId, streakData) {
         addFriendToFirestore(
           friendData,
           userId,
-          streakData, // Pass the streak data along with the friend data
+          streakData,
           // Success callback function for adding the friend
           function (docRef) {
             // console.log('Friend added successfully!');
