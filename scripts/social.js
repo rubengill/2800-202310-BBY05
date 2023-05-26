@@ -67,6 +67,7 @@ function createFriendCard(friendData) {
         <h5 class="card-title">${friendData.name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">${friendData.email}</h6>
         ${friendData.favoriteGenre ? `<p class="card-text favorite-genre">Favorite Genre: ${friendData.favoriteGenre}</p>` : ''}
+        ${friendData.status ? `<p class="card-text status">Status: ${friendData.status}</p>` : ''}
         <button class="btn btn-danger remove-friend-btn" data-friend-id="${friendData.friendId}">Remove Friend</button>
       </div>
     </div>
