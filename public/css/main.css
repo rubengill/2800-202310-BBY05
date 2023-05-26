@@ -23,6 +23,10 @@
     left: 0;
 }
 
+.full-guitar-tab {
+    position: relative;
+}
+
 #game {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

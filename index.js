@@ -66,21 +66,23 @@ app.get('/fullTab', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/tab.html'));
 });
 
-// Helper function to introduce delay
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time)
-    });
-}
+app.get('/favourites', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/favourites.html'));
+});
 
 //Rubens Function 
 async function fetchGuitarTab(songName, artist) {
+    console.log('Fetching full guitar tab for', songName, 'by', artist);
+
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
+    console.log('URL is', url);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
+    console.log('Going to page...');
     await page.goto(url, { waitUntil: 'networkidle2' });
+    console.log('Page loaded');
 
     // Select div with data-line=3
     const dataLine = await page.$('div.D2820n[data-line="3"]');
@@ -114,6 +116,7 @@ async function fetchGuitarTab(songName, artist) {
 
         return clone.outerHTML;
     }, svgElement);
+    
 
     console.log('First SVG element without second path:', svgHtml);
 
@@ -130,29 +133,59 @@ async function fetchFullGuitarTab(songName, artist) {
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-    // Select div with data-line=3
-    const dataLine = await page.$('div.D2820n[data-line="3"]');
-    if (!dataLine) {
-        console.log('Could not find a div with data-line=3');
+    // Select section with id "tablature"
+    const sectionElement = await page.$('section#tablature');
+    if (!sectionElement) {
+        console.log('Could not find a section with id "tablature"');
         return null;
     }
 
-    console.log('Loaded data-line 3 into Puppeteer');
+    console.log('Loaded section with id "tablature" into Puppeteer');
 
-    const svgElement = await dataLine.$('svg');
-    if (!svgElement) {
-        console.log('Could not find an SVG element in div with data-line=3');
-        return null;
+    // Get all data-line elements within the section#tablature
+    const dataLineElements = await sectionElement.$$('div[data-line]');
+
+    // Get elements 1 to 6
+    const selectedElements = dataLineElements.slice(1, 7);
+
+    const modifiedElements = [];
+
+    for (let element of selectedElements) {
+        const elementHtml = await page.evaluate((element) => {
+            const clone = element.cloneNode(true); // Create a deep clone of the element
+
+            // Get all SVG elements within the clone
+            const svgElements = clone.getElementsByTagName('svg');
+
+            if (svgElements.length >= 2) {
+                // Remove the second SVG
+                clone.removeChild(svgElements[1]);
+            }
+
+            if (svgElements.length > 0) {
+                // Get the path element of the first SVG and add stroke attribute
+                const pathElement = svgElements[0].querySelector('path');
+                if (pathElement) {
+                    pathElement.setAttribute('stroke', 'black');
+                }
+            }
+
+            // Create XMLSerializer and serialize the cloned element
+            var serializer = new XMLSerializer();
+            var elementStr = serializer.serializeToString(clone);
+
+            return elementStr;
+        }, element);
+
+        modifiedElements.push(elementHtml);
+        console.log('Modified element:', elementHtml);
     }
-
-    // Get the outerHTML of the SVG element
-    const svgHtml = await page.evaluate(svgElement => svgElement.outerHTML, svgElement);
-
-    console.log('SVG element:', svgHtml);
 
     await browser.close();
-    return svgHtml;
+    return modifiedElements;
 }
+
+
 
 
 //Joes Function
@@ -202,7 +235,8 @@ app.get('/tab', async function (req, res) {
 });
 
 //Get request to fetch full guitar tab
-app.get('/fulltab', async function (req, res) {
+app.get('/fullguitartab', async function (req, res) {
+    console.log('Inside /fulltab endpoint');
     const { songName, artist } = req.query;
 
     if (!songName || !artist) {
@@ -211,6 +245,7 @@ app.get('/fulltab', async function (req, res) {
 
     const guitarTab = await fetchFullGuitarTab(songName, artist);
     if (guitarTab) {
+        console.log(guitarTab)
         res.send(guitarTab); // Send guitarTab as a string
     } else {
         res.status(500).send("Failed to fetch guitar tab.");
