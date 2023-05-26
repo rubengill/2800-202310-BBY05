@@ -47,3 +47,14 @@
     gap: 10px; /* Add gap between grid items if you want */
 }
 
+.narrower-button {
+    width: 100px;
+    justify-content: center;
+  }
+
+  .smaller-height {
+    height: 55px; /* Adjust the height as desired */
+    line-height: 1.5; /* Adjust the line-height as desired */
+  }
+  
+

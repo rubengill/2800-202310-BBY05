@@ -21,13 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
                     var resultDiv = document.createElement("div");
-                    resultDiv.className = "search-result";
+                    resultDiv.className = "search-result card p-3 mb-3"; // Added padding and margin using Bootstrap spacing classes
                     resultDiv.innerHTML = `
-                    <h3>${songData[doc.id].songName}</h3>
-                    <p>Artist: ${songData[doc.id].artist}</p>
-                    <p>Difficulty: ${docData.Difficulty}</p>
-                    <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
-                    <button class="add-to-favourites-button" data-id="${doc.id}">Add to favourites</button>
+                        <div class="d-flex flex-column"> <!-- Added flexbox container for vertical alignment -->
+                            <h3 class="card-title mt-2">${songData[doc.id].songName}</h3> <!-- Added top margin -->
+                            <p class="card-text flex-grow-1">Artist: ${songData[doc.id].artist}</p> <!-- Added flex-grow-1 class for vertical alignment -->
+                            <div class="d-flex justify-content-center gap-2"> <!-- Added gap-2 class for spacing between buttons -->
+                                <button class="btn btn-success narrower-button smaller-height view-tab-button" data-id="${doc.id}">View Tab</button> <!-- Added narrower-button and smaller-height classes -->
+                                <button class="btn btn-secondary narrower-button smaller-height add-to-favourites-button" data-id="${doc.id}">Add to favourites</button> <!-- Added narrower-button and smaller-height classes -->
+                            </div>
+                        </div>
                     `;
                     resultsContainer.appendChild(resultDiv);
                 });
@@ -37,9 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 addToFavouritesButtons.forEach((button) => {
                     button.addEventListener("click", function (event) {
                         var docId = event.target.getAttribute("data-id");
+                        var addToFavouritesButton = event.target;
+
+                        // Disable the button and change the text to "Added"
+                        addToFavouritesButton.disabled = true;
+                        addToFavouritesButton.textContent = "Added";
+
                         addToFavourites(docId, songData);
                     });
                 });
+
 
                 // Adding event listener to view tab buttons
                 var viewTabButtons = document.querySelectorAll(".view-tab-button");

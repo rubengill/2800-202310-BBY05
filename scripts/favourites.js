@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log('Page loaded');
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             console.log('Current user:', user.uid);
             var userDocRef = db.collection('users').doc(user.uid);
@@ -27,11 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         console.log('Creating result div for doc:', doc.id);
                         var resultDiv = document.createElement("div");
-                        resultDiv.className = "favourite-result";
+                        resultDiv.className = "search-result card mb-3"; // Using Bootstrap card and margin-bottom
                         resultDiv.innerHTML = `
-                        <h3>${songData[doc.id].songName}</h3>
-                        <p>Artist: ${songData[doc.id].artist}</p>
-                        <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
+                            <h5 class="card-header">${'Song: ' +songData[doc.id].songName}</h5> <!-- Song Name as card-header -->
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Artist: ${songData[doc.id].artist}</h6> <!-- Artist as card-subtitle -->
+                                <button class="view-tab-button btn btn-success" data-id="${doc.id}">View Tab</button>
+                                <button class="remove-from-favourites-button btn btn-danger ml-2" data-id="${doc.id}">Remove from favourites</button>
+                            </div>
                         `;
                         resultsContainer.appendChild(resultDiv);
                         console.log('Appended result div for doc:', doc.id);
