@@ -148,20 +148,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
          
         displaySong(songs);
 
-        // Log each song's fields
-        // for (let song of songs) {
-        //     console.log("Song Name: " + song["Song Name"]); // Access the "Song Name" field
-        //     console.log("Artist: " + song["Artist"]); // Access the "Artist" field
-        //     console.log("Difficulty: " + song["Difficulty"]); // Access the "Difficulty" field
-        // }
-
-
-
-
-
-
-
-
     } else {
         // No user is signed in.
         console.log("No user is signed in.");
@@ -266,12 +252,6 @@ function updatePage() {
     //---these two are temp things, not to be confused with myForm 
     currContainer = "cardTask" + currentTask;
     const container = document.getElementById(currContainer);
-
-    // container.style = "display: none;";
-//---------might be useful if you need to check the css of an element---------------------
-    // if ($(container).css("display") == "none") {
-    //     // true
-    // }
     container.style = "display: block;";
 
     for (let i = 1; i <= LAST_TASK; i++) {

@@ -118,51 +118,6 @@ async function fetchGuitarTab(songName, artist) {
     return svgHtml;
 }
 
-// async function fetchGuitarTab(songName, artist) {
-//     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
-
-//     const browser = await puppeteer.launch();
-//     const page = await browser.newPage();
-    
-//     await page.goto(url, {waitUntil: 'networkidle2'});
-
-
-//     // Select div with data-line=3
-//     const dataLine = await page.$('div.D2820n[data-line="3"]');
-//     if (!dataLine) {
-//         console.log('Could not find a div with data-line=3');
-//         return null;
-//     }
-
-//     console.log('Loaded data-line 3 into Puppeteer');
-
-//     const svgElement = await dataLine.$('svg');
-//     if (!svgElement) {
-//         console.log('Could not find an SVG element in div with data-line=3');
-//         return null;
-//     }
-//     function delay(time) {
-//         return new Promise(function(resolve) {
-//             setTimeout(resolve, time)
-//         });
-//     }
-    
-    
-//     // Get the outerHTML of the SVG element
-//     const svgHtml = await page.evaluate(svgElement => {
-//         const clone = svgElement.cloneNode(true); // Create a deep clone of the svgElement
-//         const unwantedPath = clone.querySelector('g > path:last-child');
-//         if (unwantedPath) unwantedPath.remove();
-//         return clone.outerHTML;
-//     }, svgElement);
-    
-//     console.log('First SVG element without second path:', svgHtml);
-    
-//     await browser.close();
-//     return svgHtml;
-// }
-
-
 //Get request to fetch guitar tabs 
 app.get('/tab', async function (req, res) {
     const { songName, artist } = req.query;
@@ -183,6 +138,7 @@ app.listen(3000, function () {
     console.log("Node application listening on port " + port);
 });
 
+// da humble beginning
 // async function fetchGuitarTab(songName, artist) {
 //     try {
 //         const response = await axios.get(`https://www.songsterr.com/a/wa/search?pattern=${songName}+${artist}`);
