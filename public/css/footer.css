@@ -31,8 +31,7 @@ footer
 .svg {
   margin-right: 4rem;
   margin-left: 4rem;
-  zoom: 80%;
-  max-width: 60px;
+  max-width: 55px;
   transition: ease-in-out 0.8s;
 }
 
@@ -50,7 +49,22 @@ footer
   justify-content: center;
   background-color: rgba(14, 101, 40, 0.476);
   border-radius: 10px;
+  transition: ease-in-out 0.8s;
 }
+
+/* Media Queries */
+@media only screen and (max-width: 768px) {
+  /* Adjustments for mobile view */
+  .svg {
+    display: flex;
+    max-width: 35px; /* Modify the size for mobile */
+    margin-right: 1rem; /* Modify the margins for mobile */
+    margin-left: 1rem; /* Modify the margins for mobile */
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 
 /*
   Regular button
@@ -59,7 +73,6 @@ footer
   width: 100px;
   padding: 15px 0;
   text-align: center;
-  /* margin: 20px 10px; */
   border-radius: 20px;
   font-weight: bold;
   border: 2px mediumseagreen solid black;
