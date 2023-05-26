@@ -1,9 +1,5 @@
-
 const express = require("express");
-const session = require("express-session");
 const path = require('path');
-const axios = require('axios');
-const cheerio = require('cheerio');
 
 const port = 3000;
 const puppeteer = require('puppeteer');
@@ -42,10 +38,6 @@ app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/login.html'));
 });
 
-app.get('/dummyRoom', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/dummyRoom.html'));
-});
-
 app.get('/practiceRoom', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/practiceRoom.html'));
 });
@@ -82,21 +74,12 @@ app.get('/favourites', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/favourites.html'));
 });
 
-
-//Function to fetch a segment from a guitar tab, data-line="3"
 // app.all('*', (req, res) => {
 //     // res.status(404).send('<h1>404! Page not found</h1>');
 //     res.status(404).sendFile(path.join(__dirname, 'app/html/404.html'))
 // });
 
-// Helper function to introduce delay
-// function delay(time) {
-//     return new Promise(function (resolve) {
-//         setTimeout(resolve, time)
-//     });
-// }
-
-//Rubens Function 
+//Function to fetch a portion of the song tab from the users activity
 async function fetchGuitarTab(songName, artist) {
     // Log the song and artist being fetched
     console.log('Fetching full guitar tab for', songName, 'by', artist);
@@ -165,7 +148,7 @@ async function fetchGuitarTab(songName, artist) {
     return svgHtml;
 }
 
-//Function to fetch entire guitar tab 
+//Function to fetch entire guitar tab from the searched song
 async function fetchFullGuitarTab(songName, artist) {
     // Define the URL using query strings for songName and artist
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
@@ -282,8 +265,7 @@ app.get('/fullguitartab', async function (req, res) {
         // send the guitar tab to the client
         res.send(guitarTab); 
     } else {
-        // If the fetchFullGuitarTab function returns something falsy (i.e., the fetch was not successful),
-        // then send a 500 status code with an error message
+        // Send a 500 status code with an error message if there is an error
         res.status(500).send("Failed to fetch guitar tab.");
     }
 });

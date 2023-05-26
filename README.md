@@ -16,7 +16,7 @@ Our team, BBY5, is developing GuitarGenius, an application aimed at guitarists w
 * JavaScript
 * Bootstrap 5.0 (Frontend library)
 * Firebase 8.0 (BAAS - Backend as a Service)
-* Google hyperlinks
+* Puppeteer
 * Song Tablature were retrieved from songsterr.com, with permission from our instructor. 
 
 ## 4. Complete setup/installion/usage
@@ -38,6 +38,7 @@ Here are the steps ...
 Here are some known bugs:
 * We're not able to pull the entirety of the tabs from the source
 * We're not able to pull the guitar tabs for some of the songs
+* If tab cannot be pulled, error message is not always displayed 
 
 ## 6. Features for Future
 What we'd like to build in the future:
@@ -45,6 +46,7 @@ What we'd like to build in the future:
 * Figure out how to pull the entire guitar tab. 
 * Display the activities that were recommended to other users. 
 * Format the pulled tablature to look nicer. 
+* Generate 5 new random songs for the current user every day at 12:01 AM
 	
 ## 7. Contents of Folder
 Content of the project folder:
@@ -53,6 +55,7 @@ Content of the project folder:
  Top level of project folder: 
 ├── app                      # Folder for HTML & json files
     /data                    # Subfolder for json files
+        /questions.JSON      # Contains the questionaire questions in JSON format. 
     /html                    # Subfolder for HTML files
 
 ├── public                   # Folder for CSS & image files
@@ -60,6 +63,25 @@ Content of the project folder:
     /img                     # Folder for HTML files
 
 ├── scripts                  # Folder for JavaScript files
+    /addFriend.js            # Client Side Javascript to add friends
+    /addQuestions.js         # Client Side Javascript to add the questions.JSON questions to firestore
+    /authentication.js       # Client Side Javascript that uses Firebase to authenticate users, and store them in firestore
+    /favourites.js           # Client Side Javascript that adds searched songs to the favourites sub collection of the current user
+    /getRanSong.js           # Client Side Javascript that pulls a random song from the current users songs sub collection 
+    /guitarTab.js            # Client Side Javascript that pulls a section of tablature when the view tab button is clicked in the activity room 
+    /loginHeader.js          # Client Side Javascript that shows the proper header if the is not logged in
+    /main.js                 # Client Side Javascript that shows the users name, song of the day and presents the begin lesson button
+    /questionBlock.js        # Client Side Javascript that blocks the skill assessment questionaire if it has already been completed
+    /randomSong.js           # Client Side JavascriptAssigns that assigns users 5 random songs if their songs sub collection is empty 
+    /retrieveName.js         # Client Side Javascript that retrieves the name of the current user and injects it in the HTML
+    /searchSong.js           # Client Side Javascript that searches the Kaggle dataset for a song match and returns it if there is a match
+    /session.js              # Client Side Javascript that checks if the user is currently signed in 
+    /skeleton.js             # Client Side Javascript that injects the footer and navbar into the HTML pages
+    /skillAssessment.js      # Client Side Javascript that shows the users the questions from the questionaire
+    /social.js               # Client Side Javascript that shows current friends, and allows you to remove them 
+    /userProfile.js          # Client Side Javascript that allows the user to edit their profile
+    /userSkillLevel.js       # Client Side Javascript that calculates the users skill level 
+|    
 ├── template                 # Folder for Header & Footer templates
 ├── .gitignore               # Git ignore file
 ├── index.js                 # JavaScript file containing server side JavaScript
