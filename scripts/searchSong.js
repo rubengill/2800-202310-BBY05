@@ -1,37 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         var searchInput = document.getElementById("search-input").value;
-
-        // Capitalize the first letter of each word in the user's input
         searchInput = capitalizeWords(searchInput);
-
-        // Get a reference to the Firestore collection
         var collection = db.collection('database');
-
-        // Create a query against the collection.
         var query = collection.where('Song Name', '==', searchInput);
 
         query.get().then((querySnapshot) => {
             var resultsContainer = document.getElementById("search-results");
-            // Clear results container
             resultsContainer.innerHTML = "";
+            var songData = {};
 
             if (querySnapshot.empty) {
                 resultsContainer.innerHTML = "<p>No Results Found</p>";
             } else {
                 querySnapshot.forEach((doc) => {
                     var docData = doc.data();
+                    songData[doc.id] = {
+                        songName: docData['Song Name'],
+                        artist: docData['Artist']
+                    };
+
                     var resultDiv = document.createElement("div");
                     resultDiv.className = "search-result";
-                    var pulledSongName = `${docData['Song Name']}`;
-                    var pulledArtist = `${docData['Artist']}`;
                     resultDiv.innerHTML = `
-                    <h3>${pulledSongName}</h3>
-                    <p>Artist: ${pulledArtist}</p>
+                    <h3>${songData[doc.id].songName}</h3>
+                    <p>Artist: ${songData[doc.id].artist}</p>
                     <p>Difficulty: ${docData.Difficulty}</p>
                     <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
-                `;
+                    <button class="add-to-favourites-button" data-id="${doc.id}">Add to favourites</button>
+                    `;
                     resultsContainer.appendChild(resultDiv);
+                });
+
+                // Event listeners for 'Add to favourites' button
+                var addToFavouritesButtons = document.querySelectorAll(".add-to-favourites-button");
+                addToFavouritesButtons.forEach((button) => {
+                    button.addEventListener("click", function (event) {
+                        var docId = event.target.getAttribute("data-id");
+                        addToFavourites(docId, songData);
+                    });
                 });
 
                 // Adding event listener to view tab buttons
@@ -39,26 +46,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 viewTabButtons.forEach((button) => {
                     button.addEventListener("click", function (event) {
                         var docId = event.target.getAttribute("data-id");
-                        var songName = capitalizeWords(document.querySelector(`[data-id="${docId}"]`).innerText);
-                        var artist = capitalizeWords(document.querySelector(`[data-id="${docId}"]`).nextElementSibling.innerText.slice(8));
+                        var songName = songData[docId].songName;
+                        var artist = songData[docId].artist;
+                        console.log(songName, artist);
 
-                        fetch(`/fulltab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
-                            .then(response => response.text()) // Get the response as text
+                        console.log('Before fetch call');
+                        fetch(`/fullguitartab?songName=${encodeURIComponent(songName)}&artist=${encodeURIComponent(artist)}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                console.log('Fetch response:', response);
+                                return response.json(); // Get the response as JSON
+                            })
                             .then(data => {
+                                console.log('Data received:', data);
                                 // Create a new div for the SVG data
                                 const svgDiv = document.createElement("div");
                                 svgDiv.classList.add("svg-container");  // Add the class "svg-container" to the div
 
-                                if (data) {
-                                    svgDiv.innerHTML = data; // Inject the SVG HTML into the div
+                                if (data && data.length > 0) {
+                                    // Parse each SVG string into a document fragment using the DOMParser API
+                                    const parser = new DOMParser();
+                                    data.forEach(svgStr => {
+                                        const doc = parser.parseFromString(svgStr, "image/svg+xml");
+                                        svgDiv.appendChild(doc.documentElement);
+                                    });
                                 } else {
                                     svgDiv.textContent = 'No tab available.';
                                 }
 
                                 // Append svgDiv to the SVG container in the page
-                                document.getElementById('pulled-guitar-tab').appendChild(svgDiv);
+                                document.getElementById('full-guitar-tab').appendChild(svgDiv);
                             })
                             .catch(error => console.error('Error:', error));
+                        console.log('After fetch call');
                     });
                 });
             }
@@ -66,10 +88,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
 //Helper function that searches song properly by accounting for various user capitalization.
 //Takes the user input and ensures only the first letter of a word is capitalized
 function capitalizeWords(input) {
     return input.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+// Helper function for adding songs to favourites
+function addToFavourites(docId, songData) {
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+        var userDocRef = db.collection('users').doc(currentUser.uid);
+        var favouritesSubCollectionRef = userDocRef.collection('favourites');
+        var songDocRef = favouritesSubCollectionRef.doc(docId);
+
+        songDocRef.set({
+            songName: songData[docId].songName,
+            artist: songData[docId].artist
+        }).then(() => {
+            console.log('Song added to favourites');
+        }).catch((error) => {
+            console.error('Error adding song to favourites: ', error);
+        });
+    }
 }
 
 
