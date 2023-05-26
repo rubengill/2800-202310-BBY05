@@ -45,9 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         resultDiv.className = "favourite-result";
                         // Fill the div with the song name, artist, and a button to view the tab
                         resultDiv.innerHTML = `
-                        <h3>${songData[doc.id].songName}</h3>
-                        <p>Artist: ${songData[doc.id].artist}</p>
-                        <button class="view-tab-button" data-id="${doc.id}">View Tab</button>
+                            <h5 class="card-header">${'Song: ' +songData[doc.id].songName}</h5> <!-- Song Name as card-header -->
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Artist: ${songData[doc.id].artist}</h6> <!-- Artist as card-subtitle -->
+                                <button class="view-tab-button btn btn-success" data-id="${doc.id}">View Tab</button>
+                                <button class="remove-from-favourites-button btn btn-danger ml-2" data-id="${doc.id}">Remove from favourites</button>
+                            </div>
                         `;
                         // Add the new div to the results container
                         resultsContainer.appendChild(resultDiv);
