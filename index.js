@@ -78,6 +78,10 @@ app.get('/about', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/html/aboutus.html'));
 });
 
+app.get('/favourites', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/html/favourites.html'));
+});
+
 // app.all('*', (req, res) => {
 //     // res.status(404).send('<h1>404! Page not found</h1>');
 //     res.status(404).sendFile(path.join(__dirname, 'app/html/404.html'))
@@ -89,9 +93,6 @@ app.get('/about', function (req, res) {
 //         setTimeout(resolve, time)
 //     });
 // }
-app.get('/favourites', function (req, res) {
-    res.sendFile(path.join(__dirname, 'app/html/favourites.html'));
-});
 
 //Rubens Function 
 async function fetchGuitarTab(songName, artist) {
