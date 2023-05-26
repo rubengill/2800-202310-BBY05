@@ -98,9 +98,9 @@ class SongManager {
     }
 
     getSongs() {
-      return this.mySongs;
+        return this.mySongs;
     }
-  }
+}
 
 
 const songManager = new SongManager();
@@ -182,7 +182,6 @@ function displaySong(songs, taskNumber = 1) {
         <p>Artist: ${song.Artist}</p>
         <p>Difficulty: ${song.Difficulty}</p>
         `;
-        console.log("------displaySong() done----------")
     } else {
         console.error('No song to display for task number:', taskNumber);
     }
@@ -194,13 +193,19 @@ function displaySong(songs, taskNumber = 1) {
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 function addButton() {
+    const card = document.getElementById(myCardTask)
+    let value = card.getAttribute('value');
     const container = document.getElementById(myForm);
     const topSection = container.querySelector(".topSection");
     topSection.innerHTML =
-        `<h3> TASK ${currentTask} </h3> ` +
+        `<label class = "taskDiv"> <h3> TASK ${currentTask} </h3> </label>` +
         "<button onclick='previousTask(event);'>previous</button>" +
-        `<button onclick='skipTask(event);'>skip</button>` +
+        `<button id = "skipTaskBtn" onclick='skipTask(event);'>skip</button>` +
         "<button onclick='nextTask(event);'>next</button>";
+    if(value == "complete") {
+        const label = topSection.querySelector(".taskDiv");
+        label.innerHTML += "<h3> -- complete! </h3>";
+    }
 }
 
 window.onload = function () {
@@ -218,22 +223,22 @@ function previousTask(event) {
 async function skipTask(event) {
     event.preventDefault(); //default is to refresh the page
 
-    // Get the songs
-    let songs = songManager.getSongs();
+    // // Get the songs
+    // let songs = songManager.getSongs();
 
-    // Remove the current song
-    songs.splice(currentTask - 1, 1);
+    // // Remove the current song
+    // songs.splice(currentTask - 1, 1);
 
-    // Fetch a new song and add it to the array
-    await songManager.getRandomSongs(uid);
-    const newSongs = songManager.getSongs();
-    const newSong = newSongs[newSongs.length - 1]; // The last song is the new one
+    // // Fetch a new song and add it to the array
+    // await songManager.getRandomSongs(uid);
+    // const newSongs = songManager.getSongs();
+    // const newSong = newSongs[newSongs.length - 1]; // The last song is the new one
 
-    // Add the new song to the same position
-    songs.splice(currentTask - 1, 0, newSong);
+    // // Add the new song to the same position
+    // songs.splice(currentTask - 1, 0, newSong);
 
-    // Update the page
-    updatePage();
+    // // Update the page
+    // updatePage();
 }
 
 function nextTask(event) {
@@ -252,7 +257,6 @@ function updatePage() {
     addButton();
 
     let songs = songManager.getSongs();
-    console.log(`songs from updatePage() pulled from songManager ` + songs);
     // Display the song for the current task
     displaySong(songs, currentTask);
     // if (window.songs) {

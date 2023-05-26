@@ -1,10 +1,12 @@
-// firebase.auth().onAuthStateChanged(async (user) => {
-//     if (user) {
-//         // Use user's UID here
-//         const uid = user.uid;
 function putTabStuffIn() {
+
     firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
+        
+        const card = document.getElementById(myCardTask);
+        let value = card.getAttribute('value');
+
+        if (user && (value == "incomplete")) {
+            
             const uid = user.uid;
             console.log(`uid from guitattab ${uid}`);
             db.collection('users').doc(uid).collection('songs').get().then((querySnapshot) => {
@@ -17,6 +19,8 @@ function putTabStuffIn() {
                     // Create a new div element for the song
                     const newDiv = document.createElement("div");
                     newDiv.id = "guitarTabThing";
+                    const completeDiv = document.createElement("div");
+                    completeDiv.id = "completeDiv";
 
                     const song = currentSongDoc.data();
                     const songName = song['Song Name'];
@@ -45,6 +49,15 @@ function putTabStuffIn() {
                                 // Append svgDiv to newDiv
                                 newDiv.appendChild(svgDiv);
                                 button.innerHTML = "Loaded";
+
+                                //-----Add complete button
+
+                                const completeBtn = document.createElement("button");
+                                completeBtn.innerHTML = "Complete Task";
+                                completeBtn.id = "completeBtn";
+                                completeBtn.addEventListener('click', completeTask);
+                                completeDiv.appendChild(completeBtn);
+
                             })
                             .catch(error => console.error('Error:', error));
                     });
@@ -54,7 +67,8 @@ function putTabStuffIn() {
                     newDiv.appendChild(button);
 
                     // Append the div to the songList div in the page
-                    document.getElementById(myCardTask).appendChild(newDiv);
+                    card.appendChild(newDiv);
+                    card.appendChild(completeDiv);
                 }
             }).catch(function(error) {
                 console.log("Error getting document:", error);
@@ -65,9 +79,23 @@ function putTabStuffIn() {
     });
 }
 putTabStuffIn();
-//     }
-// });
 
+function completeTask() {
+    value = "complete";
+    const card = document.getElementById(myCardTask);
+    card.setAttribute('value', 'complete');
+
+    const newDiv = card.querySelector("#guitarTabThing");
+    const completeDiv = card.querySelector("#completeDiv");
+    document.getElementById(myCardTask).removeChild(newDiv);
+    document.getElementById(myCardTask).removeChild(completeDiv);
+
+    const container = document.getElementById(myForm);
+    const topSection = container.querySelector(".topSection");
+    const label = topSection.querySelector(".taskDiv");
+    label.innerHTML += "<h3> -- complete! </h3>";
+
+} 
 
 //--------------rubens code---------------------------------
 // firebase.auth().onAuthStateChanged(async (user) => {
