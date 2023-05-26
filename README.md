@@ -17,6 +17,7 @@ Our team, BBY5, is developing GuitarGenius, an application aimed at guitarists w
 * Bootstrap 5.0 (Frontend library)
 * Firebase 8.0 (BAAS - Backend as a Service)
 * Google hyperlinks
+* Song Tablature were retrieved from songsterr.com, with permission from our instructor. 
 
 ## 4. Complete setup/installion/usage
 Here are the steps ...
@@ -41,7 +42,7 @@ Here are some known bugs:
 ## 6. Features for Future
 What we'd like to build in the future:
 * A more visually attractive UI 
-* Fully functioning GuitarTab API
+* Figure out how to pull the entire guitar tab. 
 	
 ## 7. Contents of Folder
 Content of the project folder:
@@ -59,7 +60,7 @@ Content of the project folder:
 ├── scripts                  # Folder for JavaScript files
 ├── template                 # Folder for Header & Footer templates
 ├── .gitignore               # Git ignore file
-├── index.js                 # JavaScript file containing paths for node.js
+├── index.js                 # JavaScript file containing server side JavaScript
 ├── package-lock.json        # json file for all the node modules
 ├── package.json             # json file for all the node modules
 └── README.md                # Read Me Folder
