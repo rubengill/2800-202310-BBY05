@@ -1,10 +1,13 @@
 .card-body {
-
-    border: 1px solid rgba(0,0,0,.125);
-    /* width: 80vw; */
-    margin: 30px;
-    /* text-align: center; */
-    /* margin-bottom: 10px; */
+    border: 3px solid #2d864880;
+    background-color: #2d864854;
+    width: 650px;
+    height: 450px;
+    margin: 100px auto 0;
+    border-radius: 10px;
+    margin-top: 50px;
+    padding: 30px;
+    text-align: center;
 }
 
 /* TODO: refactor later, lazy code */
@@ -20,6 +23,24 @@ p {
     margin-bottom: 6px;
 }
 
-.topSection h3, .topSection button {
+.topSection h3,
+.topSection button {
     display: inline;
+}
+
+h2 {
+    text-align: center;
+}
+
+#Btn {
+    width: 90px;
+    height: 40px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px mediumseagreen solid black;
+    background: whitesmoke;
+    cursor: pointer;
+    transition: all 0.8s;
+    float: right;
 }
