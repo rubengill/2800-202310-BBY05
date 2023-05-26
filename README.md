@@ -41,8 +41,10 @@ Here are some known bugs:
 
 ## 6. Features for Future
 What we'd like to build in the future:
-* A more visually attractive UI 
+* A more visually attractive UI. 
 * Figure out how to pull the entire guitar tab. 
+* Display the activities that were recommended to other users. 
+* Format the pulled tablature to look nicer. 
 	
 ## 7. Contents of Folder
 Content of the project folder:
