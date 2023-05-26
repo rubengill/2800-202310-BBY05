@@ -38,17 +38,19 @@ function readUserInfo() {
           if (doc.exists) {
             var userInfo = doc.data();
             document.getElementById("full-name").value = userInfo.name || "";
-            document.getElementById("id").value = userInfo.id || ""; // Updated ID here
+            document.getElementById("id").value = userInfo.id || "";
             document.getElementById("email").value = userInfo.email || "";
             document.getElementById("genre").value =
               userInfo.favoriteGenre || "";
+            document.getElementById("status").value = userInfo.status || ""; // Add this line
           } else {
             // console.log("No user information found.");
             // Set input fields to empty
             document.getElementById("full-name").value = "";
-            document.getElementById("id").value = ""; // Updated ID here
+            document.getElementById("id").value = "";
             document.getElementById("email").value = "";
             document.getElementById("genre").value = "";
+            document.getElementById("status").value = ""; // Add this line
           }
         })
         .catch((error) => {
@@ -59,11 +61,13 @@ function readUserInfo() {
       // Set input fields to empty
       document.getElementById("full-name").value = "";
       document.getElementById("email").value = "";
-      document.getElementById("id").value = ""; // Updated ID here
+      document.getElementById("id").value = "";
       document.getElementById("genre").value = "";
+      document.getElementById("status").value = ""; // Add this line
     }
   });
 }
+
 
 function saveUserInfo() {
   firebase.auth().onAuthStateChanged((user) => {
@@ -77,9 +81,10 @@ function saveUserInfo() {
       let id = document.getElementById("id").value;
       let genreDropdown = document.getElementById("genre");
       let favoriteGenre = genreDropdown.value;
+      let status = document.getElementById("status").value; // Add this line
 
       // Perform basic field validation
-      if (fullName === "" || id === "" || favoriteGenre === "") {
+      if (fullName === "" || id === "" || favoriteGenre === "") { // Modify this line
         displayConfirmationMessage("Please fill in all required fields.", true);
         return;
       }
@@ -103,27 +108,23 @@ function saveUserInfo() {
           email: userEmail,
           id: id,
           favoriteGenre: favoriteGenre,
+          status: status, // Add this line
         })
         .then(() => {
-          console.log(
-            "User information updated in Firestore for user:",
-            userID
-          );
+          console.log("User information updated in Firestore for user:", userID);
           readUserInfo();
           displayConfirmationMessage("User information updated successfully.");
         })
         .catch((error) => {
           console.error("Error updating user information:", error);
-          displayConfirmationMessage(
-            "An error occurred while updating user information.",
-            true
-          );
+          displayConfirmationMessage("An error occurred while updating user information.", true);
         });
     } else {
       // console.log("No user currently signed in.");
     }
   });
 }
+
 
 // Validate input for special characters and different languages
 function validateInput(input) {
