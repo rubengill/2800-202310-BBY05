@@ -124,23 +124,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         const songs = songManager.getSongs();
         let skill = songManager.getSkillLevel();
 
-        await db
-            .collection("learnexp")
-            .doc(skill)
-            .get()
-            .then((doc) => {
-                console.log("doc data for advanced:", doc.data()); // Log the document data
-    
-                if (doc.exists) {
-                    // Retrieve the skill level from the document
-                    taskNumeroUno = doc.data().task1;
-                    console.log("taskNumeroUno:", taskNumeroUno); // Log the skill level
-                } else {
-                    console.error("No such task!");
-                }
-            }).catch((error) => {
-                console.error('Error fetching task data:', error);
-            });
+        
 
         // Save songs in a global variable so they can be accessed elsewhere
         //------TODO: delete? may be redundant cuz of songManager
@@ -179,15 +163,23 @@ function displaySong(songs, taskNumber = 1) {
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 function addButton() {
+
+    let tasks = ["Practice this section five times!", "Play this riff ten times without an error.", 
+    "Try out this new chord!", "Play this riff for 10 minutes", "Play this riff faster each time!"]
+
     const card = document.getElementById(myCardTask)
     let value = card.getAttribute('value');
     const container = document.getElementById(myForm);
     const topSection = container.querySelector(".topSection");
+
+    const myTask = tasks[currentTask - 1];
+
     topSection.innerHTML =
-        `<label class = "taskDiv"> <h3> TASK ${currentTask} </h3> </label>` +
+        `<label class = "taskDiv"> </label>` +
         `<button id="Btn" onclick='previousTask(event);'>previous</button>` +
         `<button id="Btn" onclick='skipTask(event);'>skip</button>` +
-        `<button id="Btn" onclick='nextTask(event);'>next</button>`;
+        `<button id="Btn" onclick='nextTask(event);'>next</button>` +
+        `<h3> TASK ${currentTask} </h3> <h5> ${myTask} </h5>`;
     if(value == "complete") {
         const label = topSection.querySelector(".taskDiv");
         label.innerHTML += "<h3> -- complete! </h3>";
@@ -268,4 +260,31 @@ function updatePage() {
         putTabStuffIn();
     }
     console.log("------updatePage()  done----------")
+}
+
+
+
+async function addTask() {
+    await db
+        .collection("learnexp")
+        .doc(skill)
+        .get()
+        .then((doc) => {
+            console.log("doc data for advanced:", doc.data()); // Log the document data
+
+            if (doc.exists) {
+                // Retrieve the skill level from the document
+                taskNumeroUno = doc.data().task1;
+                console.log("taskNumeroUno:", taskNumeroUno); // Log the skill level
+                const cont = document.getElementById(myForm);
+                const topSection = cont.querySelector(".topSection");
+                const taskDiv = topSection.querySelector(".taskDiv");
+                taskDiv.innerHTML += `<h5> ${taskNumeroUno} </h5>`;
+
+            } else {
+                console.error("No such task!");
+            }
+        }).catch((error) => {
+            console.error('Error fetching task data:', error);
+        });
 }
