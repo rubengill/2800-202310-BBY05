@@ -1,116 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Guitar Genius</title>
-        <meta name="Guitar Genius" content="My 2800 App" />
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <title>Guitar Genius</title>
+    <meta name="Guitar Genius" content="My 2800 App" />
 
-        <!-- Bootstrap Library CSS CDN go here -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-        />
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous"
-        />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"
-        ></script>
-        <!-- Boostrap Library JS CDN  go here -->
+    <!-- Bootstrap Library CSS CDN go here -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
 
-        <!-- Other libraries go here -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-        <link
-            type="text/css"
-            rel="stylesheet"
-            href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css"
-        />
-        <script src="/scripts/firebaseAPI_BBY5.js"></script>
-        <!-- <script src="/scripts/authentication.js"></script> -->
-        <script src="/scripts/retrieveName.js"></script>
-        <script src="/scripts/streak.js"></script>
-        <script src="/scripts/skeleton.js"></script>
-        <script src="/scripts/session.js"></script>
-        <script src="/scripts/randomSong.js"></script>
-        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <!-- Boostrap Library JS CDN  go here -->
 
-        <!-- Link to styles of your own -->
-        <link rel="stylesheet" href="/css/main.css" />
-    </head>
+    <!-- Other libraries go here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="/scripts/firebaseAPI_BBY5.js"></script>
+    <!-- <script src="/scripts/authentication.js"></script> -->
+    <script src="/scripts/retrieveName.js"></script>
+    <script src="/scripts/streak.js"></script>
+    <script src="/scripts/skeleton.js"></script>
+    <script src="/scripts/session.js"></script>
+    <script src="/scripts/randomSong.js"></script>
 
-    <body>
-        <nav id="navbarPlaceholder"></nav>
 
-        <div id="maincon">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="card-body text-center" id="readyToRock">
-                    <h5 class="my-3">
-                        <span id="name-goes-here">
-                            Are you ready to rock
-                            <h3>
-                                <span id="user-name">
-                                    &lt;insert user's name here &gt; </span
-                                >?
-                            </h3>
-                        </span>
-                    </h5>
-                </div>
-                <!-- <div class="card-body text-center"> -->
-                <div class="mb-3" id="songcon">
-                    Song of the Day:
-                    <span id="songname"></span>
-                    by
-                    <span id="author"></span>
-                </div>
+    <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
 
-                <div class="mb-3" id="buttons">
-                    <button id="tab" class="btn btn-success mt-3">Tab</button>
-                    <button id="fav" class="btn btn-success mt-3">
-                        Favourite
-                    </button>
-                    <button id="share" class="btn btn-success mt-3">
-                        Share
-                    </button>
-                </div>
-                <!-- </div> -->
-                <div class="mb-3" id="lessons">
-                    <span id="lessoncounter">
-                        You still have &lt;insert num songs here&gt; lessons to
-                        complete.
+<body>
+    <nav id="navbarPlaceholder"></nav>
+
+    <div id="maincon">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card-body text-center" id="readyToRock">
+                <h2 class="my-3">
+                    <span id="name-goes-here">
+
+                        Are you ready to rock
+                        </br>
+                        <span id="user-name">
+                            &lt;insert user's name here &gt; </span>?
+
                     </span>
-                    <br />
-                    <button
-                        id="beginLessonBtn"
-                        class="btn btn-success mt-3"
-                        style="width: 150px; height: 80px"
-                        onclick="window.location.href = '/practiceRoom';"
-                    >
-                        Begin Lesson
-                    </button>
-                </div>
+                </h2>
+            </div>
+            <!-- <div class="card-body text-center"> -->
+            <div class="mb-3" id="songcon">
+                <h3> Song of the Day: </h3>
+                <span id="songname"></span>
+                by
+                <span id="author"></span>
+            </div>
+
+            <div class="mb-3" id="buttons">
+                <button id="tab" class="btn btn-success mt-3">Tab</button>
+                <button id="fav" class="btn btn-success mt-3">
+                    Favourite
+                </button>
+                <button id="share" class="btn btn-success mt-3">
+                    Share
+                </button>
+            </div>
+            <!-- </div> -->
+            <div class="mb-3" id="lessons">
+                <span id="lessoncounter">
+                    You still have &lt;insert num songs here&gt; lessons to
+                    complete.
+                </span>
+                <br />
+                <button id="beginLessonBtn" class="btn btn-success mt-3" style="width: 150px; height: 80px"
+                    onclick="window.location.href = '/practiceRoom';">
+                    Begin Lesson
+                </button>
             </div>
         </div>
+    </div>
 
-        <div id="easterEgg"></div>
+    <div id="easterEgg"></div>
 
-        <nav id="footerPlaceholder"></nav>
+    <nav id="footerPlaceholder"></nav>
 
-        <div id="game"></div>
+    <div id="game"></div>
 
-        <script src="/scripts/main.js"></script>
-    </body>
+    <script src="/scripts/main.js"></script>
+</body>
+
 </html>
