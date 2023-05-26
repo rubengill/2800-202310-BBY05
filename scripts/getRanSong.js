@@ -185,9 +185,9 @@ function addButton() {
     const topSection = container.querySelector(".topSection");
     topSection.innerHTML =
         `<label class = "taskDiv"> <h3> TASK ${currentTask} </h3> </label>` +
-        "<button onclick='previousTask(event);'>previous</button>" +
-        `<button id = "skipTaskBtn" onclick='skipTask(event);'>skip</button>` +
-        "<button onclick='nextTask(event);'>next</button>";
+        `<button id="Btn" onclick='previousTask(event);'>previous</button>` +
+        `<button id="Btn" onclick='skipTask(event);'>skip</button>` +
+        `<button id="Btn" onclick='nextTask(event);'>next</button>`;
     if(value == "complete") {
         const label = topSection.querySelector(".taskDiv");
         label.innerHTML += "<h3> -- complete! </h3>";

@@ -28,7 +28,7 @@ function putTabStuffIn() {
 
                 // Create a button for each song
                 const button = document.createElement("button");
-                button.innerHTML = "View Tab";
+                button.innerHTML = `View Tab`;
                 // Inside the event listener for the button:
                 button.addEventListener('click', function () {
                     // Request tab endpoint on our server
@@ -62,7 +62,6 @@ function putTabStuffIn() {
                     });
 
                 // Add song name, artist and button to the div
-                newDiv.textContent = songName + ' by ' + artist;
                 newDiv.appendChild(button);
 
                     // Append the div to the songList div in the page
