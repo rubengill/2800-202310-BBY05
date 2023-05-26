@@ -21,7 +21,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 //Function to assign new users 5 random songs based on their skill level 
 async function getRandomSongs(uid) {
-     // Log the uid at the start of the function
+    // Log the uid at the start of the function
     console.log('getRandomSongs uid:', uid);
 
     // Fetch the user's data from Firestore
@@ -67,7 +67,7 @@ async function getRandomSongs(uid) {
 
             if (!songDoc.empty) {
                 const songData = songDoc.docs[0].data();
-                 // Log the song data if collection is not empty
+                // Log the song data if collection is not empty
                 console.log('songData:', songData);
 
                 // Add Song Name, Artist and Difficulty to songs array
