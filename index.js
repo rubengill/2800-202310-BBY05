@@ -84,6 +84,7 @@ function delay(time) {
 //Rubens Function 
 async function fetchGuitarTab(songName, artist) {
     const url = `https://www.songsterr.com/a/wa/bestMatchForQueryString?s=${encodeURIComponent(songName)}&a=${encodeURIComponent(artist)}`;
+    console.log(url);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
