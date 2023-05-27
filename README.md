@@ -18,6 +18,7 @@ Our team, BBY5, is developing GuitarGenius, an application aimed at guitarists w
 * Firebase 8.0 (BAAS - Backend as a Service)
 * Puppeteer
 * Song Tablature were retrieved from songsterr.com, with permission from our instructor. 
+* Puppeteer API
 
 ## 4. Complete setup/installion/usage
 Here are the steps ...
@@ -38,7 +39,9 @@ Here are the steps ...
 Here are some known bugs:
 * We're not able to pull the entirety of the tabs from the source
 * We're not able to pull the guitar tabs for some of the songs
-* If tab cannot be pulled, error message is not always displayed 
+* Our Tab Pull API and 404 page wouldn't work together due to optimization issues, so we excluded the 404 page from the path temporarily
+* If you exit the practice room, the completed task is not saved.
+* Footer size is wrong after the user clicks view tab in search.html
 
 ## 6. Features for Future
 What we'd like to build in the future:
@@ -57,10 +60,61 @@ Content of the project folder:
     /data                    # Subfolder for json files
         /questions.JSON      # Contains the questionaire questions in JSON format. 
     /html                    # Subfolder for HTML files
+        /404.html            # HTML file for 404 page
+        /aboutus.html        # HTML file for About us page (accessed on clicking logo when logged in)
+        /addFriend.html      # HTML file for Searching and Adding friends
+        /favourties.html     # HTML file for viewing Favourited songs
+        /index.html          # HTML file for Index page before sign-in
+        /login.html          # HTML file for Logging in
+        /main.html           # HTML file for Welcome page
+        /practiceRoom.html   # HTML file for Practice Room
+        /privacyPolicy.html  # HTML file for Privacy Policy
+        /questions.html      # HTML file for Skill Assessment
+        /settings.html       # HTML file for Logout button (accessed via Settings icon)
+        /social.html         # HTML file for Viewing Friends
+        /tab.html            # HTML file for Searching songs from Kaggle Dataset
+        /template.html       # HTML template file
+        /tos.html            # HTML file for Terms of Service
+        /userProfile.html    # HTML file for User Profile
+        /userskill.html      # HTML file for displaying User Skill Assessment result
 
 ├── public                   # Folder for CSS & image files
     /css                     # Folder for CSS files
+        /404.css             # CSS file for 404 page elements
+        /aboutus.css         # CSS file for About us page
+        /footer.css          # CSS file for Footer elements
+        /index.css           # CSS file for Index page elements
+        /login.css           # CSS file for Firebase login contents
+        /main.css            # CSS file for Welcome page contents
+        /practiceRoom.css    # CSS file for Practice Room contents
+        /privacyPolicy.css   # CSS file for Privacy Policy page
+        /questions.css       # CSS file for Skill Assessment questions
+        /settings.css        # CSS file for Settings page
+        /social.css          # CSS file for Social page
+        /tos.css             # CSS file for Terms of Service page
+        /userProfile.css     # CSS file for User Profile page
+        /userSkill.css       # CSS file for Skill Assessment results
+
     /img                     # Folder for HTML files
+        /acdc.jpg            # Image for Easter Egg
+        /bg.png              # Image for Index page
+        /bowie.jpg           # Image for Easter Egg
+        /home.svg            # Image for Footer icons
+        /jeff.jpg            # Image for About us page
+        /jimi.jpg            # Image for Easter Egg
+        /jimi.png            # Image for Easter Egg
+        /joe.jpg             # Image for About us page
+        /list.svg            # Image for Footer icons
+        /logo_transparent.png    # Image for Header
+        /markus-ok.png       # Image for Easter Egg
+        /markuz.jpeg         # Image for About us page
+        /music note.jpg      # Image for Easter Egg
+        /profileplaceholder.png  # Image for Profile page
+        /search.svg          # Image for Footer icons
+        /setting.svg         # Image for Footer icons
+        /star.svg            # Image for Footer icons
+        /taylor.jpg          # Image for Easter Egg
+        /taylor.webp         # Image for Easter Egg
 
 ├── scripts                  # Folder for JavaScript files
     /addFriend.js            # Client Side Javascript to add friends
