@@ -41,6 +41,7 @@ Here are some known bugs:
 * We're not able to pull the guitar tabs for some of the songs
 * Our Tab Pull API and 404 page wouldn't work together due to optimization issues, so we excluded the 404 page from the path temporarily
 * If you exit the practice room, the completed task is not saved.
+* Footer size is wrong after the user clicks view tab in search.html
 
 ## 6. Features for Future
 What we'd like to build in the future:
