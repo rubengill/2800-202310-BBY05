@@ -1,13 +1,22 @@
 .card-body {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
     border: 3px solid #2d864880;
     background-color: #2d864854;
-    width: 650px;
+    width: auto; /* By default, the width is auto */
+    max-width: 650px; /* Set a maximum width of 650px */
     height: 450px;
     margin: 100px auto 0;
     border-radius: 10px;
-    margin-top: 50px;
     padding: 30px;
     text-align: center;
+}
+
+/* Apply different styles when the viewport is 650px or less */
+@media (max-width: 650px) {
+    .card-body {
+        width: auto; /* On small screens, make the width auto */
+        margin: 50px auto 0; /* Adjust the margin to better suit small screens */
+    }
 }
 
 /* TODO: refactor later, lazy code */
