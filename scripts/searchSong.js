@@ -105,23 +105,35 @@ function capitalizeWords(input) {
     return input.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
-// Helper function for adding songs to favourites
+/// Function to add a song to a user's favourites in a Firebase database
 function addToFavourites(docId, songData) {
+    // Get the current logged in user
     var currentUser = firebase.auth().currentUser;
+    
+    // Check if a user is logged in
     if (currentUser) {
+        // Get a reference to the current user's document in the 'users' collection
         var userDocRef = db.collection('users').doc(currentUser.uid);
+        
+        // Get a reference to the 'favourites' sub-collection for the current user
         var favouritesSubCollectionRef = userDocRef.collection('favourites');
+        
+        // Get a reference to the specific song document within the 'favourites' collection
         var songDocRef = favouritesSubCollectionRef.doc(docId);
 
+        // Set the song document with the song name and artist
         songDocRef.set({
             songName: songData[docId].songName,
             artist: songData[docId].artist
-        }).then(() => {
+        })
+        // If the song is successfully added to favourites, log a success message
+        .then(() => {
             console.log('Song added to favourites');
-        }).catch((error) => {
+        })
+        // If there is an error adding the song to favourites, log an error message
+        .catch((error) => {
             console.error('Error adding song to favourites: ', error);
         });
     }
 }
-
 

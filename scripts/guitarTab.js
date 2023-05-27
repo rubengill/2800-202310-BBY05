@@ -78,19 +78,34 @@ function putTabStuffIn() {
 }
 putTabStuffIn();
 
+// Function that hides the task after the "Complete" button is complete. 
 function completeTask() {
+    // Set the value of a task to "complete"
     value = "complete";
+    
+    // Get the element representing the task card
     const card = document.getElementById(myCardTask);
+    
+    // Set the 'value' attribute of the task card to 'complete'
     card.setAttribute('value', 'complete');
 
+    // Get the elements inside the task card that we want to remove
     const newDiv = card.querySelector("#guitarTabThing");
     const completeDiv = card.querySelector("#completeDiv");
+    
+    // Remove these elements from the task card
     document.getElementById(myCardTask).removeChild(newDiv);
     document.getElementById(myCardTask).removeChild(completeDiv);
 
+    // Get the container element for the form
     const container = document.getElementById(myForm);
+    
+    // Get the 'topSection' element inside the form container
     const topSection = container.querySelector(".topSection");
+    
+    // Get the 'taskDiv' element inside the 'topSection'
     const label = topSection.querySelector(".taskDiv");
+    
+    // Append the text ' -- complete!' to the 'taskDiv' element
     label.innerHTML += "<h3> -- complete! </h3>";
-
-} 
+}

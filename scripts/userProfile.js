@@ -1,12 +1,3 @@
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    // User is signed in.
-    // Do something for the user here.
-  } else {
-    // No user is signed in.
-  }
-});
-
 var ImageFile; //global variable to store the File Object reference
 
 function chooseFileListener() {
@@ -28,6 +19,7 @@ chooseFileListener();
 
 chooseFileListener();
 
+// Function that reads the user info on firestore.
 function readUserInfo() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -42,7 +34,7 @@ function readUserInfo() {
             document.getElementById("email").value = userInfo.email || "";
             document.getElementById("genre").value =
               userInfo.favoriteGenre || "";
-            document.getElementById("status").value = userInfo.status || ""; // Add this line
+            document.getElementById("status").value = userInfo.status || "";
           } else {
             // console.log("No user information found.");
             // Set input fields to empty
@@ -50,7 +42,7 @@ function readUserInfo() {
             document.getElementById("id").value = "";
             document.getElementById("email").value = "";
             document.getElementById("genre").value = "";
-            document.getElementById("status").value = ""; // Add this line
+            document.getElementById("status").value = "";
           }
         })
         .catch((error) => {
@@ -63,12 +55,12 @@ function readUserInfo() {
       document.getElementById("email").value = "";
       document.getElementById("id").value = "";
       document.getElementById("genre").value = "";
-      document.getElementById("status").value = ""; // Add this line
+      document.getElementById("status").value = "";
     }
   });
 }
 
-
+// Function that saves user input into firestore.
 function saveUserInfo() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -154,6 +146,7 @@ function displayConfirmationMessage(message, isError = false) {
   messageElement.style.display = "block";
 }
 
+// Function that saves a users picture input into our database.
 function saveUserPic() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -247,6 +240,8 @@ function saveUserPic() {
   });
 }
 
+
+// Function that populates the users picture div.
 function populatePicture() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -277,6 +272,8 @@ function populatePicture() {
 
 populatePicture();
 
+
+// A function that allows a user to change their password.
 function changePassword() {
   var newPassword = document.getElementById("new-password").value;
   var confirmPassword = document.getElementById("confirm-password").value;

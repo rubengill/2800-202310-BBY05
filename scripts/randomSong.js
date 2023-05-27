@@ -19,9 +19,10 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
 });
 
-
+//Function to assign new users 5 random songs based on their skill level 
 async function getRandomSongs(uid) {
-    console.log('getRandomSongs uid:', uid); // Log the uid at the start of the function
+    // Log the uid at the start of the function
+    console.log('getRandomSongs uid:', uid);
 
     // Fetch the user's data from Firestore
     let skillLevel;
@@ -49,7 +50,7 @@ async function getRandomSongs(uid) {
         return songs;
     }
 
-    // The user doesn't have any songs yet, so generate some
+    // Pull 5 random songs for the user if their songs collection is empty
     const NUM_SONGS = 5;
     let songs = [];
     for (let i = 0; i < NUM_SONGS; i++) {
@@ -66,7 +67,8 @@ async function getRandomSongs(uid) {
 
             if (!songDoc.empty) {
                 const songData = songDoc.docs[0].data();
-                console.log('songData:', songData); // Log the song data
+                // Log the song data if collection is not empty
+                console.log('songData:', songData);
 
                 // Add Song Name, Artist and Difficulty to songs array
                 songs.push({
@@ -80,7 +82,8 @@ async function getRandomSongs(uid) {
                 await songsCollection.doc(songData["Song Name"]).set(songData);
             }
         } catch (error) {
-            console.error('Error fetching song:', error); // Log any errors
+            // Log any errors
+            console.error('Error fetching song:', error);
         }
     }
 
