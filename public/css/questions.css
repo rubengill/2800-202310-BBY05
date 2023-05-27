@@ -59,6 +59,10 @@
     animation: fadeinout 1s linear forwards;
 }
 
+#next-question:active {
+    background-color: #2d8648;
+}
+
 button {
     margin-right: 20px;
     margin-top: 10px;
@@ -71,6 +75,14 @@ button {
 
 button:hover {
     transform: scale(1.08);
+}
+
+button:visited {
+    background-color: white;
+}
+
+button:focus {
+    background-color: #2d864880;
 }
 
 @keyframes fadeinout {
